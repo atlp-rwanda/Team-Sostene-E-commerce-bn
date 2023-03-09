@@ -1,0 +1,71 @@
+{
+  "name": "team-sostene-e-commerce-bn",
+  "version": "1.0.0",
+  "description": "E-commerce app bn team-sostene",
+  "main": "index.js",
+  "author": "team-sostene",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn/issues"
+  },
+
+  "scripts": {
+    "lint": "eslint \"src/**/*.{js,css,html,json,md}\"",
+    "prettier": "eslint \"src/**/*.{js,css,html,json,md}\"",
+    "lint:staged": "lint-staged",
+    "prettier:fix": "prettier --write \"src/**/*.{js,css,html,json,md}\"",
+    "prettier:check": "prettier \"src/**/*.{js,css,html,json,md}\"",
+    "prepare": "husky install",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=5000 --passWithNoTests",
+    "coverage": "c8 check-coverage --lines 80 --functions 80 --branches 80 --reporter=lcov --reporter=html mocha src/tests/index.js --recursive --exit --timeout 80000"
+  },
+
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "prettier": "^2.8.4",
+    "c8": "^7.13.0",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "coveralls": "^3.1.1",
+    "mocha": "^10.2.0"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-mocha": "^10.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3",
+    "express": "^4.18.2" 
+  },  
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn.git"
+  },
+  "keywords": [
+    "E-commerce",
+    "bn",
+    "sostene"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run test"
+    }
+  }, 
+  "homepage": "https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn#readme",
+  "lint-staged": {
+    "src/**/*.{js,css,html,json,md}": [
+      "npm run prettier:fix",
+      "npm run lint",
+      "git add"
+    ]
+  }
+}
