@@ -6,8 +6,6 @@ const app = express()
 dotenv.config()
 const PORT = process.env.PORT
 
-
-
 app.get('/', (req, res) => {
     res.status(200).json('Hello World!')
 })
