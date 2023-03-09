@@ -1,0 +1,29 @@
+{
+  "name": "team-sostene-e-commerce-bn",
+  "version": "1.0.0",
+  "description": "E-commerce app bn team-sostene",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn.git"
+  },
+  "keywords": [
+    "E-commerce",
+    "bn",
+    "sostene"
+  ],
+  "author": "team-sostene",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn/issues"
+  },
+  "homepage": "https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+}
