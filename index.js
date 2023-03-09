@@ -11,3 +11,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(PORT, () => console.log(`app listening on port ${PORT}!`))
+
+export default app;
