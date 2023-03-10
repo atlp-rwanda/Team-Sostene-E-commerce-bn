@@ -2,8 +2,7 @@
 build
 coverage
 
-# Ignore all HTML files:
-*.html
+
 #other folders
 node_modules/
 build/
