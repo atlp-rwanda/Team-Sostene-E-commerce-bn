@@ -9,13 +9,6 @@
 3. Run `npm install`
 5. Run `npm start` to start the project
 
-Before commiting and pushing, make sure your codes are fine with es6 syntax by checking using 
-``` npm run prettier ```
-``` npm run lint ```
-And then fix prettier erros and warnings  using 
-``` npm run prettier:fix ```
-
-
 ## Dependencies
 - express
 - dotenv
