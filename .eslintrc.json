@@ -10,7 +10,7 @@
     "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["node", "prettier", "eslint-plugin-node", "mocha", "jest"],
+  "plugins": ["node", "prettier", "eslint-plugin-node", "jest"],
   "env": {
     "node": true,
     "es6": true,
