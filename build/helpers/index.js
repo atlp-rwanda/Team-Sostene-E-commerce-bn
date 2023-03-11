@@ -7,3 +7,4 @@
  *  that are added to your template context.
  *
  */
+"use strict";

@@ -9,3 +9,4 @@
  * the offset for a paginated SQL query can be put in a helper.util.js file in this folder
  *
  */
+"use strict";

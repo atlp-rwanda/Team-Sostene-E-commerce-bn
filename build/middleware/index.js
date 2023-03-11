@@ -8,3 +8,4 @@
  *  Middleware can also send the response to the server before the request.
  *
  */
+"use strict";

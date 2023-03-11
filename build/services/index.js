@@ -7,3 +7,4 @@
  * Depending on the need,
  * even general services like a database can be placed here.
  */
+"use strict";

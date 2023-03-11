@@ -8,3 +8,4 @@
  * A controller's purpose is to receive specific requests for the application.
  *
  */
+"use strict";
