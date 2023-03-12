@@ -1,4 +1,4 @@
-## Team-Sostene-E-commerce-bn
+# Team-Sostene-E-commerce-bn
 
 # This is the back-end of Team Sostene E-commerce website
 
@@ -8,7 +8,6 @@
 2. Create an `.env` file for the variables
 3. Run `npm install`
 5. Run `npm start` to start the project
-
 
 ## Dependencies
 - express
@@ -58,3 +57,9 @@ npx sequelize-cli db:migrate
 ```
 This will execute the migration files in the db/migrations folder and create the Users table in your PostgreSQL database.
 
+
+## DevDependencies
+- jest
+- prettier
+- eslint
+- husky
