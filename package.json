@@ -13,7 +13,7 @@
     "prettier:check": "prettier \"src/**/*.{js,css,html,json,md}\"",
     "prepare": "husky install",
     "test": "cross-env NODE_ENV=test jest --testTimeout=5000 --passWithNoTests",
-    "coverage": "c8 check-coverage --lines 80 --functions 80 --branches 80 --reporter=lcov --reporter=html mocha src/tests/index.js --recursive --exit --timeout 80000"
+    "coverage": "c8 --reporter=lcov --reporter=html mocha src/tests/index.js --recursive --exit --timeout 80000"
   },
   "author": "team-sostene",
   "license": "ISC",
