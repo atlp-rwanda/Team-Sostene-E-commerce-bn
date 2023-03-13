@@ -1,5 +1,7 @@
 # Team-Sostene-E-commerce-bn
 
+[![HoundCI](https://img.shields.io/badge/style--blue.svg?label=HoundCI&logo=eslint&style=flat)](https://houndci.com)
+
 # This is the back-end of Team Sostene E-commerce website
 
 ## Setup
@@ -17,3 +19,4 @@
 - prettier
 - eslint
 - husky
+
