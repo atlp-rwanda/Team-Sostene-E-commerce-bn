@@ -6,16 +6,14 @@
     "prettier",
     "airbnb/hooks",
     "plugin:mocha/recommended",
-    "plugin:jest/recommended",
     "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["node", "prettier", "eslint-plugin-node", "jest"],
+  "plugins": ["node", "prettier", "eslint-plugin-node", "mocha"],
   "env": {
     "node": true,
     "es6": true,
     "mocha": true,
-    "jest": true
   },
   "rules": {
     "prettier/prettier": "error",
