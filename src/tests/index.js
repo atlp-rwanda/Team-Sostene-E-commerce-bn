@@ -8,15 +8,15 @@
  */
 
 import app from "../../index.js";
-import chai from "chai";
+import chai, { expect } from "chai";
 import chaiHttp from "chai-http"
+
+
 
 chai.should();
 
 chai.use(chaiHttp);
-
-describe('Testing the home route', () => { 
-    
+describe('Testing the home route', () => {   
     it("should get the content of home route", function(done) {
         chai
         .request(app)
@@ -27,3 +27,18 @@ describe('Testing the home route', () => {
         });
     })
  })
+
+ describe('Testing the home route', () => {   
+  it("should get the content of home route", function(done) {
+      chai
+      .request(app)
+      .get("/test")
+      .end((err, response) => {
+        response.should.have.status(200); 
+        expect(response.body).to.be.a('object')
+        done();
+      });
+  })
+})
+
+
