@@ -1,4 +1,4 @@
-## Team-Sostene-E-commerce-bn
+# Team-Sostene-E-commerce-bn
 
 # This is the back-end of Team Sostene E-commerce website
 
@@ -9,7 +9,11 @@
 3. Run `npm install`
 5. Run `npm start` to start the project
 
-
 ## Dependencies
 - express
 - dotenv
+## DevDependencies
+- jest
+- prettier
+- eslint
+- husky
