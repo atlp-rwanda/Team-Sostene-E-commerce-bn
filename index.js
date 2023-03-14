@@ -5,7 +5,6 @@ import swaggerUi from 'swagger-ui-express'
 import blogRoutes from './src/routes/index.js'
 
 const app = express()
-app.set('view engine', 'ejs');
 
 app.use(express.json());
 
