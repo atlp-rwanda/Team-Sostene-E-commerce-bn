@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "E-commerce app bn team-sostene",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "lint": "eslint \"src/**/*.{js,css,html,json,md}\"",
@@ -11,7 +12,7 @@
     "prettier:fix": "prettier --write \"src/**/*.{js,css,html,json,md}\"",
     "prettier:check": "prettier \"src/**/*.{js,css,html,json,md}\"",
     "prepare": "husky install",
-    "test": "mocha --require @babel/register src/tests/ --recursive --exit --timeout 80000",
+    "test": "mocha src/tests/ --recursive --exit --timeout 80000",
     "coverage": "nyc npm run test"
   },
   "author": "team-sostene",
@@ -33,8 +34,8 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "nyc": "^15.1.0"
   },
   "dependencies": {
     "@babel/core": "^7.21.3",
