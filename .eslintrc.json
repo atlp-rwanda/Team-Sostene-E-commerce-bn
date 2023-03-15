@@ -41,8 +41,7 @@
         "require": {
           "FunctionDeclaration": true,
           "MethodDefinition": true,
-          "ClassDeclaration": true,
-        "arrow-body-style": ["error", "as-needed"]
+          "ClassDeclaration": true
         }
       }
     ]
