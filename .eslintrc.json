@@ -31,7 +31,6 @@
       {
         "requireReturn": true,
         "requireReturnType": true,
-        "arrow-body-style": ["error", "as-needed"],
         "requireParamDescription": false,
         "requireReturnDescription": true
       }
@@ -43,7 +42,7 @@
           "FunctionDeclaration": true,
           "MethodDefinition": true,
           "ClassDeclaration": true,
-          "arrow-body-style": ["error", "as-needed"]
+        "arrow-body-style": ["error", "as-needed"]
         }
       }
     ]
