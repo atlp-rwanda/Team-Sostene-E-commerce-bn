@@ -16,7 +16,7 @@
     "mocha": true
   },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", { "singleQuote": true }],
     "one-var": 0,
     "one-var-declaration-per-line": 0,
     "new-cap": 0,
@@ -31,6 +31,7 @@
       {
         "requireReturn": true,
         "requireReturnType": true,
+        "arrow-body-style": ["error", "as-needed"],
         "requireParamDescription": false,
         "requireReturnDescription": true
       }
@@ -41,7 +42,8 @@
         "require": {
           "FunctionDeclaration": true,
           "MethodDefinition": true,
-          "ClassDeclaration": true
+          "ClassDeclaration": true,
+          "arrow-body-style": ["error", "as-needed"]
         }
       }
     ]

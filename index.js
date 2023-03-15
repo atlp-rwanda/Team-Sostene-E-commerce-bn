@@ -1,40 +1,40 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import swaggerJSDoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
-import blogRoutes from './src/routes/index.js'
+import express from 'express';
+import dotenv from 'dotenv';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import blogRoutes from './src/routes/index.js';
 
-const app = express()
+const app = express();
 
-dotenv.config()
-const PORT = process.env.PORT
+dotenv.config();
+const PORT = process.env.PORT || 3000;
 
-const options={
-    definition:{
-        openapi:"3.0.0",
-        info:{
-            title:"API Library",
-            version:1.0,
-            description:"Swagger Api Documentation",
-        },
-        servers:[
-            {
-                url:process.env.SWAGGER_URL     // Port Number on this URL must be the same as the Server Port Number 
-            }
-        ], 
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API Library',
+      version: 1.0,
+      description: 'Swagger Api Documentation',
     },
+    servers: [
+      {
+        url: process.env.SWAGGER_URL, // Port Number on this URL must be the same as the Server Port Number
+      },
+    ],
+  },
 
-        apis:['./src/routes/index.js','./src/config/swagger.js']
-}
-const specs= swaggerJSDoc(options)
-app.use('/myapi',swaggerUi.serve,swaggerUi.setup(specs))
+  apis: ['./src/routes/index.js', './src/config/swagger.js'],
+};
+const specs = swaggerJSDoc(options);
+app.use('/myapi', swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use('',blogRoutes)
+app.use('/api', blogRoutes);
 
 app.get('/', (req, res) => {
-    res.status(200).json('Hello World!')
-})
+  res.status(200).json({ message: 'Hello World!' });
+});
 
-app.listen(PORT, () => console.log(`app listening on port ${PORT}!`))
+app.listen(PORT, () => console.log(`app listening on port ${PORT}!`));
 
 export default app;
