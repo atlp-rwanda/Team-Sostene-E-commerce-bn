@@ -15,6 +15,14 @@
     "es6": true,
     "mocha": true
   },
+  "settings": {
+    "import/extensions": [".js"],
+    "import/resolver": {
+      "node": {
+        "extensions": [".js"]
+      }
+    }
+  },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
     "one-var": 0,
