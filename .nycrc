@@ -6,7 +6,8 @@
     "functions": 80,
     "lines": 80,
     "include": ["src/**/*.js", "src/tests/**"],
-    "reporter": ["lcov", "html", "text"]
+    "reporter": ["lcov", "html", "text"],
+    "exclude": ["src/db/migrations/**/*","src/db/seeders/**/*"]
   }
 
   

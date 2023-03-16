@@ -32,7 +32,6 @@
 
 - In summary, HoundCI is a helpful tool for automating code review and ensuring the quality of code changes in a software development project.
 
-
 ## Setup
 
 1. Go to the project root directory
