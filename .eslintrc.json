@@ -11,6 +11,7 @@
   ],
   "plugins": ["node", "prettier", "eslint-plugin-node", "mocha"],
   "env": {
+    "browser": true,
     "node": true,
     "es6": true,
     "mocha": true
@@ -31,7 +32,7 @@
     "consistent-return": 0,
     "no-param-reassign": 0,
     "import/extensions": [
-      "error",
+      0,
       "ignorePackages",
       {
         "js": "never"
