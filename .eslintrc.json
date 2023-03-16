@@ -6,24 +6,43 @@
     "prettier",
     "airbnb/hooks",
     "plugin:mocha/recommended",
-    "plugin:jest/recommended",
     "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["node", "prettier", "eslint-plugin-node", "jest"],
+  "plugins": ["node", "prettier", "eslint-plugin-node", "mocha"],
   "env": {
+    "browser": true,
     "node": true,
     "es6": true,
-    "mocha": true,
-    "jest": true
+    "mocha": true
+  },
+  "settings": {
+    "import/extensions": [".js"],
+    "import/resolver": {
+      "node": {
+        "extensions": [".js"]
+      }
+    }
   },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", { "singleQuote": true }],
     "one-var": 0,
+    "no-console":1,
+    "no-undef": 0,
+    "mocha/max-top-level-suites": 0,
+    "mocha/no-identical-title": 0,
     "one-var-declaration-per-line": 0,
     "new-cap": 0,
     "consistent-return": 0,
     "no-param-reassign": 0,
+    "func-names": [0, "always"],
+    "import/extensions": [
+      0,
+      "ignorePackages",
+      {
+        "js": "never"
+      }
+    ],
     "comma-dangle": 0,
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { "commonjs": true }],
@@ -37,8 +56,9 @@
         "requireReturnDescription": true
       }
     ],
+    "arrow-body-style": ["error", "as-needed"],
     "require-jsdoc": [
-      "error",
+      0,
       {
         "require": {
           "FunctionDeclaration": true,
