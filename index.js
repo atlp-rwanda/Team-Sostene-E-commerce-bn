@@ -35,6 +35,6 @@ app.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello World!' });
 });
 
-app.listen(PORT, () => console.log(`app listening on port ${PORT}!`));
+app.listen(PORT);
 
 export default app;

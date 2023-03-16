@@ -7,6 +7,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "lint": "eslint \"src/**/*.{js,css,html,json,md}\"",
+    "lint:fix": "eslint --fix --ext .js .",
     "prettier": "eslint \"src/**/*.{js,css,html,json,md}\"",
     "lint:staged": "lint-staged",
     "prettier:fix": "prettier --write \"src/**/*.{js,css,html,json,md}\" ./index.js",
@@ -59,7 +60,8 @@
   "lint-staged": {
     "src/**/*.{js,css,html,json,md}": [
       "npm run prettier:fix",
-      "npm run lint",
+      "npm run lint:fix",
+      "npm run test",
       "git add"
     ]
   },

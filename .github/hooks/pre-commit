@@ -5,7 +5,7 @@ FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 
 npm run prettier:fix
-npm run lint && npm run test
+npm run lint:fix && npm run test
 git add .
 
 # Add back the modified/prettified files to staging
