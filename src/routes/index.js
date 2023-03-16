@@ -6,19 +6,15 @@
  * A route is a section of Express code that
  * associates an HTTP verb ( GET , POST , PUT , DELETE , etc.),
  * a URL path/pattern, and a function that is called to handle that pattern
-<<<<<<< HEAD
  *
  */
-=======
- * 
- */
 
-import Express from "express";
-const Router = Express.Router()
+import Express from 'express';
 
-Router.get('/test',(req,res)=>{
-    res.status(200).json({"message":"TESTED"})
-})
+const Router = Express.Router();
 
-export default Router
->>>>>>> 5d3b2cb (* chore: add prettier/eslint and pre-commit hook(husky))
+Router.get('/test', (req, res) => {
+  res.status(200).json({ message: 'TESTED' });
+});
+
+export default Router;

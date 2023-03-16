@@ -1,6 +1,12 @@
-import chai from "chai";
-const expect = chai.expect;
+import chai from 'chai';
 
+const { expect } = chai;
+
+/**
+ * Returns the number 5.
+ *
+ * @returns {number} The number 5.
+ */
 function dummyFunction() {
   return 5;
 }

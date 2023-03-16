@@ -4,46 +4,38 @@
 /**
  *
  * Here in tests folder is where all test files are.
-<<<<<<< HEAD
  *
  */
-=======
- * 
- */
 
-import app from "../../index.js";
-import chai, { expect } from "chai";
-import chaiHttp from "chai-http"
+import chai, { expect } from 'chai';
+import chaiHttp from 'chai-http';
 
-
+import app from '../../index.js';
 
 chai.should();
 
 chai.use(chaiHttp);
-describe('Testing the home route', () => {   
-    it("should get the content of home route", function(done) {
-        chai
-        .request(app)
-        .get("/")
-        .end((err, response) => {
-          response.should.have.status(200); 
-          done();
-        });
-    })
- })
-
- describe('Testing the home route', () => {   
-  it("should get the content of home route", function(done) {
-      chai
+describe('Testing the home route', () => {
+  it('should get the content of home route', (done) => {
+    chai
       .request(app)
-      .get("/test")
+      .get('/')
       .end((err, response) => {
-        response.should.have.status(200); 
-        expect(response.body).to.be.a('object')
+        response.should.have.status(200);
         done();
       });
-  })
-})
+  });
+});
 
-
->>>>>>> 5d3b2cb (* chore: add prettier/eslint and pre-commit hook(husky))
+describe('Testing the home route', () => {
+  it('should get the content of home route', (done) => {
+    chai
+      .request(app)
+      .get('/test')
+      .end((err, response) => {
+        response.should.have.status(200);
+        expect(response.body).to.be.a('object');
+        done();
+      });
+  });
+});
