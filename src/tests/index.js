@@ -6,11 +6,10 @@
  * Here in tests folder is where all test files are.
  *
  */
-
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 
-import app from '../../index.js';
+import app from '../../index';
 
 chai.should();
 
