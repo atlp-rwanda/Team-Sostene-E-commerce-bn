@@ -45,7 +45,6 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn.git"
