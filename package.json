@@ -3,24 +3,27 @@
   "version": "1.0.0",
   "description": "E-commerce app bn team-sostene",
   "main": "index.js",
-  "type": "module", 
-  "scripts": { 
+  "scripts": {
     "start": "node index.js",
     "lint": "eslint \"src/**/*.{js,css,html,json,md}\"",
     "prettier": "eslint \"src/**/*.{js,css,html,json,md}\"",
-    "lint:staged": "lint-staged", 
+    "lint:staged": "lint-staged",
     "prettier:fix": "prettier --write \"src/**/*.{js,css,html,json,md}\"",
     "prettier:check": "prettier \"src/**/*.{js,css,html,json,md}\"",
     "prepare": "husky install",
-    "test": "mocha src/test/  --recursive --exit",
-    "coverage": "c8 check-coverage --lines 80 --functions 80 --branches 80 --reporter=lcov --reporter=html mocha src/tests/index.js --recursive --exit --timeout 80000"
+    "test": "mocha --require @babel/register src/tests/ --recursive --exit --timeout 80000",
+    "coverage": "nyc npm run test"
   },
   "author": "team-sostene",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn/issues"
-  }, 
+  },
   "devDependencies": {
+    "c8": "^7.13.0",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "coveralls": "^3.1.1",
     "eslint": "^8.35.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.7.0",
@@ -32,8 +35,13 @@
     "c8": "^7.13.0",
     "eslint-plugin-mocha": "^10.1.0",
     "coveralls": "^3.1.1"
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
   },
   "dependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.21.0",
     "cross-env": "^7.0.3",
     "mocha": "^10.2.0",
     "dotenv": "^16.0.3",
@@ -55,6 +63,7 @@
     "bn",
     "sostene"
   ],
+  "homepage": "https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn#readme",
   "lint-staged": {
     "src/**/*.{js,css,html,json,md}": [
       "npm run prettier:fix",
