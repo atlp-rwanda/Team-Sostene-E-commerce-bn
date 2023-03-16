@@ -57,6 +57,7 @@
     "bn",
     "sostene"
   ],
+  "homepage": "https://github.com/atlp-rwanda/Team-Sostene-E-commerce-bn#readme",
   "lint-staged": {
     "src/**/*.{js,css,html,json,md}": [
       "npm run prettier:fix",
