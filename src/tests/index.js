@@ -4,7 +4,7 @@
 /**
  *
  * Here in tests folder is where all test files are.
- * 
+ *
  */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
