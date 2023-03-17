@@ -5,6 +5,10 @@ jobs:
       - image: circleci/node:16
     environment:
       repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
+      DB_NAME: my_database_name
+      DB_USER: my_database_user
+      DB_PASS: my_database_password
+      DB_HOST: my_database_host
     steps:
       - checkout
       - run:
