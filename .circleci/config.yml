@@ -5,10 +5,10 @@ jobs:
       - image: circleci/node:16
     environment:
       ENV_FILE: .env
-      POSTGRES_DB: '${{ env.POSTGRES_DB }}'
-      POSTGRES_USER: '${{ env.POSTGRES_USER }}'
-      POSTGRES_PASSWORD: '${{ env.POSTGRES_PASS }}'
-      POSTGRES_HOST: '${{ env.POSTGRES_HOST }}'
+      POSTGRES_DB: ecommercedb
+      POSTGRES_USER: andelarwanda
+      POSTGRES_PASSWORD: pass
+      POSTGRES_HOST: '127.0.0.1'
       POSTGRES_DIALECT: postgres
       repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
     steps:
