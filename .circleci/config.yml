@@ -4,6 +4,12 @@ jobs:
     docker: 
       - image: circleci/node:16
     environment:
+      ENV_FILE: .env
+      POSTGRES_DB: '${{ env.POSTGRES_DB }}'
+      POSTGRES_USER: '${{ env.POSTGRES_USER }}'
+      POSTGRES_PASSWORD: '${{ env.POSTGRES_PASS }}'
+      POSTGRES_HOST: '${{ env.POSTGRES_HOST }}'
+      POSTGRES_DIALECT: '${{ env.POSTGRES_DIALECT }}'
       repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
     steps:
       - checkout
