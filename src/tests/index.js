@@ -9,6 +9,8 @@ import app from '../../index.js';
  *
  */
 
+import app from '../../index.js';
+
 chai.should();
 
 chai.use(chaiHttp);
