@@ -10,6 +10,7 @@
  */
 
 import Express from 'express';
+
 const Router = Express.Router();
 
 Router.get('/test', (req, res) => {

@@ -2,3 +2,12 @@ node_modules/
 build/
 dist/
 package-lock.json
+package.json
+*.{yml,md}
+.md
+.yml
+.json
+.husky/*
+.husky
+.github
+.github/*

@@ -7,4 +7,3 @@
  * Depending on the need,
  * even general services like a database can be placed here.
  */
-console.log('checking husky pre-commit');
