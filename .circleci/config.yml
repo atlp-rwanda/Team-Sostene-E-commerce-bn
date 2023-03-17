@@ -9,7 +9,7 @@ jobs:
       POSTGRES_USER: '${{ env.POSTGRES_USER }}'
       POSTGRES_PASSWORD: '${{ env.POSTGRES_PASS }}'
       POSTGRES_HOST: '${{ env.POSTGRES_HOST }}'
-      POSTGRES_DIALECT: '${{ env.POSTGRES_DIALECT }}'
+      POSTGRES_DIALECT: postgres
       repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
     steps:
       - checkout
