@@ -11,7 +11,7 @@ jobs:
           POSTGRES_DIALECT: postgres
           NODE_ENV: development
           repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
-      - image: circleci/postgres:15.2
+      - image: circleci/postgres:latest
         environment:
           POSTGRES_DB: ecommercedb
           POSTGRES_USER: andelarwanda
