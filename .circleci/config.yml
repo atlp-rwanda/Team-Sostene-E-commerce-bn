@@ -7,16 +7,16 @@ jobs:
           POSTGRES_DB: ecommercedb
           POSTGRES_USER: andelarwanda
           POSTGRES_PASSWORD: pass
-          POSTGRES_HOST: '127.0.0.1'
+          POSTGRES_HOST: 127.0.0.1
           POSTGRES_DIALECT: postgres
           NODE_ENV: development
           repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
-      - image: circleci/postgres:9.6.2-alpine
+      - image: circleci/postgres:15.2
         environment:
           POSTGRES_DB: ecommercedb
           POSTGRES_USER: andelarwanda
           POSTGRES_PASSWORD: pass
-          POSTGRES_HOST: '127.0.0.1'
+          POSTGRES_HOST: 127.0.0.1
           POSTGRES_DIALECT: postgres
     steps:
       - checkout
