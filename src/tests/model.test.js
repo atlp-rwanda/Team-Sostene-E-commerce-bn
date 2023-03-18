@@ -9,6 +9,22 @@ const db = require('../db/models');
 let Usertest = db.Usertest;
 const sequelize = new Sequelize(config.development);
 
+// Define the table schema
+const UserSchema = sequelize.define('Usertest', {
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  }
+});
 describe('Usertest model', () => {
   beforeEach(async () => {
     // Reset database before each test
