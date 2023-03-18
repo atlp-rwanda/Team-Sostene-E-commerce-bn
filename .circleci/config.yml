@@ -3,6 +3,7 @@ jobs:
   run_tests:
     docker: 
       - image: circleci/node:16
+      - image: circleci/postgres:latest
         environment:
           POSTGRES_DB: ecommercedb
           POSTGRES_USER: andelarwanda
@@ -11,13 +12,6 @@ jobs:
           POSTGRES_DIALECT: postgres
           NODE_ENV: development
           repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
-      - image: circleci/postgres:latest
-        environment:
-          POSTGRES_DB: ecommercedb
-          POSTGRES_USER: andelarwanda
-          POSTGRES_PASSWORD: pass
-          POSTGRES_HOST: 127.0.0.1
-          POSTGRES_DIALECT: postgres
     steps:
       - checkout
       - run:
