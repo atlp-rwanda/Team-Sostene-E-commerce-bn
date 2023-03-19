@@ -6,8 +6,7 @@ jobs:
       - image: circleci/postgres:latest
         environment:
           POSTGRES_DB: ecommercedb
-          POSTGRES_USER: ${POSTGRES_USER}
-          POSTGRES_HOST: ${POSTGRES_HOST}
+          POSTGRES_USER: andelarwanda
           POSTGRES_DIALECT: postgres
           NODE_ENV: development
           repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
