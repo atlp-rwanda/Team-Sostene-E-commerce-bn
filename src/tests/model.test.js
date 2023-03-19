@@ -25,27 +25,6 @@ const UserSchema = sequelize.define('Usertest', {
     unique: true
   }
 });
-// Define the UserRole schema
-const UserRole = sequelize.define('UserRole', {
-  roleName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  }
-});
-
-// Define a relationship between the User and UserRole models
-UserSchema.belongsTo(UserRole);
-UserRole.hasMany(UserSchema);
-
-//Create admin user role
-const adminRole = await UserRole.create({ roleName: 'admin' });
-const user = await Usertest.create({
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'john.doe@example.com',
-  userRoleId: adminRole.id
-});
 
 describe('Usertest model', () => {
   beforeEach(async () => {
