@@ -26,9 +26,6 @@ jobs:
       - run:
           name: Upload coverage to Coveralls
           command: npx coveralls < coverage/lcov.info
-      - run:
-          name: Echo env variables
-          command: echo ${POSTGRES_USER}
 workflows:
   build_tests:
     jobs:
