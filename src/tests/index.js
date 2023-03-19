@@ -14,8 +14,8 @@ import app from '../../index';
 chai.should();
 
 chai.use(chaiHttp);
-describe('Testing the home route', () => {
-  it('should get the content of home route', (done) => {
+describe('Testing the home route', function () {
+  it('should get the content of home route', function (done) {
     chai
       .request(app)
       .get('/')
@@ -26,8 +26,8 @@ describe('Testing the home route', () => {
   });
 });
 
-describe('Testing the home route', () => {
-  it('should get the content of home route', (done) => {
+describe('Testing the home route', function () {
+  it('should get the content of home route', function (done) {
     chai
       .request(app)
       .get('/test')
