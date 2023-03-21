@@ -8,7 +8,7 @@ import session from 'express-session';
 import '../middleware/passport.js';
 import { LoginSchema, SignUpSchema } from '../models/validationSchema.js';
 import validate from '../middleware/validation';
-import { SignUp, Login } from '../controllers/user.controller.js';
+import { SignUp, Login, logout } from '../controllers/user.controller.js';
 import isAuthenticated from '../middleware/authentication.js';
 
 const router = Router();
@@ -27,6 +27,7 @@ router.get('/protected-route', isAuthenticated, (req, res) => {
 });
 
 router.post('/login', validate(LoginSchema), Login);
+router.post('/logout', isAuthenticated, logout);
 
 router.get('/', (req, res) => {
   res.status(200).json('Hello users!');

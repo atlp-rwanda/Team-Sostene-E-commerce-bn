@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { SignUp } from '../../controllers/user.controller';
+import { SignUp } from '../../controllers/user.controller.js';
 
 const { expect } = chai;
 chai.use(chaiHttp);

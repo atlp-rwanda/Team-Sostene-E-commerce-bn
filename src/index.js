@@ -8,9 +8,9 @@ import cors from 'cors';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import bodyParser from 'body-parser';
-import sequelize from './database/config/db.js';
 import userRoutes from './routes/user.route.js';
 import options from './docs/apidoc.js';
+import sequelize from './database/config/db.js';
 
 dotenv.config();
 const app = express();
@@ -18,12 +18,12 @@ const app = express();
 app.use(morgan('tiny'));
 
 const { PORT } = process.env;
+sequelize.sync();
 
 app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 const specs = swaggerJSDoc(options);
 
 sequelize.sync();

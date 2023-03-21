@@ -48,6 +48,7 @@
  *           type: string
  *           description: message of error response
  */
+
 /**
  * @swagger
  * tags:
@@ -79,6 +80,7 @@
  *             schema:
  *               $ref: '#/components/schemas/errormessage'
  */
+
 /**
  * @swagger
  * /users/login:
@@ -129,4 +131,18 @@
  *              type: object
  *            example:
  *              Message: 'Please Login'
+ */
+
+/**
+ * @swagger
+ * /users/logout:
+ *  post:
+ *      summary: Logout
+ *      description: This API logs the user out
+ *      tags: [Authentication]
+ *      responses:
+ *          200:
+ *              description: GET json Message
+ *          400:
+ *              description: bad request
  */
