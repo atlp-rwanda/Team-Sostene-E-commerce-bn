@@ -4,7 +4,7 @@
   "description": "E-commerce app bn team-sostene",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "babel-node build/index.js",
     "lint": "eslint \"src/**/*.{js,css,html,json,md}\"",
     "prettier": "eslint \"src/**/*.{js,css,html,json,md}\"",
     "lint:staged": "lint-staged",
@@ -24,10 +24,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
-    "@babel/core": "^7.21.0",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/register": "^7.21.0",
+    "@babel/core": "^7.21.3",
     "bcryptjs": "^2.4.3",
     "c8": "^7.13.0",
     "coveralls": "^3.1.1",
@@ -45,7 +42,8 @@
     "prettier": "^2.8.4"
   },
   "dependencies": {
-    "@babel/core": "^7.21.3",
+    "@babel/node": "^7.20.7",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.20.2",
     "@babel/register": "^7.21.0",
     "chai": "^4.3.7",
@@ -81,7 +79,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run test && git update-index -g"
+      "pre-commit": "lint-staged && npm run test git && update-index -g"
     }
   }
 }

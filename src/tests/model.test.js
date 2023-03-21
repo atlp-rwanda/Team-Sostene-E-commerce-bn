@@ -1,10 +1,10 @@
 import { Sequelize } from 'sequelize';
 
-const assert = require('assert');
-const db = require('../database/models');
+import assert from 'assert';
+import db from '../database/models';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../database/config/config.js`)[env];
+const config = require(`${__dirname}/../database/config/config.js`)[env]; //eslint-disable-line
 
 const { Usertest } = db;
 const sequelize = new Sequelize(config.url);

@@ -7,5 +7,3 @@ package-lock.json
 .husky
 .github
 .github/*
-src/database/migrations
-src/database/models
