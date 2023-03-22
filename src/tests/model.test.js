@@ -1,13 +1,13 @@
 import { Sequelize } from 'sequelize';
-
 import assert from 'assert';
 import db from '../database/models';
+import config from '../database/config/config';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../database/config/config.js`)[env]; //eslint-disable-line
+const dbConfig = config[env];
 
 const { Usertest } = db;
-const sequelize = new Sequelize(config.url);
+const sequelize = new Sequelize(dbConfig.url);
 
 // Define the table schema
 // eslint-disable-next-line no-unused-vars

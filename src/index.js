@@ -1,38 +1,27 @@
-import '@babel/polyfill';
-import '@babel/register';
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
 import express from 'express';
 import dotenv from 'dotenv';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import bodyParser from 'body-parser';
 import blogRoutes from './routes/index.js';
-
-const app = express();
+import userRoutes from './routes/user.route.js';
+import options from './docs/apidoc.js';
+import redis from './helpers/redis';
 
 dotenv.config();
+const app = express();
 const { PORT } = process.env;
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'API Library',
-      version: 1.0,
-      description: 'Swagger Api Documentation',
-    },
-    servers: [
-      {
-        url: process.env.SWAGGER_URL, // Port Number on this URL must match Server Port Number
-      },
-    ],
-  },
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-  apis: ['./src/routes/index.js', './src/config/swagger.js'],
-};
 const specs = swaggerJSDoc(options);
-app.use('/myapi', swaggerUi.serve, swaggerUi.setup(specs));
 
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('', blogRoutes);
-
+app.use('/users', userRoutes);
 app.get('/', (req, res) => {
   res.status(200).json('Hello World!');
 });
