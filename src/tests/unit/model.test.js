@@ -1,17 +1,14 @@
 import { Sequelize } from 'sequelize';
+
 import assert from 'assert';
-import db from '../database/models';
-import config from '../database/config/config';
+import db from '../../database/config/db';
 
 const env = process.env.NODE_ENV || 'development';
-const dbConfig = config[env];
-
-const { Usertest } = db;
-const sequelize = new Sequelize(dbConfig.url);
+const config = require(`${__dirname}/../../database/config/config.js`)[env]; //eslint-disable-line
 
 // Define the table schema
 // eslint-disable-next-line no-unused-vars
-const UserSchema = sequelize.define('Usertest', {
+const UserSchema = db.define('Usertest', {
   firstName: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -30,7 +27,7 @@ const UserSchema = sequelize.define('Usertest', {
 describe('Usertest model', function () {
   beforeEach(async function () {
     // Reset database before each test
-    await sequelize.sync({ force: true });
+    await UserSchema.sync({ force: true });
   });
 
   it('should create a user', async function () {
@@ -39,7 +36,7 @@ describe('Usertest model', function () {
       lastName: 'Doe',
       email: 'john.doe@example.com',
     };
-    const user = await Usertest.create(userData);
+    const user = await UserSchema.create(userData);
     assert.strictEqual(user.firstName, 'John');
     assert.strictEqual(user.lastName, 'Doe');
     assert.strictEqual(user.email, 'john.doe@example.com');
@@ -51,7 +48,7 @@ describe('Usertest model', function () {
       lastName: 'Doe',
       email: 'john.doe@example.com',
     };
-    const user = await Usertest.create(userData);
+    const user = await UserSchema.create(userData);
     const updatedUser = await user.update({
       firstName: 'Jane',
       lastName: 'Doe',
@@ -68,9 +65,9 @@ describe('Usertest model', function () {
       lastName: 'Doe',
       email: 'john.doe@example.com',
     };
-    const user = await Usertest.create(userData);
+    const user = await UserSchema.create(userData);
     await user.destroy();
-    const deletedUser = await Usertest.findByPk(user.id);
+    const deletedUser = await UserSchema.findByPk(user.id);
     assert.strictEqual(deletedUser, null);
   });
 });

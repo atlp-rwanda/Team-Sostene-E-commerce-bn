@@ -4,34 +4,16 @@ const options = {
     info: {
       title: 'API Library',
       version: 1.0,
-      description: 'Swagger Api Documentation',
+      description: 'Team Sostene API documentation',
     },
-  },
-  servers: [
-    {
-      url: process.env.SWAGGER_URL // Port Number on this URL must match Server Port Number
-    },
-    {
-      url: 'http://localhost:3000/',
-      description: 'Api server',
-    },
-  ],
-  components: {
-    securitySchemes: {
-      bearerAuth: {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
+    servers: [
+      {
+        url: `/`,
+        description: 'Api Server',
       },
-    },
+    ],
   },
-
-  apis: [
-    './src/routes/index.js',
-    './src/config/swagger.js',
-    './src/routes/user.route.js',
-    './src/docs/user.docs.js',
-  ],
+  apis: ['./src/docs/*'],
 };
 
 export default options;

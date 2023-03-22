@@ -1,5 +1,6 @@
 import Jwt from 'jsonwebtoken';
 import passport from 'passport';
+import redisClient from '../helpers/redis';
 
 const SignUp = async (req, res, next) => {
   passport.authenticate('signup', (err, user, info) => {
@@ -21,10 +22,36 @@ const SignUp = async (req, res, next) => {
         username: req.user.username,
         email: req.user.email,
       };
-      const token = Jwt.sign({ user: body }, 'TOP_SECRET');
-      res.cookie('session_token', token);
+      const token = Jwt.sign({ user: body }, process.env.JWT_SECRET);
+      res.cookie('session_id', req.user.id);
+      redisClient.set(body.id, token);
       res.status(201).json({ token });
     });
   })(req, res, next);
 };
-export default SignUp;
+
+const Login = async (req, res, next) => {
+  passport.authenticate('login', async (err, user, info) => {
+    try {
+      if (err || !user) {
+        return res.status(406).json({ code: 406, message: info.message });
+      }
+      const body = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      };
+      const token = Jwt.sign({ user: body }, process.env.JWT_SECRET);
+      res.cookie('session_id', user.id);
+      redisClient.set(user.id, token);
+      req.user = user;
+      res.status(200).json({
+        Message: `Logged In Successfully as ${req.user.username} .`,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
+};
+
+export { Login, SignUp };

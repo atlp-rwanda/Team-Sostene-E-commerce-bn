@@ -1,20 +1,20 @@
-const { v4: uuidv4 } = require('uuid');
+/* eslint-disable valid-jsdoc */
+/* eslint-disable import/no-extraneous-dependencies */
+import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('users', [
-      {
-        id: uuidv4(),
-        username: 'norbert',
-        email: 'example2@example.com',
-        password: 'ishimwe',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
-  },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('users', null, {});
-  },
-};
+export async function up(queryInterface) {
+  await queryInterface.bulkInsert('users', [
+    {
+      id: uuidv4(),
+      username: 'norbert',
+      email: 'example2@example.com',
+      password: 'ishimwe',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ]);
+}
+export async function down(queryInterface) {
+  await queryInterface.bulkDelete('users', null, {});
+}

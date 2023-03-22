@@ -1,4 +1,5 @@
-// eslint-disable-next-line require-jsdoc
+/* eslint-disable require-jsdoc */
+/* eslint-disable linebreak-style */
 export default function errorMessage(word) {
   const obj = {
     'string.base': `${word} is Invalid`,
@@ -7,7 +8,7 @@ export default function errorMessage(word) {
     'any.required': `${word} is required `,
     'any.invalid': `${word} is Invalid`,
     'object.regex': 'Must have at least 8 characters',
-    'string.pattern.base': `${word} must have 8 characters, Uppercase and Lowercase, a number and a Symbol`
+    'string.pattern.base': `${word} must have 8 characters, Uppercase and Lowercase, a number and a Symbol`,
   };
   return obj;
 }

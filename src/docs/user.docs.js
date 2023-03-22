@@ -51,12 +51,14 @@
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: Users  api
+ *   name: Authentication
+ *   description: Authentication  Apis
  * /users/signup:
+ *   tags:
+ *     - Authentication
  *   post:
  *     summary: Create a new user (signUp)
- *     tags: [Users]
+ *     tags: [Authentication]
  *     requestBody:
  *       required: true
  *       content:
@@ -76,4 +78,55 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/errormessage'
+ */
+/**
+ * @swagger
+ * /users/login:
+ *  post:
+ *    tags:
+ *      - Authentication
+ *    summary: Logs In a User
+ *    description: Logs in a user, And stores session is Redis
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *          example:
+ *            email: 'example email'
+ *            password: 'example password'
+ *    responses:
+ *      '200':
+ *        description: Logged In Successfully
+ *      '406':
+ *        description: Unacceptable
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'example error'
+ * /users/protected-route:
+ *  get:
+ *    tags:
+ *      - Authentication
+ *    summary: A protected route requiring login or signup
+ *    description: LogIn or SignUp to access this route
+ *    responses:
+ *      '200':
+ *        description: Logged In Successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'Logged in Successfully as username .'
+ *      '401':
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'Please Login'
  */

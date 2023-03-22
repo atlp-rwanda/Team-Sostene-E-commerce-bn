@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const { DEV_DATABASE_URL, TEST_DATABASE_URL, DATABASE_URL } = process.env;
 
-module.exports = {
+export default {
   development: {
     url: DEV_DATABASE_URL,
     dialect: 'postgres',
