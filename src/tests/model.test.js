@@ -1,10 +1,10 @@
 import { Sequelize } from 'sequelize';
 
-const assert = require('assert');
-const db = require('../database/models');
+import assert from 'assert';
+import db from '../database/models';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../database/config/config.js')[env];
+const config = require(`${__dirname}/../database/config/config.js`)[env]; //eslint-disable-line
 
 const { Usertest } = db;
 const sequelize = new Sequelize(config.url);
@@ -14,26 +14,26 @@ const sequelize = new Sequelize(config.url);
 const UserSchema = sequelize.define('Usertest', {
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   lastName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true
-  }
+    unique: true,
+  },
 });
 
-describe('Usertest model', () => {
-  beforeEach(async () => {
+describe('Usertest model', function () {
+  beforeEach(async function () {
     // Reset database before each test
     await sequelize.sync({ force: true });
   });
 
-  it('should create a user', async () => {
+  it('should create a user', async function () {
     const userData = {
       firstName: 'John',
       lastName: 'Doe',
@@ -45,7 +45,7 @@ describe('Usertest model', () => {
     assert.strictEqual(user.email, 'john.doe@example.com');
   });
 
-  it('should update a user', async () => {
+  it('should update a user', async function () {
     const userData = {
       firstName: 'John',
       lastName: 'Doe',
@@ -62,7 +62,7 @@ describe('Usertest model', () => {
     assert.strictEqual(updatedUser.email, 'jane.doe@example.com');
   });
 
-  it('should delete a user', async () => {
+  it('should delete a user', async function () {
     const userData = {
       firstName: 'John',
       lastName: 'Doe',

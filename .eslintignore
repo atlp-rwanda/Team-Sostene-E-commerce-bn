@@ -2,5 +2,8 @@ node_modules/
 build/
 dist/
 package-lock.json
-src/database/migrations
-src/database/models
+.yml
+.husky/*
+.husky
+.github
+.github/*

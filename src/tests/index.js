@@ -9,13 +9,13 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 
-import app from '../index';
+import app from '../index.js';
 
 chai.should();
 
 chai.use(chaiHttp);
-describe('Testing the home route', () => {
-  it('should get the content of home route', (done) => {
+describe('Testing the home route', function () {
+  it('should get the content of home route', function (done) {
     chai
       .request(app)
       .get('/')
@@ -26,8 +26,8 @@ describe('Testing the home route', () => {
   });
 });
 
-describe('Testing the home route', () => {
-  it('should get the content of home route', (done) => {
+describe('Testing the home route', function () {
+  it('should get the content of home route', function (done) {
     chai
       .request(app)
       .get('/test')

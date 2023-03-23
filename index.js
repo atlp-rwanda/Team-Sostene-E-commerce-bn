@@ -1,10 +1,8 @@
-import '@babel/polyfill';
-import '@babel/register';
 import express from 'express';
 import dotenv from 'dotenv';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import blogRoutes from './routes/index.js';
+import blogRoutes from './src/routes/index.js';
 
 const app = express();
 
@@ -21,7 +19,7 @@ const options = {
     },
     servers: [
       {
-        url: process.env.SWAGGER_URL, // Port Number on this URL must match Server Port Number
+        url: process.env.SWAGGER_URL, // Port Number on this URL must be the same as the Server Port Number
       },
     ],
   },
