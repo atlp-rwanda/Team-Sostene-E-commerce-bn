@@ -1,5 +1,5 @@
-const assert = require('assert');
-const config = require('../database/config/config');
+import assert from 'assert';
+import config from '../../database/config/config';
 
 describe('Configuration', function () {
   describe('development', function () {
