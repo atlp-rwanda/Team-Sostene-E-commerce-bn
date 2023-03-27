@@ -5,13 +5,26 @@ import config from './config.js';
 
 dotenv.config();
 
-const env = process.env.ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
+
 const db = config[env];
 
-const sequelize = new Sequelize(db.url, {
-  dialect: 'postgres',
-  logging: false,
-});
+// eslint-disable-next-line import/no-mutable-exports
+let sequelize;
+if (process.env.SSL === 'true') {
+  sequelize = new Sequelize(db.url, {
+    dialect: config.url,
+    logging: false, // if you want logs
+    dialectOptions: {
+      ssl: process.env.SSL,
+    },
+  });
+} else {
+  sequelize = new Sequelize(db.url, {
+    dialect: config.url,
+    logging: false, // if you want logs
+  });
+}
 
 sequelize.authenticate();
 

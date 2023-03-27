@@ -21,32 +21,14 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, email, password, done) => {
-      // const user = await User.findOne({ where: { email } });
-      // if (user) {
-      //   return done(null, false, { message: 'Email Already Exists' });
-      // }
-
-      // try {
-      //   password = await hash(req.body.password, 10);
-      //   const data = {
-      //     email: email.trim(),
-      //     username: req.body.username,
-      //     password,
-      //   };
-      //   await User.create(data)
-      //     .then((data) => done(null, data))
-      //     .catch((err) => console.log(err));
-      // } catch (error) {
-      //   return done(error);
-      // }
       try {
         const data = {
           email: email.trim(),
           username: req.body.username,
           password: await hash(req.body.password, 10),
         };
-        await User.create(data);
-        done(null, data);
+        const user = await User.create(data);
+        done(null, user.dataValues);
       } catch (error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
           const field = error.fields.username ? 'username' : 'email';
@@ -55,6 +37,27 @@ passport.use(
           done(error);
         }
       }
+    }
+  )
+);
+
+passport.use(
+  'login',
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+    async (email, password, done) => {
+      const user = await User.findOne({ where: { email } });
+      if (user) {
+        const passCheck = await compare(password, user.password);
+        if (passCheck) {
+          return done(null, user, { message: 'Logged In Successfully' });
+        }
+        return done(null, false, { message: 'Password is incorrect' });
+      }
+      return done(null, false, { message: 'User not Found.' });
     }
   )
 );

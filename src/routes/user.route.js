@@ -6,10 +6,10 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import '../middleware/passport.js';
-import { SignUpSchema } from '../models/validationSchema.js';
+import { LoginSchema, SignUpSchema } from '../models/validationSchema.js';
 import validate from '../middleware/validation';
-import SignUp from '../controllers/user.controller.js';
-// import Jwt from 'jsonwebtoken';
+import { SignUp, Login } from '../controllers/user.controller.js';
+import isAuthenticated from '../middleware/authentication.js';
 
 const router = Router();
 dotenv.config();
@@ -21,6 +21,13 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 router.post('/signup', validate(SignUpSchema), SignUp);
+
+router.get('/protected-route', isAuthenticated, (req, res) => {
+  res.status(200).json({ message: `Logged In as ${req.user.email}` });
+});
+
+router.post('/login', validate(LoginSchema), Login);
+
 router.get('/', (req, res) => {
   res.status(200).json('Hello users!');
 });

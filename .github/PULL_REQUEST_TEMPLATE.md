@@ -1,11 +1,13 @@
-### What does this PR do?
-Creates Empty express server and project structure
-### Description of Task to be completed?
-- Created Empty Node/Express template
-- A full directory with all folders that a developer might need
-- Install and setup dotenv for the API to manage environment variables.
+#### What does this PR do?
 
-### Any background context you want to provide?
-- Created some tips in comments under src/folder_name/index.js of what the folder might be used for.
+#### Description of Task to be completed?
 
+#### How should this be manually tested?
 
+#### Any background context you want to provide?
+
+#### What are the relevant pivotal tracker/Trello stories?
+
+#### Screenshots (if appropriate)
+
+#### Questions:

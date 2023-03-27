@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import Jwt from 'jsonwebtoken';
-import SignUp from '../../controllers/user.controller';
+import { SignUp } from '../../controllers/user.controller';
 
 const { expect } = chai;
 chai.use(chaiHttp);

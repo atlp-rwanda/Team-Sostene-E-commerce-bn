@@ -25,7 +25,7 @@
     }
   },
   "rules": {
-    "prettier/prettier": ["error", { "singleQuote": true }],
+    "prettier/prettier": ["error", { "singleQuote": true,"endOfLine": "auto" }],
     "one-var": 0,
     "no-console":0,
     "no-undef": 0,
