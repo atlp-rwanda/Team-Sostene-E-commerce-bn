@@ -3,7 +3,7 @@ import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import '../middleware/passport.js';
-import userControllers from '../controllers';
+import { userControllers } from '../controllers';
 
 const userRouter = express.Router();
 

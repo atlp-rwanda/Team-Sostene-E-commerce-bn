@@ -2,7 +2,7 @@
 
 [![HoundCI](https://img.shields.io/badge/style--blue.svg?label=HoundCI&logo=eslint&style=flat)](https://houndci.com)
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop) [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/Team-Sostene-E-commerce-bn/badge.svg?branch=ch-integrate-circleci-184651054)](https://coveralls.io/github/atlp-rwanda/Team-Sostene-E-commerce-bn?branch=ch-integrate-circleci-184651054)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop) [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/Team-Sostene-E-commerce-bn/badge.svg?branch=develop)](https://coveralls.io/github/atlp-rwanda/Team-Sostene-E-commerce-bn?branch=develop)
 
 # This is the back-end of Team Sostene E-commerce website
 
@@ -78,7 +78,7 @@ TEST_DATABASE_URL=''
 DATABASE_URL=''
 ENV=''
 SSL=''
-
+PRODUCTION_URL=''
 REDIS_URL= ''
 
 ```

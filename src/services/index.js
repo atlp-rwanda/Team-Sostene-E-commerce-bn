@@ -1,3 +1,4 @@
+import collectionServices from './collection.service';
 import userServices from './user.services';
 
-export default userServices;
+export { userServices, collectionServices };

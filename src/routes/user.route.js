@@ -2,7 +2,7 @@ import { Router } from 'express';
 import dotenv from 'dotenv';
 import '../middleware/passport';
 import { LoginSchema, SignUpSchema } from '../utils';
-import userControllers from '../controllers';
+import { userControllers } from '../controllers';
 import {
   isAuthenticated,
   userEmailExists,

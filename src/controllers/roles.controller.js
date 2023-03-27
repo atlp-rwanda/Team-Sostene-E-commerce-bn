@@ -1,4 +1,4 @@
-import userServices from '../services/user.services';
+import { userServices } from '../services';
 
 const assignRole = async (req, res) => {
   const { userId } = req.params;
