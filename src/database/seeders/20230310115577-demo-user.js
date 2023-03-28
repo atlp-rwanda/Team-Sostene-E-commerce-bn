@@ -1,6 +1,5 @@
 /* eslint-disable valid-jsdoc */
 /* eslint-disable import/no-extraneous-dependencies */
-import { v4 as uuidv4 } from 'uuid';
 import { hashPassword } from '../../utils/password';
 
 /** @type {import('sequelize-cli').Migration} */
@@ -26,4 +25,5 @@ export async function down(queryInterface) {
   await queryInterface.sequelize.query(
     "DELETE FROM users WHERE email = 'testing@example.com'"
   );
+  await queryInterface.bulkDelete('collections', null, {});
 }

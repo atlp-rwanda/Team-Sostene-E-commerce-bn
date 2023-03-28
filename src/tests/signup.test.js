@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
 import server from '../index.js';
 import userServices from '../services/user.services';
+import userController from '../controllers/user.controller.js';
 
 const { hash } = bcrypt;
 
@@ -142,5 +143,27 @@ describe('Testing Signup Route successfully', function () {
     // // Expect the response to have a status code of 201 and token
     chai.expect(response).to.have.status(201);
     chai.expect(response.body).to.be.an('object').to.have.property('token');
+  });
+});
+
+describe('signUp function', function () {
+  it('should return a 500 status code if authentication fails', async function () {
+    const req = {
+      body: { username: 'testuser', password: 'testpassword' },
+    };
+    const res = {
+      status(statusCode) {
+        chai.expect(statusCode).to.equal(500);
+        return this;
+      },
+      json(data) {
+        chai.expect(data).to.have.property('error');
+      },
+    };
+    const next = function (err) {
+      err(new Error('Authentication failed'));
+    };
+    // await signUp(req, res, next);
+    await userController.signUp(req, res, next);
   });
 });

@@ -15,7 +15,6 @@ const testUser = {
   email: 'testing@example.com',
   password: 'Qwert@12345',
 };
-
 describe('Testing user roles and permissions', function () {
   let user;
   before(async function () {

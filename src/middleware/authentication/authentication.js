@@ -1,4 +1,4 @@
-import redisClient from '../../helpers/redis';
+import { redisClient } from '../../helpers';
 import { decodeToken } from '../../utils';
 
 const isAuthenticated = async (req, res, next) => {

@@ -8,7 +8,8 @@ import {
   validate,
 } from '../middleware';
 import { productControllers } from '../controllers';
-import { CollectionNameSchema } from '../utils';
+import { CollectionNameSchema, addproductSchema } from '../utils';
+import Upload from '../helpers/multer';
 
 const router = Router();
 
@@ -29,6 +30,25 @@ router.delete(
   checkPermission('SELLER'),
   isValidCollection,
   productControllers.DeleteCollection
+);
+
+router.post(
+  '/collection/:cid',
+  Upload,
+  validate(addproductSchema),
+  isAuthenticated,
+  checkPermission('SELLER'),
+  isValidCollection,
+  productControllers.addproduct
+);
+
+router.patch(
+  '/update/:id',
+  Upload,
+  validate(addproductSchema),
+  isAuthenticated,
+  checkPermission('SELLER'),
+  productControllers.updateOnadd
 );
 
 export default router;

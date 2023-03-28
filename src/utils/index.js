@@ -12,6 +12,7 @@ import {
   PasswordSchema,
 } from './validationSchemas/authenticationSchemas';
 import CollectionNameSchema from './validationSchemas/collectionSchemas';
+import addproductSchema from './validationSchemas/productSchema';
 
 export {
   errorMessage,
@@ -25,4 +26,5 @@ export {
   SignUpSchema,
   CollectionNameSchema,
   PasswordSchema,
+  addproductSchema,
 };
