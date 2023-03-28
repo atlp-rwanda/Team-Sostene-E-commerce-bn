@@ -1,6 +1,6 @@
 import Jwt from 'jsonwebtoken';
 import passport from 'passport';
-import redisClient from '../helpers/redis';
+import redisClient from '../helpers/redis.js';
 
 const SignUp = async (req, res, next) => {
   passport.authenticate('signup', (err, user, info) => {
@@ -54,4 +54,14 @@ const Login = async (req, res, next) => {
   })(req, res, next);
 };
 
-export { Login, SignUp };
+const logout = async (req, res) => {
+  try {
+    await redisClient.del(req.user.id);
+    res.cookie('session_id', '', { maxAge: 1 });
+    res.status(200).json({ message: 'LOGED OUT' });
+  } catch (error) {
+    res.status(400).json({ error: 'user not found' });
+  }
+};
+
+export { SignUp, Login, logout };

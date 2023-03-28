@@ -6,6 +6,7 @@ import User from '../models/user.model.js';
 const { hash, compare } = bcrypt;
 passport.serializeUser(function (user, done) {
   console.log('serialized');
+  console.log(user);
   done(null, user);
 });
 passport.deserializeUser(function (user, done) {
