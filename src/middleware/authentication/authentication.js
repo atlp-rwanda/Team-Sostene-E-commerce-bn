@@ -8,7 +8,7 @@ const isAuthenticated = async (req, res, next) => {
   try {
     const header = req.headers.authorization;
     if (!header) {
-      sendResponse();
+      return sendResponse();
     }
     const token = header.split(' ')[1];
     const userInfo = decodeToken(token);
@@ -17,12 +17,12 @@ const isAuthenticated = async (req, res, next) => {
     if (redisToken === token) {
       const isVerified = decodeToken(redisToken);
       if (!isVerified) {
-        sendResponse();
+        return sendResponse();
       }
       req.user = isVerified;
       return next();
     }
-    sendResponse();
+    return sendResponse();
   } catch (error) {
     res
       .status(400)

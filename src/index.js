@@ -11,7 +11,7 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import userRoutes from './routes';
+import router from './routes';
 import options from './docs/apidoc.js';
 
 dotenv.config();
@@ -41,7 +41,7 @@ const specs = swaggerJSDoc(options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use('/users', userRoutes);
+app.use('/', router);
 
 app.get('/', (req, res) => {
   res.status(200).json('Hello World! ');

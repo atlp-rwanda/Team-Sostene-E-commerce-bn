@@ -6,7 +6,7 @@ import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
 import server from '../index.js';
-import User from '../database/models/user.model.js';
+import userServices from '../services/user.services';
 
 const { hash } = bcrypt;
 
@@ -22,11 +22,11 @@ describe('Testing Signup Route with errors', function () {
       username: 'testish111',
       password,
     };
-    await User.create(testUser);
+    await userServices.createUser(testUser);
   });
   after(async function () {
-    const user = await User.findOne({ where: { username: 'testish111' } });
-    await User.destroy({ where: { id: user.dataValues.id } });
+    const user = await userServices.getUserByUsername('testish111');
+    await userServices.deleteUser(user.id);
   });
   it('should not signup successfully if email already exists', async function () {
     // Create a user with a unique ID
@@ -66,10 +66,64 @@ describe('Testing Signup Route with errors', function () {
   });
 });
 
+describe('Testing Signup Route with wrong credentials format', function () {
+  it('should not sign up user because the email has a wrong format ', async function () {
+    // Create a user with a unique ID
+    const user = {
+      email: 'ishimwe999mail.com',
+      username: 'ishimwe999',
+      password: 'Qwert@12345',
+    };
+    // Log in as the user and get the session ID
+    const agent = chai.request.agent(server);
+    const response = await agent.post('/users/signup').send({
+      email: user.email,
+      username: user.username,
+      password: user.password,
+    });
+    // // Expect the response to have a status code of 201 and token
+    chai.expect(response).to.have.status(406);
+  });
+  it('should not sign up user because the username has a wrong format ', async function () {
+    // Create a user with a unique ID
+    const user = {
+      email: 'ishimwe999mail.com',
+      username: 'ish',
+      password: 'Qwert@12345',
+    };
+    // Log in as the user and get the session ID
+    const agent = chai.request.agent(server);
+    const response = await agent.post('/users/signup').send({
+      email: user.email,
+      username: user.username,
+      password: user.password,
+    });
+    // // Expect the response to have a status code of 201 and token
+    chai.expect(response).to.have.status(406);
+  });
+  it('should not sign up user because the password has a wrong format ', async function () {
+    // Create a user with a unique ID
+    const user = {
+      email: 'ishimwe999mail.com',
+      username: 'ishimwe999',
+      password: 'Qwertyazerty',
+    };
+    // Log in as the user and get the session ID
+    const agent = chai.request.agent(server);
+    const response = await agent.post('/users/signup').send({
+      email: user.email,
+      username: user.username,
+      password: user.password,
+    });
+    // // Expect the response to have a status code of 201 and token
+    chai.expect(response).to.have.status(406);
+  });
+});
+
 describe('Testing Signup Route successfully', function () {
   after(async function () {
-    const user = await User.findOne({ where: { username: 'ishimwe999' } });
-    await User.destroy({ where: { id: user.dataValues.id } });
+    const user = await userServices.getUserByUsername('ishimwe999');
+    await userServices.deleteUser(user.id);
   });
   it('should signup user successfully', async function () {
     // Create a user with a unique ID

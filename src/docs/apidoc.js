@@ -8,10 +8,11 @@ const options = {
     },
     servers: [
       {
-        url: `/`,
-        description: 'Api Server',
+        url: '/',
+        description: 'Api server',
       },
     ],
+    schemes: ['HTTP', 'HTTPS'],
     components: {
       securitySchemes: {
         bearerAuth: {

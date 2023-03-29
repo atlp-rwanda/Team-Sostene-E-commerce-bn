@@ -11,7 +11,7 @@
 1. Go to the project root directory
 2. Create an `.env` file for the variables
 3. Run `npm install`
-5. Run `npm start` to start the project
+4. Run `npm start` to start the project
 
 ## Dependencies
 - express
@@ -21,6 +21,9 @@
 - sequelize
 - babel
 - passport
+- passport-google-oauth20
+- passport-stub
+- cors
 - passport-local
 - bcrypt
 - redis
@@ -28,6 +31,9 @@
 
 ## DevDependencies
 - mocha
+- chai
+- chai-http
+- nyc
 - prettier
 - eslint
 - husky
@@ -61,9 +67,19 @@ POSTGRES_DIALECT = ''
 TEST_DATABASE_URL = ''
 DATABASE_URL = ''
 NODE_ENV = ''
-SSL = ''
-JWT_SECRET = ''
-REDIS_URL = ''
+PORT=''
+GOOGLE_CLIENT_ID=''
+GOOGLE_CLIENT_SECRET=''
+EXPRESS_SESSION_SECRET=''
+JWT_SECRET=''
+SWAGGER_URL='' 
+DEV_DATABASE_URL=''
+TEST_DATABASE_URL=''
+DATABASE_URL=''
+ENV=''
+SSL=''
+
+REDIS_URL= ''
 
 ```
 

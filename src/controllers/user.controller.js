@@ -1,6 +1,7 @@
 import passport from 'passport';
 import redisClient from '../helpers';
 import { generateToken } from '../utils';
+import userServices from '../services/user.services';
 
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {
@@ -55,6 +56,40 @@ const login = async (req, res, next) => {
   )(req, res, next);
 };
 
+const loginWithGoogle = async (req, res, next) => {
+  let user;
+  try {
+    user = await userServices.getUserByEmail(req.user.email);
+    if (!user) {
+      const data = {
+        username: req.user.email,
+        email: req.user.email,
+        password: 'null',
+      };
+      user = await userServices.createUser(data);
+    }
+    const body = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+
+    const token = generateToken(body);
+    redisClient.setEx(user.id, 86400, token);
+    req.user = user;
+    res
+      .status(200)
+      .header('authenticate', token)
+      .json({
+        Code: 200,
+        Message: `Logged In Successfully as ${req.user.username} .`,
+        token,
+      });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const logOut = async (req, res) => {
   try {
     await redisClient.del(req.user.id);
@@ -64,4 +99,4 @@ const logOut = async (req, res) => {
   }
 };
 
-export default { signUp, login, logOut };
+export default { signUp, login, loginWithGoogle, logOut };
