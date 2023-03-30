@@ -6,7 +6,8 @@ export default function validate(schema) {
 
     if (Validate.error) {
       res.status(406).send({
-        Error: Validate.error.message,
+        code: 406,
+        error: Validate.error.message,
       });
     } else {
       next();

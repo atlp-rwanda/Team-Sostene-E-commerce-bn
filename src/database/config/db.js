@@ -12,7 +12,7 @@ const db = config[env];
 let sequelize;
 if (process.env.SSL === 'true') {
   sequelize = new Sequelize(db.url, {
-    dialect: config.url,
+    dialect: process.env.DB_DIALECT,
     logging: false, // if you want logs
     dialectOptions: {
       ssl: process.env.SSL,
@@ -20,7 +20,7 @@ if (process.env.SSL === 'true') {
   });
 } else {
   sequelize = new Sequelize(db.url, {
-    dialect: config.url,
+    dialect: process.env.DB_DIALECT,
     logging: false, // if you want logs
   });
 }

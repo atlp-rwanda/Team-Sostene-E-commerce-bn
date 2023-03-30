@@ -15,7 +15,16 @@
     "test": "mocha --require @babel/register src/tests/**/*.js --recursive --exit --timeout 80000",
     "coverage": "nyc npm run test",
     "build": "npx babel src --out-dir build",
-    "prestart": "npm run build"
+    "prestart": "npm run build",
+    "make_model": "npx sequelize-cli model:generate --name",
+    "make_migration": "npx sequelize-cli migration:create --name",
+    "migrate": " npx sequelize-cli db:migrate",
+    "migrate_undo": " npx sequelize-cli db:migrate:undo",
+    "migrate_undo_all": "npx sequelize-cli db:migrate:undo:all",
+    "make_seed": " npx sequelize-cli seed:generate --name",
+    "seed": " npx sequelize-cli db:seed:all",
+    "seed_undo": " npx sequelize-cli db:seed:undo",
+    "seed_undo_all": " npx sequelize-cli db:seed:undo:all"
   },
   "author": "team-sostene",
   "license": "ISC",

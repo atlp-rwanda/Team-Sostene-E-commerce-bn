@@ -1,25 +1,22 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { logout } from '../../controllers/user.controller.js';
-import redisClient from '../../helpers/redis';
-import User from '../../models/user.model.js';
+import redisClient from '../helpers';
+import userServices from '../services';
+import userControllers from '../controllers';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Testing the logout of existing user', function () {
-  let data;
-
   it('should return a 200 status code', async function () {
-    data = await User.create({
-      email: 'ishimwe100@example.com',
-      username: 'ishimwe100',
-      password: 'password123',
-    });
-    await redisClient.set(data.id, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9');
-
+    const user = await userServices.getUserByEmail('testing@example.com');
+    await redisClient.setEx(
+      user.id,
+      3600,
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+    );
     const req = {
-      user: { id: data.id },
+      user: { id: user.id },
     };
     const res = {
       cookie: () => {},
@@ -31,8 +28,7 @@ describe('Testing the logout of existing user', function () {
         expect(responseBody).to.have.property('message');
       },
     };
-    await logout(req, res);
-    await data.destroy();
+    await userControllers.logOut(req, res);
   });
 });
 
@@ -50,6 +46,6 @@ describe('Testing the logout of unexisting user', function () {
         expect(responseBody).to.have.property('error');
       },
     };
-    await logout(req, res);
+    await userControllers.logOut(req, res);
   });
 });

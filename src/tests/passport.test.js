@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import User from '../../models/user.model';
+import User from '../database/models/user.model';
 
 describe('passport-local strategy', function () {
   before(function () {

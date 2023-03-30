@@ -1,37 +1,49 @@
-/* eslint-disable no-unused-vars */
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+/* eslint-disable import/no-extraneous-dependencies */
+import { v4 as uuidv4 } from 'uuid';
+import { DataTypes } from 'sequelize';
+
+const migration = {
+  async up(queryInterface) {
+    await queryInterface.createTable('users', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: uuidv4,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       username: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
+      },
+      role: {
+        type: DataTypes.ENUM('ADMIN', 'BUYER', 'SELLER'),
+        defaultValue: 'BUYER',
+      },
+      status: {
+        type: DataTypes.ENUM('INACTIVE', 'ACTIVE'),
+        defaultValue: 'ACTIVE',
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+  async down(queryInterface) {
+    await queryInterface.dropTable('users');
   },
 };
+
+export default migration;

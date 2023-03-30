@@ -1,67 +1,67 @@
-import Jwt from 'jsonwebtoken';
 import passport from 'passport';
-import redisClient from '../helpers/redis.js';
+import redisClient from '../helpers';
+import { generateToken } from '../utils';
 
-const SignUp = async (req, res, next) => {
-  passport.authenticate('signup', (err, user, info) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-
-    if (!user) {
-      return res.status(400).json({ error: info.message });
-    }
-
+const signUp = async (req, res, next) => {
+  passport.authenticate('signup', { session: false }, (err, user) => {
     req.login(user, (err) => {
       if (err) {
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ code: 500, error: err.message });
       }
-
       const body = {
         id: req.user.id,
         username: req.user.username,
         email: req.user.email,
       };
-      const token = Jwt.sign({ user: body }, process.env.JWT_SECRET);
-      res.cookie('session_id', req.user.id);
-      redisClient.set(body.id, token);
-      res.status(201).json({ token });
+      const token = generateToken(body);
+      redisClient.setEx(req.user.id, 86400, token);
+      res
+        .status(201)
+        .header('authenticate', token)
+        .json({ code: 201, message: 'Account Created', token });
     });
   })(req, res, next);
 };
 
-const Login = async (req, res, next) => {
-  passport.authenticate('login', async (err, user, info) => {
-    try {
-      if (err || !user) {
-        return res.status(406).json({ code: 406, message: info.message });
+const login = async (req, res, next) => {
+  passport.authenticate(
+    'login',
+    { session: false },
+    async (err, user, info) => {
+      try {
+        if (err || !user) {
+          return res.status(406).json({ code: 406, message: info.message });
+        }
+        const body = {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        };
+        const token = generateToken(body);
+        redisClient.setEx(user.id, 86400, token);
+        req.user = user;
+        res
+          .status(200)
+          .header('authenticate', token)
+          .json({
+            Code: 200,
+            Message: `Logged In Successfully as ${req.user.username} .`,
+            token,
+          });
+      } catch (error) {
+        return next(error);
       }
-      const body = {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-      };
-      const token = Jwt.sign({ user: body }, process.env.JWT_SECRET);
-      res.cookie('session_id', user.id);
-      redisClient.set(user.id, token);
-      req.user = user;
-      res.status(200).json({
-        Message: `Logged In Successfully as ${req.user.username} .`,
-      });
-    } catch (error) {
-      return next(error);
     }
-  })(req, res, next);
+  )(req, res, next);
 };
 
-const logout = async (req, res) => {
+const logOut = async (req, res) => {
   try {
     await redisClient.del(req.user.id);
-    res.cookie('session_id', '', { maxAge: 1 });
-    res.status(200).json({ message: 'LOGED OUT' });
+    res.status(200).json({ code: 200, message: 'Logged Out' });
   } catch (error) {
-    res.status(400).json({ error: 'user not found' });
+    res.status(400).json({ code: 400, error: 'User Not Found' });
   }
 };
 
-export { SignUp, Login, logout };
+export default { signUp, login, logOut };

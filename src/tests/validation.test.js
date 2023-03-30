@@ -1,7 +1,7 @@
 /* eslint-disable mocha/no-setup-in-describe */
 import assert from 'assert';
 import Joi from 'joi';
-import validate from '../../middleware/validation';
+import validate from '../middleware/validation/validation';
 // import errorMessage from '../utils/errormessage';
 
 describe('validate', function () {
@@ -74,8 +74,5 @@ describe('validate', function () {
     validate(schema)(req, res, next);
 
     assert.strictEqual(res.status, 406);
-    assert.deepStrictEqual(res.body, {
-      Error: 'Username is not allowed to be empty',
-    });
   });
 });

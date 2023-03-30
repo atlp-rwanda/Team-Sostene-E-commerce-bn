@@ -1,18 +1,16 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import bcrypt from 'bcrypt';
-import User from '../models/user.model.js';
+import { hashPassword, comparePassword } from '../utils/password.js';
+import userServices from '../services';
 
-const { hash, compare } = bcrypt;
 passport.serializeUser(function (user, done) {
-  console.log('serialized');
-  console.log(user);
   done(null, user);
 });
+
 passport.deserializeUser(function (user, done) {
-  console.log('deserialized');
   done(null, user);
 });
+
 passport.use(
   'signup',
   new LocalStrategy(
@@ -26,17 +24,12 @@ passport.use(
         const data = {
           email: email.trim(),
           username: req.body.username,
-          password: await hash(req.body.password, 10),
+          password: await hashPassword(password),
         };
-        const user = await User.create(data);
+        const user = await userServices.createUser(data);
         done(null, user.dataValues);
       } catch (error) {
-        if (error.name === 'SequelizeUniqueConstraintError') {
-          const field = error.fields.username ? 'username' : 'email';
-          done(null, false, { message: `${field} already exists.` });
-        } else {
-          done(error);
-        }
+        done(error);
       }
     }
   )
@@ -50,9 +43,9 @@ passport.use(
       passwordField: 'password',
     },
     async (email, password, done) => {
-      const user = await User.findOne({ where: { email } });
+      const user = await userServices.getUserByEmail(email);
       if (user) {
-        const passCheck = await compare(password, user.password);
+        const passCheck = await comparePassword(password, user.password);
         if (passCheck) {
           return done(null, user, { message: 'Logged In Successfully' });
         }

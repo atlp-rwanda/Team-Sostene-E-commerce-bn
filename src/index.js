@@ -8,9 +8,11 @@ import cors from 'cors';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import bodyParser from 'body-parser';
-import userRoutes from './routes/user.route.js';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import userRoutes from './routes';
 import options from './docs/apidoc.js';
-import sequelize from './database/config/db.js';
 
 dotenv.config();
 const app = express();
@@ -18,22 +20,31 @@ const app = express();
 app.use(morgan('tiny'));
 
 const { PORT } = process.env;
-sequelize.sync();
 
 app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const specs = swaggerJSDoc(options);
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-sequelize.sync();
+const specs = swaggerJSDoc(options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
-  res.status(200).json('Hello World!');
+  res.status(200).json('Hello World! ');
 });
 
 app.listen(PORT);

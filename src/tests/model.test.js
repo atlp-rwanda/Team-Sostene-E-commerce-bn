@@ -1,10 +1,10 @@
 import { Sequelize } from 'sequelize';
 
 import assert from 'assert';
-import db from '../../database/config/db';
+import db from '../database/config/db';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../../database/config/config.js`)[env]; //eslint-disable-line
+const config = require(`${__dirname}/../database/config/config.js`)[env]; //eslint-disable-line
 
 // Define the table schema
 // eslint-disable-next-line no-unused-vars
