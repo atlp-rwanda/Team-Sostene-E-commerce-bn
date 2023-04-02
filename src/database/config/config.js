@@ -1,19 +1,30 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-const { DEV_DATABASE_URL, TEST_DATABASE_URL, DATABASE_URL } = process.env;
+const { DEV_DATABASE_URL, DATABASE_URL, TEST_DATABASE_URL, SSL } = process.env;
 
-export default {
+let ssl = false;
+if (SSL === 'true') {
+  ssl = true;
+}
+
+module.exports = {
   development: {
     url: DEV_DATABASE_URL,
-    dialect: 'postgres',
+    dialectOptions: {
+      ssl,
+    },
   },
   test: {
     url: TEST_DATABASE_URL,
-    dialect: 'postgres',
+    dialectOptions: {
+      ssl,
+    },
   },
   production: {
     url: DATABASE_URL,
-    dialect: 'postgres',
+    dialectOptions: {
+      ssl,
+    },
   },
 };

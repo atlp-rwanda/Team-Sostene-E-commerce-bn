@@ -3,10 +3,7 @@ import { createClient } from 'redis';
 
 dotenv.config();
 
-const redisClient = createClient({
-  url: process.env.REDIS_URL,
-  maxRetriesPerRequest: 5,
-});
+const redisClient = createClient({ url: process.env.REDIS_URL });
 
 redisClient.connect();
 

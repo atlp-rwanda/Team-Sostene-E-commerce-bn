@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import sequelize from '../database/config/db';
+import sequelize from '../config/db';
 
 const User = sequelize.define('users', {
   id: {
@@ -21,6 +21,14 @@ const User = sequelize.define('users', {
   password: {
     type: Sequelize.STRING,
     allowNull: false,
+  },
+  role: {
+    type: DataTypes.ENUM('ADMIN', 'BUYER', 'SELLER'),
+    defaultValue: 'BUYER',
+  },
+  status: {
+    type: DataTypes.ENUM('INACTIVE', 'ACTIVE'),
+    defaultValue: 'ACTIVE',
   },
 });
 

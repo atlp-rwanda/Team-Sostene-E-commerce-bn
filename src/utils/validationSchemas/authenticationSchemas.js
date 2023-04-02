@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import errorMessage from '../utils/errormessage.js';
+import errorMessage from '../errormessage.js';
 
 const LoginSchema = Joi.object().keys({
   email: Joi.string().email().required().messages(errorMessage('Email')),

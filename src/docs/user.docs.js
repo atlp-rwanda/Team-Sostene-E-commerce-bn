@@ -113,6 +113,8 @@
  *    tags:
  *      - Authentication
  *    summary: A protected route requiring login or signup
+ *    security:
+ *      - bearerAuth: []
  *    description: LogIn or SignUp to access this route
  *    responses:
  *      '200':
@@ -138,6 +140,8 @@
  * /users/logout:
  *  post:
  *      summary: Logout
+ *      security:
+ *        - bearerAuth: []
  *      description: This API logs the user out
  *      tags: [Authentication]
  *      responses:
