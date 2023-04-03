@@ -20,4 +20,14 @@ async function createUser(details) {
   return user;
 }
 
-export default { getUserByEmail, getUserById, getUserByUsername, createUser };
+async function deleteUser(id) {
+  return User.destroy({ where: { id } });
+}
+
+export default {
+  getUserByEmail,
+  getUserById,
+  getUserByUsername,
+  createUser,
+  deleteUser,
+};

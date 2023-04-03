@@ -29,7 +29,7 @@ jobs:
           command: npx coveralls < coverage/lcov.info
       - run:
           name: Undo Seeds
-          command: npm run seed_undo  -- --env test
+          command: npm run seed_undo_all  -- --env test
 workflows:
   build_tests:
     jobs:

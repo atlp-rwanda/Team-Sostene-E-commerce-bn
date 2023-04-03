@@ -138,7 +138,7 @@
 /**
  * @swagger
  * /users/logout:
- *  post:
+ *  get:
  *      summary: Logout
  *      security:
  *        - bearerAuth: []
@@ -149,4 +149,16 @@
  *              description: GET json Message
  *          400:
  *              description: bad request
+ */
+
+/**
+ * @swagger
+ * /users/login/google:
+ *  get:
+ *      summary: Login with google
+ *      description: Provides a link that initialize the google login authentication
+ *      tags: [Authentication]
+ *      responses:
+ *          200:
+ *              description: Success
  */
