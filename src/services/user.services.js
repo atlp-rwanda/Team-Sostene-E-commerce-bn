@@ -43,6 +43,16 @@ async function UpdatePassword(email, pass) {
 async function deleteUser(id) {
   return User.destroy({ where: { id } });
 }
+async function disableOtp(id) {
+  const findData = await User.findByPk(id);
+  findData.tfa_enabled = false;
+  await findData.save();
+}
+async function enableOtp(id) {
+  const findData = await User.findByPk(id);
+  findData.tfa_enabled = true;
+  await findData.save();
+}
 
 export default {
   getUserByEmail,
@@ -52,4 +62,6 @@ export default {
   deleteUser,
   getUserById,
   UpdatePassword,
+  disableOtp,
+  enableOtp,
 };

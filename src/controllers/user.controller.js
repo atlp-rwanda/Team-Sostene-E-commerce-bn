@@ -4,13 +4,16 @@ import {
   ForgortPasswordTemplate,
   sendEmailReset,
   configEmail,
+  asyncWrapper,
 } from '../helpers';
 import {
   generateToken,
   generateForgetPasswordToken,
   decodeResetPasswordToken,
+  decodeToken,
 } from '../utils';
 import { userServices } from '../services';
+import twoFactorAuth from '../services/twofactor.service';
 
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {
@@ -33,26 +36,29 @@ const signUp = async (req, res, next) => {
     });
   })(req, res, next);
 };
-
 const login = async (req, res, next) => {
   passport.authenticate(
     'login',
     { session: false },
+
     async (err, user, info) => {
       try {
         if (err || !user) {
           return res.status(406).json({ code: 406, message: info.message });
         }
-        const body = {
+        const data = {
           id: user.id,
           username: user.username,
           email: user.email,
           role: user.role,
         };
-        const token = generateToken(body);
+        if (user.role === 'SELLER' && user.tfa_enabled === true) {
+          return twoFactorAuth(res, user);
+        }
+        const token = generateToken(data);
         redisClient.setEx(user.id, 86400, token);
         req.user = user;
-        res
+        return res
           .status(200)
           .header('authenticate', token)
           .json({
@@ -66,6 +72,26 @@ const login = async (req, res, next) => {
     }
   )(req, res, next);
 };
+const verifyOTP = asyncWrapper(async (req, res) => {
+  const { verificationCode } = req.body;
+  const { email } = req.params;
+  const result = await redisClient.get(email, async (err, data) => data);
+  const redisOTP = result.split('=')[0];
+  const redisToken = result.split('=')[1];
+  if (redisOTP === verificationCode) {
+    const user = decodeToken(redisToken);
+    await redisClient.setEx(user.id, 86400, redisToken);
+    req.user = user;
+    res
+      .status(200)
+      .header('authenticate', redisToken)
+      .json({
+        code: 200,
+        message: `Logged In Successfully as ${req.user.username} .`,
+        token: redisToken,
+      });
+  }
+});
 
 const loginWithGoogle = async (req, res, next) => {
   let user;
@@ -191,4 +217,5 @@ export default {
   loginWithGoogle,
   logOut,
   disableUserAccount,
+  verifyOTP,
 };
