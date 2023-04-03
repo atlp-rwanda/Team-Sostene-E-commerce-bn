@@ -21,7 +21,7 @@ userRouter.use(passport.session());
 
 userRouter.get('/users/login/google', (req, res) => {
   res
-    .status(304)
+    .status(200)
     .send(
       `<a href="${process.env.PRODUCTION_URL}/auth/google/"/>Login with Google</a>`
     );

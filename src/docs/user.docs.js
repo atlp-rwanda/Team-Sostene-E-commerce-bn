@@ -138,7 +138,7 @@
 /**
  * @swagger
  * /users/logout:
- *  get:
+ *  post:
  *      summary: Logout
  *      security:
  *        - bearerAuth: []

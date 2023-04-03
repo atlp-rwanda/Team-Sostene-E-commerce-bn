@@ -13,6 +13,7 @@ const signUp = async (req, res, next) => {
         id: req.user.id,
         username: req.user.username,
         email: req.user.email,
+        role: user.role,
       };
       const token = generateToken(body);
       redisClient.setEx(req.user.id, 86400, token);
@@ -37,6 +38,7 @@ const login = async (req, res, next) => {
           id: user.id,
           username: user.username,
           email: user.email,
+          role: user.role,
         };
         const token = generateToken(body);
         redisClient.setEx(user.id, 86400, token);

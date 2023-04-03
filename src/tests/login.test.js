@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser';
 import Sinon from 'sinon';
 import server from '../index.js';
 import userControllers from '../controllers';
-// import isAuthenticated from '../middleware/authentication/authentication.js';
 
 chai.should();
 chai.use(chaiHttp);
