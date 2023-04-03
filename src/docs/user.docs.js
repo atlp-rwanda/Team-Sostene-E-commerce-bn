@@ -162,3 +162,33 @@
  *          200:
  *              description: Success
  */
+
+/**
+ * @swagger
+ * /users/disable/{id}:
+ *  patch:
+ *    tags:
+ *      - Authentication
+ *    summary: Disables a User
+ *    security:
+ *      - bearerAuth: []
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The user id
+ *    description: User Can Disable his account
+ *    responses:
+ *      '200':
+ *        description: Disabled
+ *      '406':
+ *        description: Unacceptable
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'successful'
+ */

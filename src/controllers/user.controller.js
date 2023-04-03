@@ -75,7 +75,6 @@ const loginWithGoogle = async (req, res, next) => {
       username: user.username,
       email: user.email,
     };
-
     const token = generateToken(body);
     redisClient.setEx(user.id, 86400, token);
     req.user = user;
@@ -101,4 +100,32 @@ const logOut = async (req, res) => {
   }
 };
 
-export default { signUp, login, loginWithGoogle, logOut };
+const disableUserAccount = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const currentUser = await userServices.getUserById(userId);
+
+    if (!currentUser) {
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        message: 'User not found',
+      });
+    }
+    const user = await userServices.disableAccount(userId);
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'User Account Disabled',
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      success: false,
+      error: 'Internal Server Error',
+      message: error.message,
+    });
+  }
+};
+export default { signUp, login, loginWithGoogle, logOut, disableUserAccount };

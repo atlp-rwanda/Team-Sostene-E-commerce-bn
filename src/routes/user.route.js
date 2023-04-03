@@ -8,6 +8,7 @@ import {
   userEmailExists,
   userUsernameExists,
   validate,
+  checkPermission,
 } from '../middleware';
 
 const router = Router();
@@ -29,5 +30,12 @@ router.get('/protected-route', isAuthenticated, (req, res) => {
 
 router.post('/login', validate(LoginSchema), userControllers.login);
 router.post('/logout', isAuthenticated, userControllers.logOut);
+
+router.patch(
+  '/disable/:id',
+  isAuthenticated,
+  checkPermission('ADMIN'),
+  userControllers.disableUserAccount
+);
 
 export default router;
