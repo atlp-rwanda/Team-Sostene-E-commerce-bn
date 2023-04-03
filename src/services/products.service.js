@@ -3,6 +3,7 @@ import Products from '../database/models/products.model';
 import Images from '../database/models/images.model';
 import Cloudinary from '../helpers/cloudinary';
 import Collection from '../database/models/collection.model';
+import { Op } from 'sequelize';
 
 async function createProduct(body) {
   const data = await Products.create(body);
@@ -52,6 +53,31 @@ async function getProductByIdAndUser(id, user) {
   return { product };
 }
 
+async function searchproduct(query) {
+  if (!query.minPrice) {
+    query.minPrice = 0;
+  }
+  if (!query.maxPrice) {
+    query.maxPrice = Infinity;
+  }
+  if (query.minPrice > query.maxPrice) {
+    query.minPrice = null;
+  }
+  if (!query.key) {
+    query.key = '';
+  }
+  const product = await Products.findAll({
+    where: {
+      [Op.or]: [
+        { name: { [Op.iLike]: `%${query.key}%` } },
+        { category: { [Op.iLike]: `%${query.key}%` } },
+      ],
+      price: { [Op.between]: [query.minPrice, query.maxPrice] },
+    },
+  });
+  return product;
+}
+
 export default {
   createProduct,
   addUpdate,
@@ -60,4 +86,5 @@ export default {
   getProductByIdAndUser,
   deleteImage,
   AddImage,
+  searchproduct,
 };

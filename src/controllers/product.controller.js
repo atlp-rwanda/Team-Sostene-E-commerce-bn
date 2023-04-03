@@ -223,6 +223,19 @@ const updateOnadd = asyncWrapper(async (req, res) => {
   }
 });
 
+const searchProducts = async (req, res) => {
+  try {
+    const products = await productsServices.searchproduct(req.query);
+    return res.status(200).json({
+      code: 200,
+      message: 'search list',
+      products,
+    });
+  } catch (error) {
+    return res.status(500).json({ code: 500, message: error.message, error });
+  }
+};
+
 export default {
   CreateCollection,
   DeleteCollection,
@@ -230,4 +243,5 @@ export default {
   deleteProduct,
   addproduct,
   updateOnadd,
+  searchProducts,
 };

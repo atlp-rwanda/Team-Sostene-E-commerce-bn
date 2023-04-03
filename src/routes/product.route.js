@@ -17,6 +17,8 @@ const router = Router();
 
 router.use(cookieParser());
 
+router.get('/search', productControllers.searchProducts);
+
 router.get(
   '/:pid',
   validateParams(uuidSchemas.getProductSchema),
