@@ -5,6 +5,7 @@ import {
   LoginSchema,
   SignUpSchema,
 } from './validationSchemas/authenticationSchemas';
+import CollectionNameSchema from './validationSchemas/collectionSchemas';
 
 export {
   errorMessage,
@@ -14,4 +15,5 @@ export {
   decodeToken,
   LoginSchema,
   SignUpSchema,
+  CollectionNameSchema,
 };

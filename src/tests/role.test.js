@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import userServices from '../services';
+import { userServices } from '../services';
 import app from '../index.js';
 
 chai.should();
@@ -50,6 +50,15 @@ describe('Testing user roles and permissions', function () {
         res.should.have.status(200);
         res.body.should.be.a('object');
         const { token } = res.body;
+        chai
+          .request(app)
+          .patch(`/users/${user.id}/role`)
+          .send({ role: 'SELLR' })
+          .set({ Authorization: `Bearer ${token}` })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a('object');
+          });
         chai
           .request(app)
           .patch(`/users/${user.id}/role`)

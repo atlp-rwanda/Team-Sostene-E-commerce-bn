@@ -25,4 +25,8 @@ const SignUpSchema = Joi.object().keys({
     .messages(errorMessage('Password')), // password has both numbers and letters and is btn 6 and 30
 });
 
-export { LoginSchema, SignUpSchema };
+const CollectionNameSchema = Joi.object().keys({
+  name: Joi.string().required().messages(errorMessage('Collection Name')),
+});
+
+export { LoginSchema, SignUpSchema, CollectionNameSchema };

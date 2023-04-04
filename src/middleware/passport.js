@@ -2,7 +2,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { hashPassword, comparePassword } from '../utils/password.js';
-import userServices from '../services';
+import { userServices } from '../services';
 
 passport.serializeUser(function (user, done) {
   done(null, user);
