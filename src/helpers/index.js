@@ -1,3 +1,6 @@
 import redisClient from './redis';
+import ForgortPasswordTemplate from './TemplateMail';
+import sendEmailReset from './mailer';
+import configEmail from './configEmail';
 
-export default redisClient;
+export { redisClient, ForgortPasswordTemplate, sendEmailReset, configEmail };

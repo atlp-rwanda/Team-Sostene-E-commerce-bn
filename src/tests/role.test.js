@@ -41,7 +41,7 @@ describe('Testing user roles and permissions', function () {
           });
       });
   });
-  it('should change role of users since the user is Admin', function (done) {
+  it('should  change role of users since the user is Admin', function (done) {
     chai
       .request(app)
       .post('/users/login')

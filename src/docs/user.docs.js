@@ -79,6 +79,69 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/errormessage'
+ * /users/forgotPassword:
+ *   post:
+ *     summary: Forget password
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *             example:
+ *               email: "mirindisaidi19@gmail.com"
+ *     responses:
+ *       200:
+ *         description: Message  sent successfully!.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                  type: integer
+ *                 message:
+ *                  type: string
+ *                 data:
+ *                  type: object
+ *       500:
+ *         description: Some server error
+ * /users/reset-password/{token}:
+ *   put:
+ *     summary: reset password
+ *     tags: [Authentication]
+ *     parameters :
+ *       - in: path
+ *         name: token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *             example:
+ *               password: "M@8898mtn"
+ *     responses:
+ *       200:
+ *         description: Reset successfully!.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                  type: integer
+ *                 message:
+ *                  type: string
+ *       500:
+ *         description: Some server error
  */
 
 /**

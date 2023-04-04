@@ -29,4 +29,12 @@ const CollectionNameSchema = Joi.object().keys({
   name: Joi.string().required().messages(errorMessage('Collection Name')),
 });
 
-export { LoginSchema, SignUpSchema, CollectionNameSchema };
+const PasswordSchema = Joi.object().keys({
+  password: Joi.string()
+    .pattern(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0123456789])(?=.*[@$!%*?&])[A-Za-z0123456789@$!%*?&]{8,}$/
+    )
+    .messages(errorMessage('Password')), // password has both numbers and letters and is btn 6 and 30
+});
+
+export { LoginSchema, SignUpSchema, PasswordSchema, CollectionNameSchema };

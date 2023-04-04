@@ -1,12 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import redisClient from '../helpers';
+import { redisClient } from '../helpers';
 import { userServices } from '../services';
 import { userControllers } from '../controllers';
 
 const { expect } = chai;
 chai.use(chaiHttp);
-
 describe('Testing the logout of existing user', function () {
   it('should return a 200 status code', async function () {
     const user = await userServices.getUserByEmail('testing@example.com');

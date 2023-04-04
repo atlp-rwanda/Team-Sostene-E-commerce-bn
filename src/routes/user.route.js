@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import dotenv from 'dotenv';
 import '../middleware/passport';
-import { LoginSchema, SignUpSchema } from '../utils';
 import { userControllers } from '../controllers';
+import checkUser from '../middleware/checkUser';
+import { LoginSchema, SignUpSchema, PasswordSchema } from '../utils';
 import {
   isAuthenticated,
   userEmailExists,
@@ -12,8 +12,6 @@ import {
 } from '../middleware';
 
 const router = Router();
-dotenv.config();
-
 router.post(
   '/signup',
   validate(SignUpSchema),
@@ -21,13 +19,11 @@ router.post(
   userUsernameExists,
   userControllers.signUp
 );
-
 router.get('/protected-route', isAuthenticated, (req, res) => {
   res
     .status(200)
     .json({ code: 200, message: `Logged In as ${req.user.email}` });
 });
-
 router.post('/login', validate(LoginSchema), userControllers.login);
 router.post('/logout', isAuthenticated, userControllers.logOut);
 
@@ -38,4 +34,13 @@ router.patch(
   userControllers.disableUserAccount
 );
 
+router.post('/forgotPassword', checkUser, userControllers.forgotPassword);
+router.put(
+  '/reset-password/:token',
+  validate(PasswordSchema),
+  userControllers.resetPassword
+);
+router.get('/', (req, res) => {
+  res.status(200).json('Hello users!');
+});
 export default router;
