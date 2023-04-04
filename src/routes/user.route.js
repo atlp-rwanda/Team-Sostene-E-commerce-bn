@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import dotenv from 'dotenv';
 import '../middleware/passport';
-import { LoginSchema, SignUpSchema } from '../utils';
+import { LoginSchema, SignUpSchema, UserDetailsSchema } from '../utils';
 import userControllers from '../controllers';
+import userDetails from '../controllers/userDetails';
 import {
   isAuthenticated,
   userEmailExists,
@@ -29,5 +30,11 @@ router.get('/protected-route', isAuthenticated, (req, res) => {
 
 router.post('/login', validate(LoginSchema), userControllers.login);
 router.post('/logout', isAuthenticated, userControllers.logOut);
+router.post(
+  '/settings/:id',
+  isAuthenticated,
+  validate(UserDetailsSchema),
+  userDetails
+);
 
 export default router;

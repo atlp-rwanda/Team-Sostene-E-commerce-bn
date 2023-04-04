@@ -47,8 +47,43 @@
  *         message:
  *           type: string
  *           description: message of error response
+ *     UserDetails:
+ *       type: object
+ *       properties:
+ *         tel:
+ *           type: string
+ *           description: The telephone number of the user.
+ *         accNo:
+ *           type: string
+ *           description: The account number of the user.
+ *         currency:
+ *           type: string
+ *           description: The preferred currency of the user.
+ *         lang:
+ *           type: string
+ *           description: The preferred language of the user.
+ *         dob:
+ *           type: string
+ *           format: date
+ *           description: The date of birth of the user.
+ *         gender:
+ *           type: string
+ *           description: The gender of the user.
+ *         placeOfLiving:
+ *           type: string
+ *           description: The place of living of the user.
+ *         userId:
+ *           type: integer
+ *           description: The ID of the user.
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the user details were created.
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the user details were last updated.
  */
-
 /**
  * @swagger
  * tags:
@@ -161,4 +196,83 @@
  *      responses:
  *          200:
  *              description: Success
+ */
+/**
+ * @swagger
+ * /users/settings/:id:
+ *   post:
+ *     summary: Update/add user details
+ *     description: Update user details with additional information
+ *     tags:
+ *       - User
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               gender:
+ *                 type: string
+ *               currency:
+ *                 type: string
+ *               lang:
+ *                 type: string
+ *               dob:
+ *                 type: string
+ *                 format: date
+ *               placeOfLiving:
+ *                 type: string
+ *               tel:
+ *                 type: string
+ *               accNo:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Successfully updated
+ *                 info:
+ *                   $ref: '#/components/schemas/UserDetails'
+ *       400:
+ *         description: Invalid input
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Invalid input
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Error, update failed
+ *                 error:
+ *                   type: string
+ *                   example: Unexpected token u in JSON at position 0
  */

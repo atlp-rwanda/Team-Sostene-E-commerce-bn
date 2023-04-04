@@ -4,6 +4,7 @@ import { generateToken, decodeToken } from './token';
 import {
   LoginSchema,
   SignUpSchema,
+  UserDetailsSchema,
 } from './validationSchemas/authenticationSchemas';
 
 export {
@@ -14,4 +15,5 @@ export {
   decodeToken,
   LoginSchema,
   SignUpSchema,
+  UserDetailsSchema,
 };

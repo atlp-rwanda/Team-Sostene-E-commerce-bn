@@ -24,5 +24,16 @@ const SignUpSchema = Joi.object().keys({
     )
     .messages(errorMessage('Password')), // password has both numbers and letters and is btn 6 and 30
 });
+const UserDetailsSchema = Joi.object().keys({
+  gender: Joi.string().min(3).max(10).messages(errorMessage('Gender')),
+  dob: Joi.date().messages(errorMessage('Date')),
+  currency: Joi.string(),
+  lang: Joi.string().max(255).messages(errorMessage('Prefered Language')),
+  tel: Joi.string().messages(errorMessage('Telephone Number')),
+  accNo: Joi.string().max(20).messages(errorMessage('Account Number')),
+  placeOfLiving: Joi.string()
+    .max(255)
+    .messages(errorMessage('Place Of Living')),
+});
 
-export { LoginSchema, SignUpSchema };
+export { LoginSchema, SignUpSchema, UserDetailsSchema };
