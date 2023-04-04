@@ -6,7 +6,7 @@ import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
 import server from '../index.js';
-import userServices from '../services/user.services';
+import { userServices } from '../services';
 
 const { hash } = bcrypt;
 

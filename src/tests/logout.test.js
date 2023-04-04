@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import redisClient from '../helpers';
-import userServices from '../services';
+import { userServices } from '../services';
 import userControllers from '../controllers';
 
 const { expect } = chai;

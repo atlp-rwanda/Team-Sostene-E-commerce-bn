@@ -1,6 +1,7 @@
 /* eslint-disable valid-jsdoc */
 /* eslint-disable import/no-extraneous-dependencies */
-import userServices from '../../services/index.js';
+import { v4 as uuidv4 } from 'uuid';
+import { userServices } from '../../services';
 
 /** @type {import('sequelize-cli').Migration} */
 export async function up(queryInterface) {
@@ -8,7 +9,7 @@ export async function up(queryInterface) {
   if (user) {
     await queryInterface.bulkInsert('user_details', [
       {
-        id: 1,
+        id: uuidv4(),
         userId: user.dataValues.id,
         gender: 'Male',
         dob: '2000-02-02',

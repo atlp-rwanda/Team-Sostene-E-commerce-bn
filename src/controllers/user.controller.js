@@ -1,7 +1,7 @@
 import passport from 'passport';
 import redisClient from '../helpers';
 import { generateToken } from '../utils';
-import userServices from '../services/user.services';
+import { userServices } from '../services';
 
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {

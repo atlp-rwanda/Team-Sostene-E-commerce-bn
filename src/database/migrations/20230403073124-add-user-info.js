@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize';
+import { v4 as uuidv4 } from 'uuid';
 
 /** @type {import('sequelize-cli').Migration} */
 
@@ -6,16 +7,15 @@ const migration = {
   async up(queryInterface) {
     await queryInterface.createTable('user_details', {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: uuidv4,
+        primaryKey: true,
         allowNull: false,
-        unique: true,
-        autoIncrement: true,
       },
       userId: {
         type: DataTypes.UUID,
         allowNull: false,
         unique: true,
-        primaryKey: true,
         references: {
           model: 'users',
           key: 'id',

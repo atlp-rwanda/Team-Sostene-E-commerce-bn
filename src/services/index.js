@@ -1,3 +1,4 @@
 import userServices from './user.services';
+import userProfileServices from './userDetails.services';
 
-export default userServices;
+export { userServices, userProfileServices };

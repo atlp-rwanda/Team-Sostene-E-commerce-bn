@@ -3,16 +3,16 @@ import sequelize from '../config/db';
 
 const UserDetailsModel = sequelize.define('user_details', {
   id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
     unique: true,
-    autoIncrement: true,
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
   },
   userId: {
     type: DataTypes.UUID,
     allowNull: false,
     unique: true,
-    primaryKey: true,
     references: {
       model: 'users',
       key: 'id',
