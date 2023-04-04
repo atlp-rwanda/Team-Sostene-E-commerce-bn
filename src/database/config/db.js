@@ -15,6 +15,7 @@ if (process.env.SSL === 'true') {
     dialect: process.env.DB_DIALECT,
     logging: false, // if you want logs
     dialectOptions: {
+      connectTimeout: 80000, // set to 60 seconds
       ssl: process.env.SSL,
     },
   });

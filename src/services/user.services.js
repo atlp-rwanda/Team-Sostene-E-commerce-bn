@@ -19,6 +19,20 @@ async function createUser(details) {
   const user = await User.create(details);
   return user;
 }
+async function disableAccount(id) {
+  const user = await User.update(
+    {
+      status: 'INACTIVE',
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+
+  return user;
+}
 
 async function deleteUser(id) {
   return User.destroy({ where: { id } });
@@ -29,5 +43,6 @@ export default {
   getUserById,
   getUserByUsername,
   createUser,
+  disableAccount,
   deleteUser,
 };
