@@ -18,5 +18,4 @@ export {
   SignUpSchema,
   UserDetailsSchema,
   CollectionNameSchema,
-
 };
