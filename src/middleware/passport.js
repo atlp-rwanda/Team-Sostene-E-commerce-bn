@@ -48,7 +48,9 @@ passport.use(
       if (user) {
         const passCheck = await comparePassword(password, user.password);
         if (passCheck) {
-          return done(null, user, { message: 'Logged In Successfully' });
+          return done(null, user.dataValues, {
+            message: 'Logged In Successfully',
+          });
         }
         return done(null, false, { message: 'Password is incorrect' });
       }

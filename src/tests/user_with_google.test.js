@@ -94,7 +94,7 @@ describe('Google Login API', function () {
       .request(app)
       .get('/users/login/google')
       .end((err, res) => {
-        expect(res).to.have.status(304);
+        expect(res).to.have.status(200);
         done();
       });
   });
