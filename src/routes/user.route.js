@@ -9,6 +9,7 @@ import {
   userEmailExists,
   userUsernameExists,
   validate,
+  checkPermission,
 } from '../middleware';
 
 const router = Router();
@@ -35,6 +36,13 @@ router.post(
   isAuthenticated,
   validate(UserDetailsSchema),
   userDetails
+);
+
+router.patch(
+  '/disable/:id',
+  isAuthenticated,
+  checkPermission('ADMIN'),
+  userControllers.disableUserAccount
 );
 
 export default router;

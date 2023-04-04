@@ -5,5 +5,12 @@ import {
 } from './authentication/userExists';
 
 import validate from './validation/validation';
+import checkPermission from './checkPermission.middleware';
 
-export { isAuthenticated, userEmailExists, userUsernameExists, validate };
+export {
+  isAuthenticated,
+  userEmailExists,
+  userUsernameExists,
+  validate,
+  checkPermission,
+};
