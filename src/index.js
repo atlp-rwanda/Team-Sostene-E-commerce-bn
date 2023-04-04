@@ -13,6 +13,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import options from './docs/apidoc.js';
 import router from './routes';
+import { errorHandler } from './middleware';
 
 dotenv.config();
 const app = express();
@@ -45,6 +46,9 @@ app.use('/', router);
 app.get('/', (req, res) => {
   res.status(200).json('Hello World! ');
 });
+
+app.use(errorHandler);
+
 app.listen(PORT);
 
 export default app;

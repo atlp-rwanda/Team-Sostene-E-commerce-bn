@@ -1,4 +1,6 @@
 import Collection from '../database/models/collection.model';
+import Images from '../database/models/images.model';
+import Products from '../database/models/products.model';
 
 async function getCollectionByName(name) {
   const user = await Collection.findOne({ where: { name } });
@@ -10,19 +12,43 @@ async function getCollectionByIdAndUserId(id, userId) {
   return user;
 }
 
+async function getProduct(pid) {
+  const products = await Products.findOne({
+    where: { id: pid },
+    include: {
+      model: Images,
+      as: 'productImages',
+    },
+  });
+  if (!products) {
+    return [];
+  }
+  return products;
+}
+
 async function createCollection(collectionObj) {
   const collection = Collection.create(collectionObj);
   return collection;
 }
 
 async function deleteCollection(collectionId) {
-  const collection = Collection.destroy({ where: { id: collectionId } });
+  await Products.destroy({ where: { collectionId } });
+  const collection = await Collection.destroy({ where: { id: collectionId } });
   return collection;
+}
+
+async function deleteFromCollection(collectionId, productId) {
+  const deletedProduct = await Products.destroy({
+    where: { id: productId, collectionId },
+  });
+  return deletedProduct;
 }
 
 export default {
   createCollection,
   getCollectionByName,
+  getProduct,
   getCollectionByIdAndUserId,
   deleteCollection,
+  deleteFromCollection,
 };

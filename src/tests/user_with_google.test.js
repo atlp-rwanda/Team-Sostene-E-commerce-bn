@@ -8,6 +8,7 @@ import { userControllers } from '../controllers';
 import { generateToken } from '../utils/token.js';
 import redisClient from '../helpers/redis.js';
 import { isAuthenticated } from '../middleware/index.js';
+import User from '../database/models/user.model.js';
 
 dotenv.config();
 
@@ -82,12 +83,17 @@ describe('Testing isauthenticated middleware ', function () {
 });
 
 describe('Google Login API', function () {
+  const userNotRegistered = {
+    displayName: 'John Down',
+    email: 'johndown@example.com',
+  };
   before(function () {
     passportStub.install(app);
   });
 
-  after(function () {
+  after(async function () {
     passportStub.uninstall(app);
+    await User.destroy({ where: { email: 'johndown@example.com' } });
   });
 
   it('should display the login with google link', function (done) {
@@ -111,6 +117,22 @@ describe('Google Login API', function () {
         );
         done();
       });
+  });
+
+  it('should save the user and return a token if user not registered', async function () {
+    const req = {
+      user: userNotRegistered,
+    };
+
+    const res = {
+      cookie: () => {},
+      status: async (response) => {
+        expect(response).to.have.property('statusCode').to.equal(200);
+      },
+    };
+    const next = () => {};
+
+    await userControllers.loginWithGoogle(req, res, next);
   });
 
   it('should redirect to login with google page after failed authentication', function (done) {

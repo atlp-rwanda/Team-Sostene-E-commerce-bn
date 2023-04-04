@@ -3,7 +3,6 @@ import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
 import server from '../index.js';
 import userServices from '../services/user.services';
-import userController from '../controllers/user.controller.js';
 import { hashPassword } from '../utils/password.js';
 
 chai.should();

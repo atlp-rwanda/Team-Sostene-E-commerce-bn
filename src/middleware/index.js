@@ -8,8 +8,9 @@ import {
   isCollectionExists,
   isValidCollection,
 } from './product/collectionExists';
-
 import checkPermission from './checkPermission.middleware';
+import errorHandler from './errorhandler.middleware';
+import validateParams from './validation/paramValidation';
 
 export {
   isAuthenticated,
@@ -19,4 +20,6 @@ export {
   isCollectionExists,
   isValidCollection,
   checkPermission,
+  errorHandler,
+  validateParams,
 };

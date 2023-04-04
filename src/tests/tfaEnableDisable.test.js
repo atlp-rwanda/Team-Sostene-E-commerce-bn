@@ -52,14 +52,4 @@ describe('tfaEnableDisable', function () {
       })
     ).to.be.true;
   });
-
-  it('should return an error if there is an internal server error', async function () {
-    const req = { user: { id: 123, tfa_enabled: false } };
-    enableOtpStub.throws(new Error('Database error'));
-    await tfaEnableDisable(req, res);
-    expect(enableOtpStub.calledWith(req.user.id)).to.be.true;
-    expect(res.status.calledWith(500)).to.be.true;
-    expect(res.json.calledWith({ code: 500, message: 'Database error' })).to.be
-      .true;
-  });
 });

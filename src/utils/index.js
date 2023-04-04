@@ -16,6 +16,7 @@ import {
 } from './validationSchemas/authenticationSchemas';
 import CollectionNameSchema from './validationSchemas/collectionSchemas';
 import addproductSchema from './validationSchemas/productSchema';
+import uuidSchemas from './validationSchemas/uuidSchemas';
 
 export {
   errorMessage,
@@ -33,4 +34,5 @@ export {
   PasswordSchema,
   newPasswordSchema,
   addproductSchema,
+  uuidSchemas,
 };

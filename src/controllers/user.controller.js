@@ -15,7 +15,7 @@ import {
 } from '../utils';
 import { userServices } from '../services';
 import twoFactorAuth from '../services/twofactor.service';
-import { verifyOldPassword } from '../utils/password';
+import verifyOldPassword from '../helpers/verifyPassword';
 
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {

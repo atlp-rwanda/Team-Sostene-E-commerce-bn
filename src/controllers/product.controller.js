@@ -1,6 +1,13 @@
 import { collectionServices, productsServices } from '../services';
 import { asyncWrapper } from '../helpers';
 
+const response = (res, cd, msg, dt) =>
+  res.status(cd).json({
+    code: cd,
+    message: msg,
+    data: dt,
+  });
+
 const CreateCollection = async (req, res) => {
   const collectionName = req.body.name;
   const userId = req.user.id;
@@ -17,12 +24,28 @@ const CreateCollection = async (req, res) => {
 };
 
 const DeleteCollection = async (req, res) => {
-  const deletedCollection = await collectionServices.deleteCollection(
-    req.params.cid
-  );
-  if (deletedCollection) {
-    return res.status(200).json({ code: 200, message: 'Collection Deleted' });
+  const isDeleted = await collectionServices.deleteCollection(req.params.cid);
+  if (isDeleted) {
+    return response(res, 200, 'Collection Deleted.');
   }
+};
+
+const getSingleProduct = async (req, res) => {
+  const { pid } = req.params;
+  const product = await collectionServices.getProduct(pid);
+  return response(res, 200, 'Product Fetched.', product);
+};
+
+const deleteProduct = async (req, res) => {
+  const { cid, pid } = req.params;
+  const deletedProduct = await collectionServices.deleteFromCollection(
+    cid,
+    pid
+  );
+  if (deletedProduct) {
+    return res.status(200).json({ code: 200, message: 'Product Deleted.' });
+  }
+  return res.status(404).json({ code: 404, message: 'Product Not Found.' });
 };
 
 const addproduct = asyncWrapper(async (req, res) => {
@@ -200,4 +223,11 @@ const updateOnadd = asyncWrapper(async (req, res) => {
   }
 });
 
-export default { CreateCollection, DeleteCollection, addproduct, updateOnadd };
+export default {
+  CreateCollection,
+  DeleteCollection,
+  getSingleProduct,
+  deleteProduct,
+  addproduct,
+  updateOnadd,
+};
