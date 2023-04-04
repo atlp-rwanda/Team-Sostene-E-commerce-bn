@@ -5,6 +5,7 @@ const userDetails = async (req, res) => {
   const { gender, currency, lang, dob, placeOfLiving, tel, accNo } = req.body;
   try {
     const user = await userServices.getUserById(userId);
+
     let userInfo = await userProfileServices.getUserDetailsById(user.id);
     if (!userInfo) {
       const data = {
