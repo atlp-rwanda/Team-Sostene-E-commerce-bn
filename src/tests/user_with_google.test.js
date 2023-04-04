@@ -1,9 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 import passportStub from 'passport-stub';
 import app from '../index.js';
-import userControllers from '../controllers';
+import { userControllers } from '../controllers';
 import { generateToken } from '../utils/token.js';
 import redisClient from '../helpers/redis.js';
 import { isAuthenticated } from '../middleware/index.js';

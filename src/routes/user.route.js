@@ -4,6 +4,7 @@ import '../middleware/passport';
 import { LoginSchema, SignUpSchema, UserDetailsSchema } from '../utils';
 import userControllers from '../controllers';
 import userDetails from '../controllers/userDetails';
+
 import {
   isAuthenticated,
   userEmailExists,

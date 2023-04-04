@@ -6,6 +6,7 @@ import {
   SignUpSchema,
   UserDetailsSchema,
 } from './validationSchemas/authenticationSchemas';
+import CollectionNameSchema from './validationSchemas/collectionSchemas';
 
 export {
   errorMessage,
@@ -16,4 +17,6 @@ export {
   LoginSchema,
   SignUpSchema,
   UserDetailsSchema,
+  CollectionNameSchema,
+
 };

@@ -40,9 +40,9 @@ async function deleteUser(id) {
 
 export default {
   getUserByEmail,
-  getUserById,
   getUserByUsername,
   createUser,
   disableAccount,
   deleteUser,
+  getUserById,
 };

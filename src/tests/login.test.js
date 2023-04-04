@@ -4,7 +4,8 @@ import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
 import Sinon from 'sinon';
 import server from '../index.js';
-import userControllers from '../controllers';
+import { userControllers } from '../controllers';
+// import isAuthenticated from '../middleware/authentication/authentication.js';
 
 chai.should();
 chai.use(chaiHttp);
@@ -122,15 +123,9 @@ describe('Testing User Login Routes ', function () {
           .get('/users/protected-route')
           .set({ Authorization: `Bearer ${token}` })
           .end((err, res) => {
-            if (err) {
-              console.log(err);
-            }
             res.should.have.status(200);
             done();
           });
-        if (err) {
-          console.log(err);
-        }
       });
   });
 });

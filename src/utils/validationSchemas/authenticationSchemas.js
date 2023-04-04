@@ -35,5 +35,8 @@ const UserDetailsSchema = Joi.object().keys({
     .max(255)
     .messages(errorMessage('Place Of Living')),
 });
+const CollectionNameSchema = Joi.object().keys({
+  name: Joi.string().required().messages(errorMessage('Collection Name')),
+});
 
-export { LoginSchema, SignUpSchema, UserDetailsSchema };
+export { LoginSchema, SignUpSchema, UserDetailsSchema, CollectionNameSchema };

@@ -53,6 +53,15 @@ describe('Testing user roles and permissions', function () {
         chai
           .request(app)
           .patch(`/users/${user.id}/role`)
+          .send({ role: 'SELLR' })
+          .set({ Authorization: `Bearer ${token}` })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a('object');
+          });
+        chai
+          .request(app)
+          .patch(`/users/${user.id}/role`)
           .send({ role: 'SELLER' })
           .set({ Authorization: `Bearer ${token}` })
           .end((err, res) => {
