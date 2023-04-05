@@ -6,6 +6,7 @@ const assignRole = async (req, res) => {
   user.role = req.body.role;
   await user.save();
   const upduser = await userServices.getUserById(userId);
+
   res.status(201).json({
     code: 201,
     message: 'Role updated',

@@ -1,23 +1,9 @@
 import express from 'express';
 import passport from 'passport';
-import session from 'express-session';
-import cookieParser from 'cookie-parser';
 import '../middleware/passport.js';
 import { userControllers } from '../controllers';
 
 const userRouter = express.Router();
-
-userRouter.use(cookieParser());
-userRouter.use(
-  session({
-    secret: process.env.EXPRESS_SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-
-userRouter.use(passport.initialize());
-userRouter.use(passport.session());
 
 userRouter.get('/users/login/google', (req, res) => {
   res

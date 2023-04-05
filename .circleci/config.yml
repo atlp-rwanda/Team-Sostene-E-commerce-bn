@@ -9,7 +9,8 @@ jobs:
           POSTGRES_DB: postgres
           POSTGRES_USER: postgres 
           POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-          repo_token: cQeNnS5pEVJZWrEQ1KPoAtaJG7MK4rUGn
+          repo_token: ${repo_token}
+          CC_TEST_REPORTER_ID: ${CC_TEST_REPORTER_ID}
     steps:
       - checkout
       - run:
@@ -27,6 +28,13 @@ jobs:
       - run:
           name: Upload coverage to Coveralls
           command: npx coveralls < coverage/lcov.info
+      - run:
+          name: Upload Coverage to CodeClimate
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
+            ./cc-test-reporter after-build --exit-code $? -t lcov --prefix coverage
       - run:
           name: Undo Seeds
           command: npm run seed_undo_all  -- --env test

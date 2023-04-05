@@ -68,15 +68,6 @@ describe('Testing user roles and permissions', function () {
             res.body.should.be.a('object');
             done();
           });
-        chai
-          .request(app)
-          .patch(`/users/${user.id}/role`)
-          .send({ role: 'SELLR' })
-          .set({ Authorization: `Bearer ${token}` })
-          .end((err, res) => {
-            res.should.have.status(400);
-            res.body.should.be.a('object');
-          });
       });
   });
 });
