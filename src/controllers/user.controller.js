@@ -1,7 +1,16 @@
 import passport from 'passport';
-import redisClient from '../helpers';
-import { generateToken } from '../utils';
-import userServices from '../services/user.services';
+import {
+  redisClient,
+  ForgortPasswordTemplate,
+  sendEmailReset,
+  configEmail,
+} from '../helpers';
+import {
+  generateToken,
+  generateForgetPasswordToken,
+  decodeResetPasswordToken,
+} from '../utils';
+import { userServices } from '../services';
 
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {
@@ -124,8 +133,76 @@ const disableUserAccount = async (req, res) => {
       status: 500,
       success: false,
       error: 'Internal Server Error',
-      message: error.message,
     });
   }
 };
-export default { signUp, login, loginWithGoogle, logOut, disableUserAccount };
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await userServices.getUserByEmail(email);
+    if (!user) {
+      return res.status(400).json({
+        code: 400,
+        message: 'User with email does not exist!',
+      });
+    }
+    const userEmail = { email, id: user.id };
+    const token = generateForgetPasswordToken(userEmail);
+    const resetPasswordContent = ForgortPasswordTemplate(token);
+    sendEmailReset(
+      configEmail({
+        email,
+        subject: 'E-commerce Reset Password',
+        content: resetPasswordContent,
+      })
+    );
+    return res.status(200).json({
+      code: 200,
+      message: 'Message  sent successfully!',
+      token,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      code: 500,
+      message: err.message,
+    });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const payload = decodeResetPasswordToken(token);
+    req.user = payload;
+    const { email } = req.user;
+    try {
+      await userServices.UpdatePassword(email, req.body.password).then(() =>
+        res.status(200).json({
+          code: 200,
+          message: 'You have reset successful your password',
+        })
+      );
+    } catch (error) {
+      return res.status(500).json({
+        code: 500,
+        message: 'Server error',
+      });
+    }
+  } catch (error) {
+    return res.status(401).json({
+      code: 401,
+      message: 'Invalid Token, please try again',
+    });
+  }
+};
+
+export default {
+  signUp,
+  login,
+  forgotPassword,
+  resetPassword,
+  loginWithGoogle,
+  logOut,
+  disableUserAccount,
+};

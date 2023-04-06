@@ -12,7 +12,7 @@ export async function up(queryInterface) {
   if (result[0].count == 0) {
     await queryInterface.bulkInsert('users', [
       {
-        id: uuidv4(),
+        id: '353a6ac5-656f-402e-82b9-79997fb6a04e',
         username: 'testing',
         email: 'testing@example.com',
         password: await hashPassword('Qwert@12345'),

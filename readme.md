@@ -52,6 +52,9 @@
 
 - In summary, HoundCI is a helpful tool for automating code review and ensuring the quality of code changes in a software development project.
 
+## NodeMailer
+- Nodemailer is a tool that simplifies the process of sending transactional emails in eCommerce websites. It supports various email services and offers useful features such as email templates, file attachments, and HTML emails.
+
 # PostgreSQL Installation
 
 Make sure PostgreSQL is installed on your machine. You can download and install it from the official website: https://www.postgresql.org/download/.
@@ -80,6 +83,10 @@ ENV=''
 SSL=''
 PRODUCTION_URL=''
 REDIS_URL= ''
+NODE_MAILER_USER=''
+NODE_MAILER_PASS=''
+RESET_PASSWORD_KEY=''
+HOST_MAILER=''
 
 ```
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import assignRole from '../controllers/roles.controller';
+import { roleControllers } from '../controllers';
 import isAuthenticated from '../middleware/authentication/authentication';
 import validateRole from '../utils/roleValidator';
 import checkPermission from '../middleware/checkPermission.middleware';
@@ -10,7 +10,7 @@ router.patch(
   isAuthenticated,
   checkPermission('ADMIN'),
   validateRole,
-  assignRole
+  roleControllers
 );
 
 export default router;
