@@ -11,8 +11,8 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import router from './routes';
 import options from './docs/apidoc.js';
+import router from './routes';
 
 dotenv.config();
 const app = express();
@@ -22,7 +22,6 @@ app.use(morgan('tiny'));
 const { PORT } = process.env;
 
 app.use(cors());
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -46,7 +45,6 @@ app.use('/', router);
 app.get('/', (req, res) => {
   res.status(200).json('Hello World! ');
 });
-
 app.listen(PORT);
 
 export default app;

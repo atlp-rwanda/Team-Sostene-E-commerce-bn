@@ -15,7 +15,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('Testing login with google funcction ', function () {
+describe('Testing login with google function ', function () {
   it('should return a token', async function () {
     const req = {
       user: {

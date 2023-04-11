@@ -2,7 +2,6 @@
 import assert from 'assert';
 import Joi from 'joi';
 import validate from '../middleware/validation/validation';
-// import errorMessage from '../utils/errormessage';
 
 describe('validate', function () {
   const schema = Joi.object({

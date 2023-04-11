@@ -3,7 +3,6 @@ import {
   userEmailExists,
   userUsernameExists,
 } from './authentication/userExists';
-
 import validate from './validation/validation';
 import {
   isCollectionExists,
