@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import errorMessage from '../errormessage.js';
+import errorMessage from '../errormessage';
 
 const usernameSchema = Joi.string()
   .min(6)
@@ -42,4 +42,17 @@ const PasswordSchema = Joi.object().keys({
     .messages(errorMessage('Password')), // password has both numbers and letters and is btn 6 and 30
 });
 
-export { LoginSchema, SignUpSchema, PasswordSchema, CollectionNameSchema };
+const newPasswordSchema = Joi.object().keys({
+  oldPassword: passwordSchema,
+  newPassword: passwordSchema
+    .invalid(Joi.ref('oldPassword'))
+    .messages(errorMessage('Password')),
+});
+
+export {
+  LoginSchema,
+  SignUpSchema,
+  PasswordSchema,
+  newPasswordSchema,
+  CollectionNameSchema,
+};

@@ -212,6 +212,42 @@
  *              description: GET json Message
  *          400:
  *              description: bad request
+ * /users/change-password:
+ *   patch:
+ *     summary: Update user's password
+ *     tags:
+ *       - Authentication
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *           example:
+ *             oldPassword: Pass@12345
+ *             newPassword: newPass@12345
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: Password changed successfully
+ *       401:
+ *         description: Invalid request body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: Incorrect password
+ *       500:
+ *         description: Internal server error
+ *       default:
+ *         description: Unexpected error
  */
 
 /**
