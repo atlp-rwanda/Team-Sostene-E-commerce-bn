@@ -40,8 +40,8 @@ module.exports = {
         references: {
           model: 'collections',
           key: 'id',
-          onDelete: 'CASCADE',
         },
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
