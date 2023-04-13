@@ -36,9 +36,15 @@ async function getOrdersWithBuyerInfo() {
   return orders;
 }
 
+async function paymentOrderStatus(status, id) {
+  const data = await Order.update({ status }, { where: { id } });
+  return data;
+}
+
 export default {
+  updateOrderStatus,
   getOrdersByUser,
   getOrderById,
-  updateOrderStatus,
+  paymentOrderStatus,
   getOrdersWithBuyerInfo,
 };

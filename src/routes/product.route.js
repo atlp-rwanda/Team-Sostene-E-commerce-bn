@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import cookieParser from 'cookie-parser';
+import { asyncWrapper } from '../helpers';
 import {
   checkPermission,
   isAuthenticated,
@@ -12,7 +13,6 @@ import {
 import { productControllers, collectionItemControllers } from '../controllers';
 import { CollectionNameSchema, addproductSchema, uuidSchemas } from '../utils';
 import Upload from '../helpers/multer';
-import { asyncWrapper } from '../helpers';
 
 const router = Router();
 
