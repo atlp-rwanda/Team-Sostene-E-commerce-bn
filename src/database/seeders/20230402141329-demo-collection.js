@@ -1,10 +1,10 @@
-/* eslint-disable valid-jsdoc */
-/* eslint-disable import/no-extraneous-dependencies */
-import { v4 as uuidv4 } from 'uuid';
-import { hashPassword } from '../../utils/password';
+import { hashPassword } from '../../utils';
+
 /** @type {import('sequelize-cli').Migration} */
+const sellerId = '0f1548b0-b7ce-49e3-a2ef-baffffd383aa';
+const collectionId = '51ea5366-ea5c-4501-9ade-4cd50009c84c';
+
 export async function up(queryInterface) {
-  const userId = uuidv4();
   const [resultOne] = await queryInterface.sequelize.query(`
   SELECT COUNT(*) AS count FROM users WHERE email='testingseller@example.com'
 `);
@@ -12,7 +12,7 @@ export async function up(queryInterface) {
   if (resultOne[0].count == 0) {
     await queryInterface.bulkInsert('users', [
       {
-        id: userId,
+        id: sellerId,
         username: 'testingseller',
         email: 'testingseller@example.com',
         role: 'SELLER',
@@ -29,8 +29,8 @@ export async function up(queryInterface) {
   if (result[0].count == 0) {
     await queryInterface.bulkInsert('collections', [
       {
-        id: uuidv4(),
-        userId,
+        id: collectionId,
+        userId: sellerId,
         name: 'testing Collection',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -38,11 +38,12 @@ export async function up(queryInterface) {
     ]);
   }
 }
+
 export async function down(queryInterface) {
   await queryInterface.sequelize.query(
-    "DELETE FROM users WHERE email = 'testing@example.com'"
+    `DELETE FROM collections WHERE id = '${collectionId}'`
   );
   await queryInterface.sequelize.query(
-    "DELETE FROM users WHERE email = 'testingseller@example.com'"
+    `DELETE FROM users WHERE id = '${sellerId}'`
   );
 }

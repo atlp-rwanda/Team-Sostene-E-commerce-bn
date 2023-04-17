@@ -3,19 +3,23 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
 import server from '../index.js';
+import { asyncWrapper } from '../helpers';
 
 chai.should();
 chai.use(chaiHttp);
 chai.use(cookieParser);
+const expect = chai.expect;
 
 describe('Testing Create Collection and Deleting Collection', function () {
   const collectionDetails = {
     name: 'My collection',
   };
+
   const testUserLogin = {
     email: 'testingseller@example.com',
     password: 'Qwert@12345',
   };
+
   it(' Should create a Collection and delete collection ', function (done) {
     let cid;
     chai
@@ -53,6 +57,7 @@ describe('Testing Create Collection and Deleting Collection', function () {
           });
       });
   });
+
   it(' Should create not delete collection wich does not exist. ', function (done) {
     chai
       .request(server)
@@ -79,5 +84,22 @@ describe('Testing Create Collection and Deleting Collection', function () {
             done();
           });
       });
+  });
+});
+
+describe('Testing Async Wrapper Error Handling', function () {
+  it('Should return error 500', async function () {
+    const req = {};
+    const res = {
+      status: (statusCode) => ({
+        json: (response) => {
+          expect(statusCode).to.equal(500);
+          expect(response.message).to.equal('Internal Server Error');
+        },
+      }),
+    };
+    await asyncWrapper(() => {
+      throw error;
+    })(req, res);
   });
 });

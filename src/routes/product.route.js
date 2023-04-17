@@ -10,6 +10,7 @@ import {
 import { productControllers } from '../controllers';
 import { CollectionNameSchema, addproductSchema } from '../utils';
 import Upload from '../helpers/multer';
+import { asyncWrapper } from '../helpers';
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.post(
   checkPermission('SELLER'),
   validate(CollectionNameSchema),
   isCollectionExists,
-  productControllers.CreateCollection
+  asyncWrapper(productControllers.CreateCollection)
 );
 
 router.delete(
@@ -29,7 +30,7 @@ router.delete(
   isAuthenticated,
   checkPermission('SELLER'),
   isValidCollection,
-  productControllers.DeleteCollection
+  asyncWrapper(productControllers.DeleteCollection)
 );
 
 router.post(

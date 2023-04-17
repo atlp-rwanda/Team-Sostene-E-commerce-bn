@@ -83,6 +83,7 @@ const loginWithGoogle = async (req, res, next) => {
       id: user.id,
       username: user.username,
       email: user.email,
+      role: user.role,
     };
     const token = generateToken(body);
     redisClient.setEx(user.id, 86400, token);
@@ -110,64 +111,49 @@ const logOut = async (req, res) => {
 };
 
 const disableUserAccount = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const currentUser = await userServices.getUserById(userId);
+  const userId = req.params.id;
+  const currentUser = await userServices.getUserById(userId);
 
-    if (!currentUser) {
-      return res.status(404).json({
-        status: 404,
-        success: false,
-        message: 'User not found',
-      });
-    }
-    const user = await userServices.disableAccount(userId);
-    return res.status(200).json({
-      status: 200,
-      success: true,
-      message: 'User Account Disabled',
-      data: user,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 500,
+  if (!currentUser) {
+    return res.status(404).json({
+      status: 404,
       success: false,
-      error: 'Internal Server Error',
+      message: 'User not found',
     });
   }
+  const user = await userServices.disableAccount(userId);
+  return res.status(200).json({
+    status: 200,
+    success: true,
+    message: 'User Account Disabled',
+    data: user,
+  });
 };
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  try {
-    const user = await userServices.getUserByEmail(email);
-    if (!user) {
-      return res.status(400).json({
-        code: 400,
-        message: 'User with email does not exist!',
-      });
-    }
-    const userEmail = { email, id: user.id };
-    const token = generateForgetPasswordToken(userEmail);
-    const resetPasswordContent = ForgortPasswordTemplate(token);
-    sendEmailReset(
-      configEmail({
-        email,
-        subject: 'E-commerce Reset Password',
-        content: resetPasswordContent,
-      })
-    );
-    return res.status(200).json({
-      code: 200,
-      message: 'Message  sent successfully!',
-      token,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      code: 500,
-      message: err.message,
+  const user = await userServices.getUserByEmail(email);
+  if (!user) {
+    return res.status(400).json({
+      code: 400,
+      message: 'User with email does not exist!',
     });
   }
+  const userEmail = { email, id: user.id };
+  const token = generateForgetPasswordToken(userEmail);
+  const resetPasswordContent = ForgortPasswordTemplate(token);
+  sendEmailReset(
+    configEmail({
+      email,
+      subject: 'E-commerce Reset Password',
+      content: resetPasswordContent,
+    })
+  );
+  return res.status(200).json({
+    code: 200,
+    message: 'Message  sent successfully!',
+    token,
+  });
 };
 
 const resetPassword = async (req, res) => {

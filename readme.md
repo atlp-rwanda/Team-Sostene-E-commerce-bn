@@ -1,8 +1,6 @@
 # Team-Sostene-E-commerce-bn
 
-[![HoundCI](https://img.shields.io/badge/style--blue.svg?label=HoundCI&logo=eslint&style=flat)](https://houndci.com)
-
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop) [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/Team-Sostene-E-commerce-bn/badge.svg?branch=develop)](https://coveralls.io/github/atlp-rwanda/Team-Sostene-E-commerce-bn?branch=develop)
+[![HoundCI](https://img.shields.io/badge/style--blue.svg?label=HoundCI&logo=eslint&style=flat)](https://houndci.com) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/Team-Sostene-E-commerce-bn/tree/develop) [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/Team-Sostene-E-commerce-bn/badge.svg?branch=develop)](https://coveralls.io/github/atlp-rwanda/Team-Sostene-E-commerce-bn?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/484e0e60c2f2168ac6f0/maintainability)](https://codeclimate.com/github/atlp-rwanda/Team-Sostene-E-commerce-bn/maintainability)  [![Test Coverage](https://api.codeclimate.com/v1/badges/484e0e60c2f2168ac6f0/test_coverage)](https://codeclimate.com/github/atlp-rwanda/Team-Sostene-E-commerce-bn/test_coverage)
 
 # This is the back-end of Team Sostene E-commerce website
 

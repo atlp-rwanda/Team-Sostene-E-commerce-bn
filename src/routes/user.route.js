@@ -10,6 +10,7 @@ import {
   validate,
   checkPermission,
 } from '../middleware';
+import { asyncWrapper } from '../helpers';
 
 const router = Router();
 router.post(
@@ -31,14 +32,18 @@ router.patch(
   '/disable/:id',
   isAuthenticated,
   checkPermission('ADMIN'),
-  userControllers.disableUserAccount
+  asyncWrapper(userControllers.disableUserAccount)
 );
 
-router.post('/forgotPassword', checkUser, userControllers.forgotPassword);
+router.post(
+  '/forgotPassword',
+  checkUser,
+  asyncWrapper(userControllers.forgotPassword)
+);
 router.put(
   '/reset-password/:token',
   validate(PasswordSchema),
-  userControllers.resetPassword
+  asyncWrapper(userControllers.resetPassword)
 );
 router.get('/', (req, res) => {
   res.status(200).json('Hello users!');
