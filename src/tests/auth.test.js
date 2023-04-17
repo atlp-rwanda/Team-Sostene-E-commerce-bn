@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import Jwt from 'jsonwebtoken';
 import redisClient from '../helpers/redis.js';
 import server from '../index.js';
-import { generateToken } from '../utils/token.js';
 
 chai.should();
 chai.use(chaiHttp);
@@ -34,11 +32,7 @@ describe('Testing two factor authentication for sellers', function () {
       });
   });
   it('should return 200 status code and token if OTP is verified', async function () {
-    const verify = await redisClient.setEx(
-      'newSeller@gmail.com',
-      300,
-      `123456=${token}`
-    );
+    await redisClient.setEx('newSeller@gmail.com', 300, `123456=${token}`);
     const res = await chai
       .request(server)
       .post('/users/verify/newSeller@gmail.com')

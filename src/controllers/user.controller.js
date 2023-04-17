@@ -97,8 +97,9 @@ const loginWithGoogle = async (req, res, next) => {
   try {
     user = await userServices.getUserByEmail(req.user.email);
     if (!user) {
+      const username = req.user.email.split('@')[0];
       const data = {
-        username: req.user.email,
+        username,
         email: req.user.email,
         password: 'null',
       };

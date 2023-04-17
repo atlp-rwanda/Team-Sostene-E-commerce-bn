@@ -6,15 +6,17 @@ import roleRoutes from './role.route';
 import wishlistRoutes from './wishlist.route';
 import reviewRoutes from './review.route';
 import cartRoutes from './cart.route';
+import checkoutRoutes from './checkout.route';
 
 const router = express.Router();
 
 router.use('/', userwithGoogleRoutes);
-router.use('/users', userRoutes, roleRoutes);
+router.use('/users', userRoutes, roleRoutes, checkoutRoutes);
 router.use('/products', productRoutes);
 router.use('/wishlist', wishlistRoutes);
 router.use('/reviews', reviewRoutes);
 router.use('/cart', cartRoutes);
+router.use('/', checkoutRoutes);
 
 router.use('*', (req, res) => {
   res.status(404).json({

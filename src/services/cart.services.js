@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { redisClient } from '../helpers';
 import Products from '../database/models/products.model';
 import Images from '../database/models/images.model';
@@ -15,6 +16,11 @@ async function getProductsInCart(userId) {
   const products = await redisClient.get(`cart_${userId}`);
   const result = JSON.parse(products);
   return result;
+}
+
+async function getProductPrice(productId) {
+  const product = await Products.findOne({ where: { id: productId } });
+  return product.price;
 }
 
 async function getProductDetails(productId) {
@@ -41,7 +47,7 @@ async function displayCart(cart) {
     for (let i = 0; i < arr.length; i += 1) {
       const prod = getProductDetails(arr[i].productId);
       productDetails.push({ product: prod, quantity: arr[i].quantity });
-      sum = sum + arr[i].quantity * prod.price;
+      sum += arr[i].quantity * prod.price;
     }
     return productDetails;
   }
@@ -49,6 +55,28 @@ async function displayCart(cart) {
   const cartObj = {
     products: productDetails,
     total: sum,
+  };
+  return cartObj;
+}
+
+async function getCart(userId) {
+  const newCart = await getProductsInCart(userId).then((data) => data);
+  async function totalPrice(arr) {
+    const promises = [];
+    for (let i = 0; i < arr.length; i += 1) {
+      const promise = getProductPrice(arr[i].productId).then(
+        (price) => price * arr[i].quantity
+      );
+      promises.push(promise);
+    }
+    return Promise.all(promises).then((prices) =>
+      prices.reduce((sum, price) => sum + price, 0)
+    );
+  }
+  const priceTotal = await totalPrice(newCart);
+  const cartObj = {
+    products: newCart,
+    total: priceTotal,
   };
   return cartObj;
 }
@@ -80,8 +108,20 @@ async function addToCart(userId, pid) {
   return isUpdated;
 }
 
+async function clearCart(userId) {
+  await redisClient.set(`cart_${userId}`, JSON.stringify([]));
+  const products = await redisClient.get(`cart_${userId}`);
+  const cleanedCart = {
+    products,
+    total: 0,
+  };
+  return cleanedCart;
+}
+
 export default {
   addToCart,
   createCart,
   displayCart,
+  clearCart,
+  getCart,
 };

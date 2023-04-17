@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
@@ -49,7 +48,6 @@ describe('Testing login with google function ', function () {
     };
 
     const res = {
-      cookie: () => {},
       status: async (response) => {
         expect(response).to.have.property('statusCode').to.equal(200);
       },
@@ -148,7 +146,6 @@ describe('Google Login API', function () {
     };
 
     const res = {
-      cookie: () => {},
       status: async (response) => {
         expect(response).to.have.property('statusCode').to.equal(200);
       },

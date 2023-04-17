@@ -1,7 +1,5 @@
-/* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-expressions */
 import chai from 'chai';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import { userServices } from '../services';
