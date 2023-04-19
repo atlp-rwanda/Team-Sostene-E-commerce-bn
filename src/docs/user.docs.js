@@ -255,3 +255,75 @@
  *            example:
  *              Message: 'successful'
  */
+
+/**
+ * @swagger
+ * /users/verify/{email}:
+ *   post:
+ *     summary: Verifies the OTP for a user
+ *     description: Verifies the OTP entered by the user during login and generates a JWT token
+ *     security:
+ *        - bearerAuth: []
+ *     tags:
+ *       - Authentication
+ *     parameters:
+ *       - name: email
+ *         in: path
+ *         required: true
+ *         description: The email of the user to verify OTP
+ *         type: string
+ *     requestBody:
+ *       content:
+ *          application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  verificationCode:
+ *                      type: string
+ *     responses:
+ *       200:
+ *         description: Logged in successfully
+ *         schema:
+ *           type: object
+ *       400:
+ *         description: Invalid OTP
+ *         schema:
+ *           type: object
+ *       500:
+ *         description: Internal server error
+ *         schema:
+ *           type: object
+ */
+
+/**
+ * @swagger
+ * /users/tfa-enable-disable:
+ *   patch:
+ *     summary: Enables or disables two-factor authentication for a user
+ *     description: Enables or disables two-factor authentication for a user
+ *     security:
+ *        - bearerAuth: []
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       content:
+ *          application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  tfa_enabled:
+ *                      type: string
+ *     responses:
+ *       200:
+ *         description: TFA option enabled or disabled successfully
+ *         schema:
+ *           type: object
+ *       401:
+ *         description: Unauthorized access
+ *         schema:
+ *           type: object
+ *       500:
+ *         description: Internal server error
+ *         schema:
+ *           type: object
+ */

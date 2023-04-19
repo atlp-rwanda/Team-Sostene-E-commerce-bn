@@ -1,4 +1,6 @@
 import errorMessage from './errormessage';
+import generateOtp from './generateOtp';
+import sendEmails from './sendEmails';
 import { hashPassword, comparePassword } from './password';
 import {
   generateToken,
@@ -22,6 +24,8 @@ export {
   decodeToken,
   generateForgetPasswordToken,
   decodeResetPasswordToken,
+  generateOtp,
+  sendEmails,
   LoginSchema,
   SignUpSchema,
   CollectionNameSchema,

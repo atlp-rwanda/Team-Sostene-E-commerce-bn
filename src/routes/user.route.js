@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import '../middleware/passport';
-import { userControllers } from '../controllers';
+import { userControllers, tfaEnableDisable } from '../controllers';
 import checkUser from '../middleware/checkUser';
 import { LoginSchema, SignUpSchema, PasswordSchema } from '../utils';
 import {
@@ -27,6 +27,14 @@ router.get('/protected-route', isAuthenticated, (req, res) => {
 });
 router.post('/login', validate(LoginSchema), userControllers.login);
 router.post('/logout', isAuthenticated, userControllers.logOut);
+router.post('/verify/:email', userControllers.verifyOTP);
+
+router.patch(
+  '/tfa-enable-disable',
+  isAuthenticated,
+  checkPermission('SELLER'),
+  tfaEnableDisable
+);
 
 router.patch(
   '/disable/:id',

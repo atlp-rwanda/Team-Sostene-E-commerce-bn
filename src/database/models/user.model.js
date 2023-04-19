@@ -29,6 +29,11 @@ const User = sequelize.define('users', {
     type: DataTypes.ENUM('INACTIVE', 'ACTIVE'),
     defaultValue: 'ACTIVE',
   },
+  tfa_enabled: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 });
 
 export default User;
