@@ -3,6 +3,7 @@ import { extractPublicId } from 'cloudinary-build-url';
 import Products from '../database/models/products.model';
 import Images from '../database/models/images.model';
 import Cloudinary from '../helpers/cloudinary';
+// import Collection from '../database/models/collection.model';
 
 async function createProduct(body) {
   const data = await Products.create(body);
@@ -41,6 +42,20 @@ async function getProductByNameAndCollectionId(name, cid) {
 async function getProductById(id) {
   const product = await Products.findOne({ where: { id } });
   return product;
+}
+
+async function findAllProducts({ offset, limit }) {
+  const products = await Products.findAll({
+    include: [{ model: Images, as: 'productImages', attributes: ['url'] }],
+    offset,
+    limit,
+  });
+  return products;
+}
+
+async function getTotalProductsCount() {
+  const produc = await Products.findAll();
+  return produc.length;
 }
 
 async function searchproduct(query) {
@@ -96,4 +111,6 @@ export default {
   searchproduct,
   imageExist,
   imagesExists,
+  findAllProducts,
+  getTotalProductsCount,
 };

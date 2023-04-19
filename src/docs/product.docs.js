@@ -364,3 +364,73 @@
  *       "500":
  *         description: Server Error
  */
+/**
+ * @swagger
+ * /products/list-items/{cid}:
+ *   get:
+ *     summary: Retrieve a paginated list of items in a collection
+ *     tags:
+ *     - Product
+ *     parameters:
+ *     - name: cid
+ *       in: path
+ *       required: true
+ *       description: The ID of the collection to retrieve items from
+ *       schema:
+ *         type: string
+ *     - name: page
+ *       in: query
+ *       required: false
+ *       description: The page number to retrieve
+ *       schema:
+ *         type: integer
+ *         default: 1
+ *     - name: limit
+ *       in: query
+ *       required: false
+ *       description: The number of items to retrieve per page
+ *       schema:
+ *         type: integer
+ *         default: 10
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns a JSON array of items in the collection, along with pagination information
+ *       400:
+ *         description: Bad request, invalid parameter values
+ *       401:
+ *         description: Unauthorized, user not authenticated
+ *       404:
+ *         description: Collection not found
+ *       500:
+ *         description: Internal server error
+ */
+/**
+ * @swagger
+ * /products/all:
+ *   get:
+ *     summary: Retrieve a paginated list of items in a collection
+ *     tags:
+ *     - Product
+ *     parameters:
+ *     - name: page
+ *       in: query
+ *       required: false
+ *       description: The page number to retrieve
+ *       schema:
+ *         type: integer
+ *         default: 1
+ *     - name: limit
+ *       in: query
+ *       required: false
+ *       description: The number of items to retrieve per page
+ *       schema:
+ *         type: integer
+ *         default: 10
+ *     responses:
+ *       200:
+ *         description: Returns a JSON array of items in the collection, along with pagination information
+ *       500:
+ *         description: Internal server error
+ */

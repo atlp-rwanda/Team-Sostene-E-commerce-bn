@@ -10,4 +10,8 @@ const deleteProductSchema = Joi.object().keys({
   pid: Joi.string().uuid().messages(errorMessage('uuid')),
 });
 
-export default { getProductSchema, deleteProductSchema };
+const collectionIdSchema = Joi.object().keys({
+  cid: Joi.string().uuid().messages(errorMessage('uuid')),
+});
+
+export default { getProductSchema, deleteProductSchema, collectionIdSchema };
