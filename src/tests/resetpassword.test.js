@@ -8,10 +8,6 @@ chai.should();
 chai.use(chaiHttp);
 const { expect } = chai;
 
-chai.config.includeStack = true; // turn on stack trace
-chai.config.showDiff = false;
-chai.config.truncateThreshold = 0;
-
 describe('create user then send a reset link', function () {
   it('should send reset link if the email is correct', async function () {
     const res = await chai

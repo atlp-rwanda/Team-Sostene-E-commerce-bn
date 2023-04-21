@@ -198,3 +198,77 @@
  *       '400':
  *         description: Failed to update a product
  */
+/**
+ * @swagger
+ * /wishlist/products/add/{pid}:
+ *  post:
+ *    summary: adding product to the wishlist
+ *    tags: [Product]
+ *    security:
+ *      - bearerAuth: []
+ *    parameters:
+ *      - in: path
+ *        name: pid
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The product id
+ *    responses:
+ *      '200':
+ *        description: Added successfully
+ *      '404':
+ *        description: Unacceptable
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'Not found'
+ */
+
+/**
+ * @swagger
+ * /wishlist/products/delete/{pid}:
+ *  delete:
+ *    tags:
+ *      - Product
+ *    summary: delete a product
+ *    security:
+ *      - bearerAuth: []
+ *    parameters:
+ *      - in: path
+ *        name: pid
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The product id
+ *    description: delete the product from the wishlist
+ *    responses:
+ *      '200':
+ *        description: Deleted successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'successfully'
+ */
+/**
+ * @swagger
+ * /wishlist/all:
+ *  get:
+ *    tags:
+ *      - Product
+ *    summary: retrieve all products in the wishlist
+ *    security:
+ *      - bearerAuth: []
+ *    responses:
+ *      '200':
+ *        description: Retrieve all user product from the wishlist
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'Successfully'
+ */

@@ -1,4 +1,4 @@
-import { emailServices } from '../services';
+import emailServices from '../services/email.services';
 
 const sendEmailReset = (mailConfigurations) => {
   emailServices({
