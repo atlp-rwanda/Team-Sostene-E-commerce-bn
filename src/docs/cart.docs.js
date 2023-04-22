@@ -181,3 +181,59 @@
  *                 example: An unexpected error occurred
  *                 description: Error message
  */
+/**
+ * @swagger
+ * /cart/add/{id}:
+ *   patch:
+ *     summary: increase product on cart
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: id of the product to added
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: quantity
+ *         description: quantity to added
+ *         schema:
+ *           type: number
+ *     responses:
+ *       '200':
+ *         description: succssefully increase cart
+ *       '406':
+ *         description: Can not order more than in stock.
+ *       '500':
+ *         description: Internal Error
+ */
+/**
+ * @swagger
+ * /cart/reduce/{id}:
+ *   patch:
+ *     summary: reduce product cart
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: id of the product to added
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: quantity
+ *         description: quantity to be reduced
+ *         schema:
+ *           type: number
+ *     responses:
+ *       '200':
+ *         description: succssefully cart reduced
+ *       '406':
+ *         description: Can not reduce
+ *       '500':
+ *         description: Internal Error
+ */

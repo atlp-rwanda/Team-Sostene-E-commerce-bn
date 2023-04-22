@@ -6,11 +6,18 @@ const addToCart = (req, res) => {
     productId: pid,
     quantity: 1,
   };
-  cartServices.addToCart(req.user.id, cartDetails).then((data) => {
-    cartServices.displayCart(data).then((result) => {
-      res.status(201).json({ code: 201, message: 'Added To Cart.', result });
-    });
-  });
+  cartServices
+    .addToCart(req.user.id, cartDetails)
+    .then((data) => {
+      cartServices.displayCart(data).then((result) => {
+        res.status(201).json({ code: 201, message: 'Added To Cart.', result });
+      });
+    })
+    .catch((error) =>
+      res
+        .status(404)
+        .json({ code: 404, message: 'product not found', error: error.message })
+    );
 };
 
 const viewCartItems = async (req, res) => {
@@ -25,4 +32,40 @@ const clearCartItems = async (req, res) => {
   return res.status(200).json({ code: 200, message: 'Cart cleared', data });
 };
 
-export default { viewCartItems, addToCart, clearCartItems };
+const addQuantity = (req, res) => {
+  const { pid } = req.params;
+  const { quantity } = req.query;
+  cartServices
+    .addProductQuantity(req.user.id, pid, parseInt(quantity, 10))
+    .then((data) =>
+      cartServices.displayCart(data).then((result) => {
+        res.status(200).json({ code: 200, message: 'Added Quantity.', result });
+      })
+    )
+    .catch((error) => {
+      res.status(406).json({ code: 406, message: error.message });
+    });
+};
+
+const removeQuantity = (req, res) => {
+  const { pid } = req.params;
+  const { quantity } = req.query;
+  cartServices
+    .reduceProductQuantity(req.user.id, pid, parseInt(quantity, 10))
+    .then((data) =>
+      cartServices.displayCart(data).then((result) => {
+        res.status(200).json({ code: 200, message: 'reduce Cart.', result });
+      })
+    )
+    .catch((error) => {
+      res.status(406).json({ code: 406, message: error.message });
+    });
+};
+
+export default {
+  addToCart,
+  addQuantity,
+  removeQuantity,
+  viewCartItems,
+  clearCartItems,
+};

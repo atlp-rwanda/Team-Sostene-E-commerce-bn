@@ -6,6 +6,7 @@ const fakeUserId = 'a2dafc4b-35a3-44f5-84a4-e8772b37ca39';
 const arrProducts = [
   { productId: '710440ba-6dbd-4ad9-a55f-27ee605c4e62', quantity: 1 },
   { productId: 'a2dafc4b-35a3-44f5-84a4-e8772b37ca39', quantity: 2 },
+  { productId: '0f1548b0-b7ce-49e3-a2ef-baffffd383ab', quantity: 0 },
 ];
 describe('Cart Services', function () {
   describe('getProductsInCart()', function () {

@@ -9,12 +9,7 @@ const router = Router();
 
 router.use(cookieParser());
 
-router.post(
-  '/:pid',
-  isAuthenticated,
-  validateParams(uuidSchemas.getProductSchema),
-  asyncWrapper(cartControllers.addToCart)
-);
+router.post('/:pid', isAuthenticated, asyncWrapper(cartControllers.addToCart));
 router.delete(
   '/clear',
   isAuthenticated,
@@ -22,5 +17,15 @@ router.delete(
 );
 
 router.get('/', isAuthenticated, asyncWrapper(cartControllers.viewCartItems));
+router.patch(
+  '/add/:pid',
+  isAuthenticated,
+  asyncWrapper(cartControllers.addQuantity)
+);
+router.patch(
+  '/reduce/:pid',
+  isAuthenticated,
+  asyncWrapper(cartControllers.removeQuantity)
+);
 
 export default router;

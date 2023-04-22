@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import { redisClient } from '../helpers';
 import Products from '../database/models/products.model';
 import Images from '../database/models/images.model';
@@ -15,6 +14,16 @@ async function getProductsInCart(userId) {
     ? await createCart(userId)
     : JSON.parse(redisProducts);
   return result;
+}
+
+async function isInProducts(productId) {
+  const product = await Products.findOne({
+    where: { id: productId },
+  });
+  if (!product) {
+    throw new Error('Products Not In cart');
+  }
+  return true;
 }
 
 async function getProductDetails(productId) {
@@ -74,6 +83,7 @@ function updateProductsInCart(userId, products) {
 }
 
 async function addToCart(userId, pid) {
+  await isInProducts(pid.productId);
   const newCart = await getProductsInCart(userId);
   let isInCart = false;
   for (let i = 0; i < newCart.length; i += 1) {
@@ -93,6 +103,50 @@ async function addToCart(userId, pid) {
   return isUpdated;
 }
 
+async function reduceProductQuantity(userId, pid, quantity) {
+  const newCarts = await getProductsInCart(userId);
+  let isInCart = false;
+  for (let i = 0; i < newCarts.length; i += 1) {
+    if (newCarts[i].productId === pid) {
+      newCarts[i].quantity -= quantity || 1;
+      if (newCarts[i].quantity === 0) {
+        throw new Error('Cannot reduce');
+      }
+      isInCart = true;
+      break;
+    }
+  }
+  if (isInCart === false) {
+    throw new Error('not in cart');
+  }
+  const isUpdated = await updateProductsInCart(userId, newCarts);
+  if (isUpdated) {
+    const result = await getProductsInCart(userId);
+    return result;
+  }
+}
+
+async function addProductQuantity(userId, pid, quantity) {
+  const newCart = await getProductsInCart(userId);
+  let isInCart = false;
+  for (let i = 0; i < newCart.length; i += 1) {
+    if (newCart[i].productId === pid) {
+      newCart[i].quantity += quantity || 1;
+      isInCart = true;
+      break;
+    }
+  }
+  for (let i = 0; i < newCart.length; i += 1) {
+    if (isInCart === false && newCart[i].productId !== pid) {
+      throw new Error('not in cart');
+    }
+  }
+  const isUpdate = await updateProductsInCart(userId, newCart);
+  if (isUpdate) {
+    const result = await getProductsInCart(userId);
+    return result;
+  }
+}
 async function clearCart(userId) {
   await redisClient.set(`cart_${userId}`, JSON.stringify([]));
   let products = await redisClient.get(`cart_${userId}`);
@@ -108,6 +162,8 @@ export default {
   addToCart,
   createCart,
   displayCart,
+  reduceProductQuantity,
+  addProductQuantity,
   clearCart,
   getCart,
   getProductsInCart,
