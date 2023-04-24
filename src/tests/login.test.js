@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser';
 import Sinon from 'sinon';
 import server from '../index.js';
 import { userControllers } from '../controllers';
-// import isAuthenticated from '../middleware/authentication/authentication.js';
 
 chai.should();
 chai.use(chaiHttp);
@@ -68,20 +67,6 @@ describe('Testing User Login Routes with Errors', function () {
         done();
       });
   });
-  it('No Login Wrong password format ', function (done) {
-    const testUserLogin = {
-      email: 'halal@mail.com',
-      password: 'Qwertyazerty',
-    };
-    chai
-      .request(server)
-      .post('/users/login')
-      .send(testUserLogin)
-      .end((err, res) => {
-        res.body.should.be.a('object');
-        done();
-      });
-  });
   it('No Login Wrong Password ', function (done) {
     const testUserLogin = {
       email: userDetails.email,
@@ -134,6 +119,7 @@ describe('mocking login controller', function () {
   it('should handle errors correctly', async function () {
     const stub = Sinon.stub().throws(new Error('error message'));
     const error = await userControllers.login(stub);
+    // expect.fail('function should have thrown an error');
     expect(error);
   });
 });

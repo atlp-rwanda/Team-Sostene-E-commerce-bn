@@ -1,5 +1,3 @@
-/* eslint-disable require-jsdoc */
-/* eslint-disable linebreak-style */
 export default function errorMessage(word) {
   const obj = {
     'string.base': `${word} is Invalid`,

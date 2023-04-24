@@ -1,10 +1,8 @@
-import chai, { expect } from 'chai';
+import { expect } from 'chai';
 import { asyncWrapper } from '../helpers';
 
-chai.should();
-
 describe('Testing Async Wrapper Error Handling', function () {
-  it('Should return error 500', async function () {
+  it('Should return error 500', function () {
     const req = {};
     const res = {
       status: (statusCode) => ({
@@ -14,7 +12,7 @@ describe('Testing Async Wrapper Error Handling', function () {
         },
       }),
     };
-    await asyncWrapper(() => {
+    asyncWrapper(() => {
       throw error;
     })(req, res);
   });

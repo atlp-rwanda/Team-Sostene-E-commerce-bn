@@ -2,7 +2,12 @@ import { Router } from 'express';
 import '../middleware/passport';
 import { userControllers, tfaEnableDisable } from '../controllers';
 import checkUser from '../middleware/checkUser';
-import { LoginSchema, SignUpSchema, PasswordSchema } from '../utils';
+import {
+  LoginSchema,
+  SignUpSchema,
+  PasswordSchema,
+  newPasswordSchema,
+} from '../utils';
 import {
   isAuthenticated,
   userEmailExists,
@@ -56,4 +61,10 @@ router.put(
 router.get('/', (req, res) => {
   res.status(200).json('Hello users!');
 });
+router.patch(
+  '/change-password',
+  isAuthenticated,
+  validate(newPasswordSchema),
+  asyncWrapper(userControllers.changePassword)
+);
 export default router;
