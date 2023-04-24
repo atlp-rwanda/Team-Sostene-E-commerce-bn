@@ -3,7 +3,6 @@ import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
 import server from '../index.js';
 import userServices from '../services/user.services';
-import userController from '../controllers/user.controller.js';
 import { hashPassword } from '../utils/password.js';
 
 chai.should();
@@ -12,7 +11,7 @@ chai.use(cookieParser);
 
 describe('Testing Signup Route with errors', function () {
   before(async function () {
-    const password = await hashPassword('Qwert@12345', 10);
+    const password = await hashPassword('Qwert@12345');
     const testUser = {
       email: 'testish111@mail.com',
       username: 'testish111',

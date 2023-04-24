@@ -8,6 +8,7 @@ import { userControllers } from '../controllers';
 import { generateToken } from '../utils/token.js';
 import redisClient from '../helpers/redis.js';
 import { isAuthenticated } from '../middleware/index.js';
+import User from '../database/models/user.model.js';
 
 dotenv.config();
 
@@ -16,6 +17,29 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Testing login with google function ', function () {
+  const userNotRegistered = {
+    displayName: 'John Down',
+    email: 'johndown@example.com',
+  };
+  after(async function () {
+    await User.destroy({ where: { email: 'johndown@example.com' } });
+  });
+
+  it('should save the user and return a token if user not registered', async function () {
+    const req = {
+      user: userNotRegistered,
+    };
+
+    const res = {
+      cookie: () => {},
+      status: async (response) => {
+        expect(response).to.have.property('statusCode').to.equal(200);
+      },
+    };
+    const next = () => {};
+
+    await userControllers.loginWithGoogle(req, res, next);
+  });
   it('should return a token', async function () {
     const req = {
       user: {

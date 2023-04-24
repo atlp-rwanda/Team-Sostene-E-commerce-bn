@@ -9,14 +9,18 @@ export default {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
+        unique: true,
       },
       userId: {
-        type: DataTypes.UUID,
+        type: Sequelize.UUID,
+        allowNull: false,
+        unique: false,
         references: {
           model: 'users',
           key: 'id',
         },
-        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       name: {
         type: Sequelize.STRING,
@@ -34,6 +38,6 @@ export default {
     });
   },
   async down(queryInterface) {
-    await queryInterface.sequelize.query('DROP TABLE collections cascade;');
+    await queryInterface.dropTable('collections');
   },
 };

@@ -6,8 +6,10 @@ import {
   LoginSchema,
   SignUpSchema,
   PasswordSchema,
+  UserDetailsSchema,
   newPasswordSchema,
 } from '../utils';
+import userDetails from '../controllers/userDetails.controller';
 import {
   isAuthenticated,
   userEmailExists,
@@ -39,6 +41,12 @@ router.patch(
   isAuthenticated,
   checkPermission('SELLER'),
   tfaEnableDisable
+);
+router.post(
+  '/profile',
+  isAuthenticated,
+  validate(UserDetailsSchema),
+  asyncWrapper(userDetails)
 );
 
 router.patch(

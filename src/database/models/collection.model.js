@@ -9,6 +9,16 @@ const Collection = sequelize.define('collections', {
     defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
+    unique: true,
+  },
+  userId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    unique: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
   },
   name: {
     type: Sequelize.STRING,
@@ -17,6 +27,13 @@ const Collection = sequelize.define('collections', {
   },
 });
 
-User.hasMany(Collection, { as: 'collection', foreignKey: 'userId' });
+User.hasMany(Collection, {
+  foreignKey: {
+    name: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  },
+});
+Collection.belongsTo(User);
 
 export default Collection;

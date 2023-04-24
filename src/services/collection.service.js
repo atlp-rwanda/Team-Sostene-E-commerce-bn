@@ -19,7 +19,6 @@ async function deleteCollection(collectionId) {
   const collection = Collection.destroy({ where: { id: collectionId } });
   return collection;
 }
-
 export default {
   createCollection,
   getCollectionByName,

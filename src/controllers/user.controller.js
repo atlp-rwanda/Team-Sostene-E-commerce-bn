@@ -17,7 +17,7 @@ import { userServices } from '../services';
 import twoFactorAuth from '../services/twofactor.service';
 import { verifyOldPassword } from '../utils/password';
 
-const signUp = async (req, res, next) => {
+const signUp = asyncWrapper(async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {
     req.login(user, () => {
       const body = {
@@ -34,8 +34,8 @@ const signUp = async (req, res, next) => {
         .json({ code: 201, message: 'Account Created', token });
     });
   })(req, res, next);
-};
-const login = async (req, res, next) => {
+});
+const login = asyncWrapper(async (req, res, next) => {
   passport.authenticate(
     'login',
     { session: false },
@@ -70,7 +70,7 @@ const login = async (req, res, next) => {
       }
     }
   )(req, res, next);
-};
+});
 const verifyOTP = asyncWrapper(async (req, res) => {
   const { verificationCode } = req.body;
   const { email } = req.params;
@@ -138,7 +138,6 @@ const logOut = async (req, res) => {
 const disableUserAccount = async (req, res) => {
   const userId = req.params.id;
   const currentUser = await userServices.getUserById(userId);
-
   if (!currentUser) {
     return res.status(404).json({
       status: 404,
@@ -187,19 +186,11 @@ const resetPassword = async (req, res) => {
     const payload = decodeResetPasswordToken(token);
     req.user = payload;
     const { email } = req.user;
-    try {
-      await userServices.UpdatePassword(email, req.body.password).then(() =>
-        res.status(200).json({
-          code: 200,
-          message: 'You have reset successful your password',
-        })
-      );
-    } catch (error) {
-      return res.status(500).json({
-        code: 500,
-        message: 'Server error',
-      });
-    }
+    await userServices.UpdatePassword(email, req.body.password);
+    return res.status(200).json({
+      code: 200,
+      message: 'You have reset successful your password',
+    });
   } catch (error) {
     return res.status(401).json({
       code: 401,

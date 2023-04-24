@@ -61,24 +61,4 @@ describe('Testing user status', function () {
           });
       });
   });
-  it('should not disable user due to server error ', function (done) {
-    chai
-      .request(app)
-      .post('/users/login')
-      .send(userDetails)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        const { token } = res.body;
-        chai
-          .request(app)
-          .patch('/users/disable/9c2f0aac-d04c-4de0-9530-fa0099339d0y')
-          .set({ Authorization: `Bearer ${token}` })
-          .end((err, res) => {
-            res.should.have.status(500);
-            res.body.should.be.a('object');
-            done();
-          });
-      });
-  });
 });

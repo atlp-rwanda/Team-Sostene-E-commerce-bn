@@ -47,8 +47,55 @@
  *         message:
  *           type: string
  *           description: message of error response
+ *     UserDetails:
+ *       type: object
+ *       properties:
+ *         tel:
+ *           type: string
+ *           description: The telephone number of the user.
+ *         accountNumber:
+ *           type: string
+ *           description: The account number of the user.
+ *         accountName:
+ *           type: string
+ *           description: The account name of the user.
+ *         currency:
+ *           type: string
+ *           description: The preferred currency of the user.
+ *         lang:
+ *           type: string
+ *           description: The preferred language of the user.
+ *         dateOfBirth:
+ *           type: string
+ *           format: date
+ *           description: The date of birth of the user.
+ *         gender:
+ *           type: string
+ *           description: The gender of the user.
+ *         country:
+ *           type: string
+ *           description: The country of living of the user.
+ *         postalCode:
+ *           type: string
+ *           description: The post code of the user.
+ *         streetAdress:
+ *           type: string
+ *           description: The post code of living of the user.
+ *         placeOfLiving:
+ *           type: string
+ *           description: The place of living of the user.
+ *         userId:
+ *           type: integer
+ *           description: The ID of the user.
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the user details were created.
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the user details were last updated.
  */
-
 /**
  * @swagger
  * tags:
@@ -362,4 +409,93 @@
  *         description: Internal server error
  *         schema:
  *           type: object
+ * /users/profile:
+ *   post:
+ *     summary: Update/add user Profiles
+ *     description:  User profiles with additional information
+ *     tags:
+ *       - Users
+ *     security:
+ *      - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               gender:
+ *                 type: string
+ *               currency:
+ *                 type: string
+ *               lang:
+ *                 type: string
+ *               dateOfBirth:
+ *                 type: string
+ *                 format: date
+ *               placeOfLiving:
+ *                 type: string
+ *               tel:
+ *                 type: string
+ *               accountNumber:
+ *                 type: string
+ *               accountName:
+ *                 type: string
+ *               postalCode:
+ *                 type: string
+ *               country:
+ *                 type: string
+ *               streetAdress:
+ *                 type: string
+ *
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: number
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: Successfully updated
+ *                 info:
+ *                   type: object
+ *                   $ref: '#/components/schemas/UserDetails'
+ *       400:
+ *         description: Invalid input
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Invalid input
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Error, update failed
+ *                 error:
+ *                   type: string
+ *                   example: Unexpected token u in JSON at position 0
  */

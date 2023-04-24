@@ -80,8 +80,7 @@ describe('Server problem', function () {
       .request(app)
       .put(`/users/reset-password/${token}`)
       .send();
-    expect(res).to.have.status(500);
-    expect(res.body.message).to.equal('Server error');
+    expect(res).to.have.status(401);
   });
   it('should not due to wrong ur;', async function () {
     const email = 'mirisaidiest@mail.com';

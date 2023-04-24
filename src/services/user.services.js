@@ -38,7 +38,8 @@ async function UpdatePassword(email, pass) {
     where: { email },
   });
   findData.password = password;
-  await findData.save().then((result) => result);
+  await findData.save();
+  return findData;
 }
 async function deleteUser(id) {
   return User.destroy({ where: { id } });

@@ -13,6 +13,7 @@ import {
   SignUpSchema,
   PasswordSchema,
   newPasswordSchema,
+  UserDetailsSchema,
 } from './validationSchemas/authenticationSchemas';
 import CollectionNameSchema from './validationSchemas/collectionSchemas';
 import addproductSchema from './validationSchemas/productSchema';
@@ -29,6 +30,7 @@ export {
   sendEmails,
   LoginSchema,
   SignUpSchema,
+  UserDetailsSchema,
   CollectionNameSchema,
   PasswordSchema,
   newPasswordSchema,

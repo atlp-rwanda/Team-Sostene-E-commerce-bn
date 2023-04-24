@@ -214,7 +214,7 @@ describe('adding product', function () {
   it('should fail if the product is not for the seller', async function () {
     product = await Products.findOne({ where: { name: 'testname' } });
     const req = {
-      user: { id: '438ff3ca-7b82-4ead-8deb-3dc46db253d1', username: 'test' },
+      user: { id: '438ff3ca-7b82-4ead-8deb-3dc46d-b253d1', username: 'test' },
       params: { id: product.id },
       body: { productName: 'ok' },
     };
