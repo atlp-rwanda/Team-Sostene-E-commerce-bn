@@ -10,7 +10,7 @@ async function twoFactorAuth(res, user) {
   };
   const token = generateToken(body);
   const otp = generateOtp();
-  await redisClient.setEx(user.email, 300, `${otp}=${token}`).then(async () => {
+  redisClient.setEx(user.email, 300, `${otp}=${token}`).then(async () => {
     const mailOptions = {
       email: user.email,
       subject: 'verification code',
