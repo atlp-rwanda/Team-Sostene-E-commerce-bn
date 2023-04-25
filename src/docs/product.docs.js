@@ -43,6 +43,31 @@
 
 /**
  * @swagger
+ * /products/{pid}:
+ *  get:
+ *    tags:
+ *      - Product
+ *    summary: Gets a single product from a collection.
+ *    parameters :
+ *      - in: path
+ *        name: pid
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description : object id of product
+ *    description: Gets a product in a collection using collection ID and Product ID.
+ *    responses:
+ *      '200':
+ *        description: Product Fetched.
+ *      '500':
+ *        description: Internal Error.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              code: 500
+ *              message: 'Internal Error.'
  * /products/create-collection:
  *  post:
  *    tags:
@@ -70,23 +95,8 @@
  *            example:
  *              code: 406
  *              message: 'Not Acceptable'
- * /products/{cid}/delete:
- *   delete:
- *     summary: Delete Collection
- *     parameters :
- *       - in: path
- *         name: cid
- *         schema:
- *           type: string
- *         required: true
- *         description : object id of collection
- *     tags: [Product]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Collection Deleted
- */
+ *
+ *  */
 
 /**
  * @swagger
@@ -197,6 +207,47 @@
  *         description: succssefully updated  the product
  *       '400':
  *         description: Failed to update a product
+ */
+/**
+ * @swagger
+ * /products/{cid}/delete:
+ *   delete:
+ *     summary: Delete Collection
+ *     parameters :
+ *       - in: path
+ *         name: cid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description : object id of collection
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Collection Deleted
+ * /products/{cid}/delete/{pid}:
+ *   delete:
+ *     summary: Delete Product From collection.
+ *     parameters :
+ *       - in: path
+ *         name: cid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description : object id of collection
+ *       - in: path
+ *         name: pid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description : object id of product
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Product Deleted
  */
 /**
  * @swagger

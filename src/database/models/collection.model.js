@@ -17,6 +17,10 @@ const Collection = sequelize.define('collections', {
   },
 });
 
-User.hasMany(Collection, { as: 'collection', foreignKey: 'userId' });
+User.hasMany(Collection, {
+  as: 'collection',
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+});
 
 export default Collection;

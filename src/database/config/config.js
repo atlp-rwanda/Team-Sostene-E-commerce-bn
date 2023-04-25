@@ -3,10 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const { DEV_DATABASE_URL, DATABASE_URL, TEST_DATABASE_URL, SSL } = process.env;
 
-let ssl = false;
-if (SSL === 'true') {
-  ssl = true;
-}
+const ssl = Boolean(SSL);
 
 module.exports = {
   development: {

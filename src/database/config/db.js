@@ -8,23 +8,14 @@ const env = process.env.NODE_ENV || 'development';
 
 const db = config[env];
 
-// eslint-disable-next-line import/no-mutable-exports
-let sequelize;
-if (process.env.SSL === 'true') {
-  sequelize = new Sequelize(db.url, {
-    dialect: process.env.DB_DIALECT,
-    logging: false, // if you want logs
-    dialectOptions: {
-      connectTimeout: 80000, // set to 60 seconds
-      ssl: process.env.SSL,
-    },
-  });
-} else {
-  sequelize = new Sequelize(db.url, {
-    dialect: process.env.DB_DIALECT,
-    logging: false, // if you want logs
-  });
-}
+const sequelize = new Sequelize(db.url, {
+  dialect: process.env.DB_DIALECT,
+  logging: false, // if you want logs
+  dialectOptions: {
+    connectTimeout: 80000, // set to 60 seconds
+    ssl: Boolean(process.env.SSL),
+  },
+});
 
 sequelize.authenticate();
 
