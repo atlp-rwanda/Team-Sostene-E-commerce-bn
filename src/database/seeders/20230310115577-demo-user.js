@@ -20,10 +20,30 @@ export async function up(queryInterface) {
       },
     ]);
   }
+  const [resultThree] = await queryInterface.sequelize.query(`
+  SELECT COUNT(*) AS count FROM users WHERE email='seller@example.com'
+`);
+  // eslint-disable-next-line eqeqeq
+  if (resultThree[0].count == 0) {
+    await queryInterface.bulkInsert('users', [
+      {
+        id: '9ca8294e-ff4b-4d3e-a4a9-d20be172fad6',
+        username: 'coolseller',
+        email: 'seller@example.com',
+        role: 'SELLER',
+        password: await hashPassword('Qwert@12345'),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+  }
 }
 export async function down(queryInterface) {
   await queryInterface.sequelize.query(
     "DELETE FROM users WHERE email = 'testing@example.com'"
+  );
+  await queryInterface.sequelize.query(
+    "DELETE FROM users WHERE email = 'seller@example.com'"
   );
   await queryInterface.bulkDelete('collections', null, {});
 }

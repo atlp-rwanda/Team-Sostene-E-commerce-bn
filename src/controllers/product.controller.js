@@ -1,5 +1,4 @@
 import { collectionServices, productsServices } from '../services';
-import { asyncWrapper } from '../helpers';
 
 const response = (res, cd, msg, dt) =>
   res.status(cd).json({
@@ -24,10 +23,8 @@ const CreateCollection = async (req, res) => {
 };
 
 const DeleteCollection = async (req, res) => {
-  const isDeleted = await collectionServices.deleteCollection(req.params.cid);
-  if (isDeleted) {
-    return response(res, 200, 'Collection Deleted.');
-  }
+  await collectionServices.deleteCollection(req.params.cid);
+  return response(res, 200, 'Collection Deleted.');
 };
 
 const getSingleProduct = async (req, res) => {
@@ -48,7 +45,7 @@ const deleteProduct = async (req, res) => {
   return res.status(404).json({ code: 404, message: 'Product Not Found.' });
 };
 
-const addproduct = asyncWrapper(async (req, res) => {
+const addproduct = async (req, res) => {
   const { cid } = req.params;
   const { productName, productPrice, category, expDate, bonus, quantity } =
     req.body;
@@ -103,9 +100,9 @@ const addproduct = asyncWrapper(async (req, res) => {
         .json({ code: '409', message: 'Existing products', product });
     }
   }
-});
+};
 
-const updateOnadd = asyncWrapper(async (req, res) => {
+const updateOnadd = async (req, res) => {
   const productId = req.params.id;
   const {
     productName,
@@ -121,10 +118,7 @@ const updateOnadd = asyncWrapper(async (req, res) => {
   let url = [];
   let newImages;
 
-  const { product } = await productsServices.getProductByIdAndUser(
-    productId,
-    req.user
-  );
+  const product = await productsServices.getProductById(productId);
 
   const body = {
     name: productName,
@@ -134,14 +128,6 @@ const updateOnadd = asyncWrapper(async (req, res) => {
     bonus,
     quantity,
   };
-
-  if (product === null) {
-    return res.status(404).json({
-      code: '404',
-      message: 'Failed',
-      error: 'Product not found !!!',
-    });
-  }
 
   if (product) {
     const images = await product.getProductImages();
@@ -221,7 +207,7 @@ const updateOnadd = asyncWrapper(async (req, res) => {
       }
     }
   }
-});
+};
 
 const searchProducts = async (req, res) => {
   try {

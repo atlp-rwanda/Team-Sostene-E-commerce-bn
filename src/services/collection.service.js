@@ -7,6 +7,11 @@ async function getCollectionByName(name) {
   return user;
 }
 
+async function getCollectionById(id) {
+  const collection = await Collection.findOne({ where: { id } });
+  return collection;
+}
+
 async function getCollectionByIdAndUserId(id, userId) {
   const user = await Collection.findOne({ where: { id, userId } });
   return user;
@@ -51,4 +56,5 @@ export default {
   getCollectionByIdAndUserId,
   deleteCollection,
   deleteFromCollection,
+  getCollectionById,
 };
