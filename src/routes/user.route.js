@@ -38,7 +38,7 @@ router.patch(
   '/tfa-enable-disable',
   isAuthenticated,
   checkPermission('SELLER'),
-  tfaEnableDisable
+  asyncWrapper(tfaEnableDisable)
 );
 
 router.patch(

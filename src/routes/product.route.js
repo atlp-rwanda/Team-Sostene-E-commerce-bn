@@ -4,6 +4,7 @@ import {
   checkPermission,
   isAuthenticated,
   isCollectionExists,
+  isProductSeller,
   isValidCollection,
   validate,
   validateParams,
@@ -58,7 +59,7 @@ router.post(
   isAuthenticated,
   checkPermission('SELLER'),
   isValidCollection,
-  productControllers.addproduct
+  asyncWrapper(productControllers.addproduct)
 );
 
 router.patch(
@@ -67,7 +68,8 @@ router.patch(
   validate(addproductSchema),
   isAuthenticated,
   checkPermission('SELLER'),
-  productControllers.updateOnadd
+  isProductSeller,
+  asyncWrapper(productControllers.updateOnadd)
 );
 
 export default router;
