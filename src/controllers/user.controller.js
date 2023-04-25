@@ -155,7 +155,7 @@ const disableUserAccount = async (req, res) => {
   });
 };
 
-const forgotPassword = async (req, res) => {
+const forgotPassword = asyncWrapper(async (req, res) => {
   const { email } = req.body;
   const user = await userServices.getUserByEmail(email);
   if (!user) {
@@ -179,8 +179,7 @@ const forgotPassword = async (req, res) => {
     message: 'Message  sent successfully!',
     token,
   });
-};
-
+});
 const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;

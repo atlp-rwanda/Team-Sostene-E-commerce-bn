@@ -67,4 +67,5 @@ router.patch(
   validate(newPasswordSchema),
   asyncWrapper(userControllers.changePassword)
 );
+
 export default router;
