@@ -18,15 +18,6 @@ const userDetails = {
 };
 
 describe('Testing User Login Routes with Errors', function () {
-  it('It Should Test Hello world from /', function (done) {
-    chai
-      .request(server)
-      .get('/')
-      .end((err, res) => {
-        res.should.have.status(200);
-        done();
-      });
-  });
   it('It Should Be Unauthorized Since there is no login', function (done) {
     chai
       .request(server)

@@ -11,6 +11,7 @@ import {
 import checkPermission from './checkPermission.middleware';
 import errorHandler from './errorhandler.middleware';
 import validateParams from './validation/paramValidation';
+import isProductSeller from './product/productExists';
 
 export {
   isAuthenticated,
@@ -22,4 +23,5 @@ export {
   checkPermission,
   errorHandler,
   validateParams,
+  isProductSeller,
 };

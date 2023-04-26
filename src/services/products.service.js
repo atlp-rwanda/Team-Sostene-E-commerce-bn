@@ -1,9 +1,8 @@
+import { Op } from 'sequelize';
 import { extractPublicId } from 'cloudinary-build-url';
 import Products from '../database/models/products.model';
 import Images from '../database/models/images.model';
 import Cloudinary from '../helpers/cloudinary';
-import Collection from '../database/models/collection.model';
-import { Op } from 'sequelize';
 
 async function createProduct(body) {
   const data = await Products.create(body);
@@ -39,18 +38,9 @@ async function getProductByNameAndCollectionId(name, cid) {
   return { product };
 }
 
-async function getProductByIdAndUser(id, user) {
+async function getProductById(id) {
   const product = await Products.findOne({ where: { id } });
-  if (!product) {
-    return { product };
-  }
-  const collection = await Collection.findOne({
-    where: { id: product.collectionId },
-  });
-  if (user.id !== collection.userId) {
-    throw new Error('Unauthorized Seller');
-  }
-  return { product };
+  return product;
 }
 
 async function searchproduct(query) {
@@ -83,7 +73,7 @@ export default {
   addUpdate,
   uploadImage,
   getProductByNameAndCollectionId,
-  getProductByIdAndUser,
+  getProductById,
   deleteImage,
   AddImage,
   searchproduct,

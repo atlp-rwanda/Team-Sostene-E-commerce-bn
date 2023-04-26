@@ -19,6 +19,11 @@ const pathThree = path.join(__dirname, '..', 'assets', 'images', '3.jpg');
 const pathFour = path.join(__dirname, '..', 'assets', 'images', '4.jpg');
 const file = path.join(__dirname, '..', 'assets', 'images', 'testFile.txt');
 
+const testUserLogin = {
+  email: 'seller@example.com',
+  password: 'Qwert@12345',
+};
+
 describe('adding product', function () {
   let token;
   let product;
@@ -46,7 +51,21 @@ describe('adding product', function () {
     await Promise.all(promises);
     await Products.destroy({ where: { name: 'testname' } });
   });
-
+  it('should not add a new product due to few images', async function () {
+    const response = await chai
+      .request(app)
+      .post(`/products/collection/${collectionID}`)
+      .set('authorization', `Bearer ${token}`)
+      .set('user', JSON.stringify({ id: data.userId }))
+      .field('productName', 'testname')
+      .field('productPrice', '0000')
+      .field('category', 'test')
+      .field('quantity', '1')
+      .field('expDate', '2000-02-02')
+      .field('bonus', '0')
+      .attach('image', fs.readFileSync(pathOne), '1.jpg');
+    expect(response).to.have.status(400);
+  });
   it('should add a new product', async function () {
     const response = await chai
       .request(app)
@@ -192,42 +211,44 @@ describe('adding product', function () {
     await productControllers.updateOnadd(req, res);
   });
 
-  it('product not found', async function () {
-    const req = {
-      user: { id: `${data.userId}` },
-      body: { productName: 'ok' },
-      files: [1, 2, 3, 4, 5],
-      params: { id: '1a1babd1-8afa-4cb7-9646-57e85d113972' },
-    };
-    const res = {
-      status(statusCode) {
-        expect(statusCode).to.equal(404);
-        return this;
-      },
-      json(responseBody) {
-        expect(responseBody).to.have.property('error');
-      },
-    };
-    await productControllers.updateOnadd(req, res);
-  });
-
   it('should fail if the product is not for the seller', async function () {
     product = await Products.findOne({ where: { name: 'testname' } });
-    const req = {
-      user: { id: '438ff3ca-7b82-4ead-8deb-3dc46db253d1', username: 'test' },
-      params: { id: product.id },
-      body: { productName: 'ok' },
-    };
-    const res = {
-      status(statusCode) {
-        expect(statusCode).to.equal(500);
-        return this;
-      },
-      json(responseBody) {
-        expect(responseBody).to.have.property('error');
-      },
-    };
-    await productControllers.updateOnadd(req, res);
+    const user = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const fToken = user.body.token;
+    const response = await chai
+      .request(app)
+      .patch(`/products/update/${product.id}`)
+      .set({ Authorization: `Bearer ${fToken}` })
+      .field('productName', 'testname')
+      .field('productPrice', '0000')
+      .field('category', 'test')
+      .field('expDate', '2000-02-02')
+      .field('quantity', '1')
+      .field('bonus', '0');
+    expect(response).to.have.status(401);
+  });
+
+  it('product not found', async function () {
+    product = await Products.findOne({ where: { name: 'testname' } });
+    const user = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const fToken = user.body.token;
+    const response = await chai
+      .request(app)
+      .patch(`/products/update/51ea5366-ea5c-4501-9ade-4cd50009c84c`)
+      .set({ Authorization: `Bearer ${fToken}` })
+      .field('productName', 'testname')
+      .field('productPrice', '0000')
+      .field('category', 'test')
+      .field('expDate', '2000-02-02')
+      .field('quantity', '1')
+      .field('bonus', '0');
+    expect(response).to.have.status(404);
   });
 
   it('unsupported file', async function () {
