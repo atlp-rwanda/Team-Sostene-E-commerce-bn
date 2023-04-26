@@ -3,7 +3,6 @@ jobs:
   run_tests:
     docker: 
       - image: circleci/node:16
-      - image: circleci/redis:latest
       - image: circleci/postgres:latest
         environment:
           POSTGRES_DB: postgres

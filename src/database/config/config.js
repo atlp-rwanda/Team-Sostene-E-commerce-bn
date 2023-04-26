@@ -14,9 +14,6 @@ module.exports = {
   },
   test: {
     url: TEST_DATABASE_URL,
-    dialectOptions: {
-      ssl,
-    },
   },
   production: {
     url: DATABASE_URL,

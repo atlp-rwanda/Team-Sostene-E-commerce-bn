@@ -58,7 +58,6 @@ export async function up(queryInterface) {
         category: 'snacks',
         expDate: '2023',
         bonus: 100,
-        images: ['picture'],
         quantity: 10,
         collectionId,
         createdAt: new Date(),
@@ -76,6 +75,6 @@ export async function down(queryInterface) {
   );
 
   await queryInterface.sequelize.query(
-    `DELETE FROM products WHERE id = 'a2c9252e-e933-4111-9816-d912a3eabd0f'`
+    `DELETE FROM products WHERE id = '438ff3ca-7b82-4ead-8deb-3dc46db253d2'`
   );
 }
