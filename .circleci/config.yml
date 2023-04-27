@@ -35,8 +35,8 @@ jobs:
             ./cc-test-reporter before-build
             ./cc-test-reporter after-build --exit-code $? -t lcov --prefix coverage
       - run:
-          name: Undo Seeds
-          command: npm run seed_undo_all  -- --env test
+          name: Undo Seeds and Migrations
+          command: npm run seed_undo_all  -- --env test && npm run migrate_undo_all -- --env test
 workflows:
   build_tests:
     jobs:
