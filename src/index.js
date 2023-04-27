@@ -43,10 +43,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use('/', router);
 
-app.get('/', (req, res) => {
-  res.status(200).json('Hello World! ');
-});
-
 app.use(errorHandler);
 
 app.listen(PORT);

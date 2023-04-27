@@ -13,7 +13,7 @@ const isAuthenticated = async (req, res, next) => {
     const token = header.split(' ')[1];
     const userInfo = decodeToken(token);
     const { id } = userInfo;
-    const redisToken = await redisClient.get(id, (err, data) => data);
+    const redisToken = await redisClient.get(id);
     if (redisToken === token) {
       const isVerified = decodeToken(redisToken);
       if (!isVerified) {

@@ -74,7 +74,7 @@ const login = async (req, res, next) => {
 const verifyOTP = asyncWrapper(async (req, res) => {
   const { verificationCode } = req.body;
   const { email } = req.params;
-  const result = await redisClient.get(email, async (err, data) => data);
+  const result = await redisClient.get(email, (err, data) => data);
   const redisOTP = result.split('=')[0];
   const redisToken = result.split('=')[1];
   if (redisOTP === verificationCode) {

@@ -5,6 +5,8 @@ const redisClient = createClient({
   connect_timeout: 30000, // 30 seconds
 });
 
+redisClient.on('error', (err) => err);
+
 redisClient.connect();
 
 export default redisClient;

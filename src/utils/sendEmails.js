@@ -18,16 +18,11 @@ const sendEmail = async (reciever, req, res) => {
     secure: true,
   };
   transporter.sendMail(options, async (error, info) => {
-    if (error) {
-    } else if (res && req) {
-      res.send({
-        status: req.t('success'),
-        Emailsent: info.response,
-        token: reciever.token,
-      });
-    } else {
-      console.log(`Email sent: ${info.response}`);
-    }
+    res.send({
+      status: req.t('success'),
+      Emailsent: info.response,
+      token: reciever.token,
+    });
   });
 };
 

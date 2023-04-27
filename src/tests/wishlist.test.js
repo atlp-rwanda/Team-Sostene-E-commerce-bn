@@ -83,7 +83,7 @@ describe('Testing add product to the wishlist', function () {
 
 describe('Testing all services', function () {
   it('should create a new wishlist for the given user ID', async function () {
-    const userId = '46e6ce84-5427-46cc-ac7e-11b747daefed';
+    const userId = '0f1548b0-b7ce-49e3-a2ef-baffffd383aa';
     const wishlist = await wishListServices.createWishlist(userId);
 
     expect(wishlist).to.be.an('object');
