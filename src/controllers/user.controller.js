@@ -55,7 +55,7 @@ const login = async (req, res, next) => {
           return twoFactorAuth(res, user);
         }
         const token = generateToken(data);
-        redisClient.setEx(user.id, 86400, token);
+        await redisClient.setEx(user.id, 86400, token);
         req.user = user;
         return res
           .status(200)
@@ -111,7 +111,7 @@ const loginWithGoogle = async (req, res, next) => {
       role: user.role,
     };
     const token = generateToken(body);
-    redisClient.setEx(user.id, 86400, token);
+    await redisClient.setEx(user.id, 86400, token);
     req.user = user;
     res
       .status(200)

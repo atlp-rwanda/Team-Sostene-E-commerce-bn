@@ -17,6 +17,7 @@ import {
 import CollectionNameSchema from './validationSchemas/collectionSchemas';
 import addproductSchema from './validationSchemas/productSchema';
 import uuidSchemas from './validationSchemas/uuidSchemas';
+import reviewSchema from './validationSchemas/reviewSchema';
 
 export {
   errorMessage,
@@ -35,4 +36,5 @@ export {
   newPasswordSchema,
   addproductSchema,
   uuidSchemas,
+  reviewSchema,
 };
