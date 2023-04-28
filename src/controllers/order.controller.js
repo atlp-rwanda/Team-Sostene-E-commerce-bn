@@ -41,7 +41,6 @@ server.on('upgrade', (req, socket, head) => {
 
 server.listen(4000);
 
-
 const getOrderStatusEvents = async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Access-Control-Allow-Origin', '*');

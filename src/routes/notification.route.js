@@ -3,6 +3,7 @@ import path from 'path';
 import { isAuthenticated } from '../middleware';
 import { asyncWrapper } from '../helpers';
 import notificationServices from '../services/notification.services';
+import { readNotificationController } from '../controllers';
 
 const router = Router();
 
@@ -23,6 +24,18 @@ router.get(
       Notifications,
     });
   })
+);
+
+router.post(
+  '/read',
+  isAuthenticated,
+  asyncWrapper(readNotificationController.markAllAsRead)
+);
+
+router.post(
+  '/:notificationId/read',
+  isAuthenticated,
+  asyncWrapper(readNotificationController.markOneAsRead)
 );
 
 export default router;

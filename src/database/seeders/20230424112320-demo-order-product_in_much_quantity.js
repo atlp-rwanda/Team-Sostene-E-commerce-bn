@@ -16,7 +16,7 @@ export async function up(queryInterface) {
     await queryInterface.bulkInsert('users', [
       {
         id: buyerId,
-        username: 'testingbuyer1',
+        username: 'testingbuyer2',
         email: 'testingbuyer2@gmail.com',
         role: 'BUYER',
         password: await hashPassword('Qwert@12345'),
@@ -90,7 +90,7 @@ export async function up(queryInterface) {
         name: 'testing checkout2',
         price: 2000,
         category: 'test',
-        quantity: 20,
+        quantity: 20000,
         expDate: '2000-02-02',
         bonus: 0,
         collectionId,
