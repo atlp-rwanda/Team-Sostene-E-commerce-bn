@@ -5,6 +5,7 @@ import productsServices from './products.service';
 import twoFactorAuth from './twofactor.service';
 import wishListServices from './wishlist.services';
 import reviewsServices from './reviews.service';
+import cartServices from './cart.services';
 
 export {
   userServices,
@@ -14,4 +15,5 @@ export {
   twoFactorAuth,
   wishListServices,
   reviewsServices,
+  cartServices,
 };

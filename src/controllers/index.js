@@ -4,6 +4,7 @@ import wishesController from './wishes.controller';
 import roleControllers from './roles.controller';
 import tfaEnableDisable from './enableDisable';
 import reviewControllers from './review.controller';
+import cartController from './cart.controller';
 
 export {
   userControllers,
@@ -12,4 +13,5 @@ export {
   roleControllers,
   tfaEnableDisable,
   reviewControllers,
+  cartController,
 };
