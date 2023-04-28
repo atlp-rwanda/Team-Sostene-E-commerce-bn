@@ -13,4 +13,10 @@ const addToCart = (req, res) => {
   });
 };
 
-export default { addToCart };
+const viewCartItems = async (req, res) => {
+  const userId = req.user.id;
+  const data = await cartServices.getCart(userId);
+  return res.status(200).json({ code: 200, message: 'Cart Fetched', data });
+};
+
+export default { viewCartItems, addToCart };

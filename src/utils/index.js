@@ -1,7 +1,7 @@
 import errorMessage from './errormessage';
 import generateOtp from './generateOtp';
 import sendEmails from './sendEmails';
-import { hashPassword, comparePassword } from './password';
+import { hashPassword, comparePassword } from './password'; //eslint-disable-line
 import {
   generateToken,
   decodeToken,
