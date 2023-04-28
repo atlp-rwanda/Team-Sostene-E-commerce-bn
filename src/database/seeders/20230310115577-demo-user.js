@@ -17,6 +17,8 @@ export async function up(queryInterface) {
         password: await hashPassword('Qwert@12345'),
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastPasswordUpdate: new Date(),
+        passwordStatus: 'PASSWORD_UPDATED',
       },
     ]);
   }

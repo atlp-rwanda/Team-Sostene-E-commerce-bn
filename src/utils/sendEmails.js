@@ -9,6 +9,9 @@ const sendEmail = async (reciever, req, res) => {
       user: process.env.GMAIL_USER,
       pass: process.env.GMAIL_PASS,
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
   const options = {
     from: process.env.GMAIL_USER,
@@ -19,7 +22,7 @@ const sendEmail = async (reciever, req, res) => {
     secure: true,
   };
   transporter.sendMail(options, async (error, info) => {
-    if (subject !== 'webhook error') {
+    if (subject !== 'webhook error' || subject !== 'expired password') {
       res.send({
         status: req.t('success'),
         Emailsent: info.response,

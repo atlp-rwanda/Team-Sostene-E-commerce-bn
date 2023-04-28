@@ -56,6 +56,13 @@ const updateProductTemplate = (username, productName) => `
     <p style="color: #000; font-size: 16px;">Your product ${productName} has been updated successfully.<br/><br/>
     <p style="color: #000; font-size: 14px;">Thank you for choosing Team-Sostene e-commerce.</p>
     </div>`;
+const sendExpiredPasswordMailTemplate = () => `
+    <div style="background-color: #F2F2F2; padding: 20px;">
+    <h1 style="color: #004D99; text-align: center;">You are receiving this email because your password has expired.</h1>
+    <p style="color: #000; font-size: 16px;">Dear Customer,\n\nPlease click on the following button to change your password:</p>
+    <a href="${process.env.DEPLOYED_URL}/users/change-password" style="display: block; text-align: center; padding: 10px 20px; background-color: #004D99; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Change Password</a>
+    <p style="color: #000; font-size: 14px;">Thank you, Team-Sostene e-commerce.</p>
+    </div>`;
 
 export default {
   ForgortPasswordTemplate,
@@ -67,4 +74,5 @@ export default {
   createProductTemplate,
   updateProductTemplate,
   signupTemplate,
+  sendExpiredPasswordMailTemplate,
 };
