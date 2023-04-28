@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 import User from './user.model.js';

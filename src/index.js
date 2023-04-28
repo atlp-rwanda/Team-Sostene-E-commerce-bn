@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import '@babel/polyfill';
 import '@babel/register';
 import express from 'express';

@@ -1,4 +1,5 @@
-import emailServices from '../services/email.services';
+// eslint-disable-next-line import/no-cycle
+import { emailServices } from '../services';
 
 const sendEmailReset = (mailConfigurations) => {
   emailServices({

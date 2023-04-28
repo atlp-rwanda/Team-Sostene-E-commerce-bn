@@ -18,6 +18,7 @@ import CollectionNameSchema from './validationSchemas/collectionSchemas';
 import addproductSchema from './validationSchemas/productSchema';
 import uuidSchemas from './validationSchemas/uuidSchemas';
 import reviewSchema from './validationSchemas/reviewSchema';
+import shippingAddressSchema from './validationSchemas/shippingAddressSchema';
 
 export {
   errorMessage,
@@ -37,4 +38,5 @@ export {
   addproductSchema,
   uuidSchemas,
   reviewSchema,
+  shippingAddressSchema,
 };

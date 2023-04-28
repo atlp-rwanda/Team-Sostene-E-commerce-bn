@@ -8,7 +8,7 @@ export async function up(queryInterface) {
   const [result] = await queryInterface.sequelize.query(`
       SELECT COUNT(*) AS count FROM users WHERE email='newSeller@gmail.com'
     `);
-  // eslint-disable-next-line
+  // eslint-disable-next-line eqeqeq
   if (result[0].count == 0) {
     const pass = await hashPassword('Ngabo@12345');
     await queryInterface.bulkInsert('users', [

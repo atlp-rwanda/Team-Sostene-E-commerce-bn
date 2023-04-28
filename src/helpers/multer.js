@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import multer from 'multer';
 import path from 'path';
 

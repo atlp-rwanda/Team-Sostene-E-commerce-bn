@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';

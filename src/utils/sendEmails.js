@@ -1,4 +1,3 @@
-/* eslint-disable no-empty */
 import nodemailer from 'nodemailer';
 
 const sendEmail = async (reciever, req, res) => {

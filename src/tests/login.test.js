@@ -1,4 +1,3 @@
-/* eslint-disable mocha/no-hooks-for-single-case */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
