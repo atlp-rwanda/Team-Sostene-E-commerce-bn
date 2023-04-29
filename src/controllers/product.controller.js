@@ -15,6 +15,7 @@ const CreateCollection = async (req, res) => {
     name: collectionName,
   };
   const collection = await collectionServices.createCollection(collectionObj);
+
   return res.status(201).json({
     code: 201,
     message: 'Collection Created.',
@@ -24,7 +25,7 @@ const CreateCollection = async (req, res) => {
 
 const DeleteCollection = async (req, res) => {
   await collectionServices.deleteCollection(req.params.cid);
-  return response(res, 200, 'Collection Deleted.');
+  return res.status(200).json({ code: 200, message: 'Collection Deleted' });
 };
 
 const getSingleProduct = async (req, res) => {
@@ -87,6 +88,14 @@ const addproduct = async (req, res) => {
           return images;
         });
         await Promise.all(sendImage);
+
+        // await notificationUtils.createdProduct(req.user, productName);
+        // notificationServices.sendNotification(
+        //   userId,
+        //   'Product is created successfully',
+        //   'Product creation',
+        //   'low'
+        // );
         res.status(200).json({
           code: '200',
           message: 'Successful',
@@ -189,6 +198,13 @@ const updateOnadd = async (req, res) => {
           });
           newImages = await Promise.all(imageAdd);
         }
+        // await notificationUtils.updatedProduct(req.user, productName);
+        // notificationServices.sendNotification(
+        //   userId,
+        //   'Product is updated successfully',
+        //   'Product updated',
+        //   'low'
+        // );
         return res.status(200).json({
           code: '200',
           message: 'Successful Updated The Product with images',

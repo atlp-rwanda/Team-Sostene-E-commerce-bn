@@ -1,6 +1,5 @@
 import redisClient from './redis';
-import ForgortPasswordTemplate from './TemplateMail';
-// eslint-disable-next-line import/no-cycle
+import notificationTemplates from './TemplateMail';
 import sendEmailReset from './mailer';
 import configEmail from './configEmail';
 import Cloudinary from './cloudinary';
@@ -9,10 +8,10 @@ import asyncWrapper from './asyncwrapper';
 
 export {
   redisClient,
-  ForgortPasswordTemplate,
   sendEmailReset,
   configEmail,
   Cloudinary,
   Upload,
   asyncWrapper,
+  notificationTemplates,
 };

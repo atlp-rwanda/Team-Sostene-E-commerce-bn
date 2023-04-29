@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+</head>
+<body>
+    <div class="container" id="mydiv">
+        <h1 id="mydivheader">Notifications</h1>
+      <div class="n-container" id="container" >
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+        const user = {
+            data: {}
+        }
+        connecting(user);
+        function connecting(user) {
+          username = `${user.data.username}`;
+          const socket = io({
+            query: { authToken: token }
+          });
+          socket.on('unauthorized', (alerting) => {
+            alert(`Login First ${alerting}`)
+          })
+          socket.emit('join');
+          socket.id = user.data.id;
+          const userId = socket.id;
+          socket.on('joined', (data) => {
+            console.log(data);
+          })
+          socket.on('notification', (notification) => {
+            console.log(notification.message);
+          })
+        }
+    </script>
+</body>
+</html>
