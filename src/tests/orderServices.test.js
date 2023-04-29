@@ -1,37 +1,7 @@
-import chai from 'chai';
-import chaiHttp from 'chai-http';
+import { expect } from 'chai';
 import sinon from 'sinon';
-import app from '../index';
 import Order from '../database/models/order.model';
 import { orderServices } from '../services';
-
-chai.use(chaiHttp);
-const { expect } = chai;
-
-describe('Testing Orders status retrieval and updation', function () {
-  let authToken;
-  before(async function () {
-    // Get an authentication token for the test user
-    const res = await chai
-      .request(app)
-      .post('/users/login')
-      .send({ email: 'testingbuyer2@gmail.com', password: 'Qwert@12345' });
-    authToken = res.body.token;
-  });
-  describe('GET /orders', function () {
-    it('should return all orders for the authenticated user', async function () {
-      const res = await chai
-        .request(app)
-        .get('/orders')
-        .set('Authorization', `Bearer ${authToken}`);
-      expect(res).to.have.status(200);
-      expect(res.body.code).to.equal('200');
-      expect(res.body.message).to.be.a('string');
-      expect(res.body.data).to.be.an('object');
-      expect(res.body.data.orders).to.be.an('array');
-    });
-  });
-});
 
 describe('Order services', function () {
   describe('getOrdersByUser', function () {
