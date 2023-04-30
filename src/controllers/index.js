@@ -12,6 +12,7 @@ import {
   userProfileController,
   fetchUserController,
 } from './userProfile.controller';
+import collectionItemControllers from './updateCollectionItem.controller';
 
 export {
   userControllers,
@@ -25,4 +26,5 @@ export {
   userProfileController,
   fetchUserController,
   readNotificationController,
+  collectionItemControllers,
 };

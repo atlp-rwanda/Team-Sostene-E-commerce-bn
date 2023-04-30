@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import User from '../database/models/user.model';
 import { hashPassword } from '../utils';
 

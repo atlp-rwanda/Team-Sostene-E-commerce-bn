@@ -30,12 +30,8 @@
         socket.emit('join');
         socket.id = user.data.id;
         const userId = socket.id;
-        socket.on('joined', (data) => {
-          console.log(data);
-        });
-        socket.on('notification', (notification) => {
-          console.log(notification.message);
-        });
+        socket.on('joined', (data) => {});
+        socket.on('notification', (notification) => {});
       }
     </script>
   </body>

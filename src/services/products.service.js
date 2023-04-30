@@ -68,6 +68,23 @@ async function searchproduct(query) {
   return product;
 }
 
+async function imagesExists(newImages, productImages) {
+  const images = [];
+  productImages.forEach((image) => {
+    images.push(image.dataValues.url);
+  });
+  const hasNewImageUrl = newImages.some((url) => !images.includes(url));
+  return hasNewImageUrl;
+}
+async function imageExist(newImage, productImage) {
+  const images = [];
+  productImage.forEach((image) => {
+    images.push(image.dataValues.url);
+  });
+  const hasNewImageUrl = !images.includes(newImage);
+  return hasNewImageUrl;
+}
+
 export default {
   createProduct,
   addUpdate,
@@ -77,4 +94,6 @@ export default {
   deleteImage,
   AddImage,
   searchproduct,
+  imageExist,
+  imagesExists,
 };

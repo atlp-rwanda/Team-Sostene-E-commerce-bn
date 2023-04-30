@@ -9,7 +9,7 @@ import {
   validate,
   validateParams,
 } from '../middleware';
-import { productControllers } from '../controllers';
+import { productControllers, collectionItemControllers } from '../controllers';
 import { CollectionNameSchema, addproductSchema, uuidSchemas } from '../utils';
 import Upload from '../helpers/multer';
 import { asyncWrapper } from '../helpers';
@@ -50,6 +50,16 @@ router.delete(
   checkPermission('SELLER'),
   isValidCollection,
   asyncWrapper(productControllers.DeleteCollection)
+);
+
+router.patch(
+  '/update/item/:id',
+  Upload,
+  validate(addproductSchema),
+  isAuthenticated,
+  checkPermission('SELLER'),
+  isProductSeller,
+  asyncWrapper(collectionItemControllers)
 );
 
 router.post(

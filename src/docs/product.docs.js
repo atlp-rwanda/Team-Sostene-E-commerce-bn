@@ -193,9 +193,8 @@
  *               quantity:
  *                 type: double
  *                 description: quantity
- *               imageIndex:
- *                 type: number
- *                 description: image index to delete
+ *               link:
+ *                 description: image url to delete
  *               image:
  *                 type: array
  *                 items:

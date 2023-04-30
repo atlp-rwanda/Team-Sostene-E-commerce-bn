@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import redisClient from './redis';
 import notificationTemplates from './TemplateMail';
 import sendEmailReset from './mailer';

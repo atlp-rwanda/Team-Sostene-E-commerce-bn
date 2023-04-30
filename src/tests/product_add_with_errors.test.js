@@ -1,13 +1,42 @@
+/* eslint-disable no-unused-vars */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import assert from 'assert';
 import Sinon from 'sinon';
 import passport from 'passport';
+import path from 'path';
+import Jwt from 'jsonwebtoken';
+import fs from 'fs';
+import app from '../index';
 import { isCollectionExists } from '../middleware';
+import { redisClient } from '../helpers';
+import Collection from '../database/models/collection.model';
+import Products from '../database/models/products.model';
 
 chai.use(chaiHttp);
+const { expect } = chai;
+const pathOne = path.join(__dirname, '..', 'assets', 'images', '1.jpg');
+const pathTwo = path.join(__dirname, '..', 'assets', 'images', '2.jpg');
+const pathThree = path.join(__dirname, '..', 'assets', 'images', '3.jpg');
+const pathFour = path.join(__dirname, '..', 'assets', 'images', '4.jpg');
 
 describe('catching error when adding and updating a product', function () {
+  let token;
+  let product;
+  let data;
+  let collectionID;
+
+  before(async function () {
+    data = await Collection.findOne({ where: { name: 'testing Collection' } });
+    collectionID = data.id;
+    const body = {
+      id: data.userId,
+      username: 'rock',
+      role: 'SELLER',
+    };
+    token = Jwt.sign(body, process.env.JWT_SECRET);
+    redisClient.set(body.id, token);
+  });
   it('should call next when the collection by name do not exist', async function () {
     const req = { body: { name: 'Test' } };
     const res = {
@@ -26,5 +55,55 @@ describe('catching error when adding and updating a product', function () {
       assert.strictEqual(err, null);
       done();
     });
+  });
+
+  it('url does not exist on single image delete', async function () {
+    product = await Products.findOne({
+      where: { name: 'testing review product' },
+    });
+    const response = await chai
+      .request(app)
+      .patch(`/products/update/${product.id}`)
+      .set('authorization', `Bearer ${token}`)
+      .set('user', JSON.stringify({ id: data.userId }))
+      .field('productName', 'testname')
+      .field('productPrice', '0000')
+      .field('category', 'test')
+      .field('expDate', '2000-02-02')
+      .field('quantity', '1')
+      .field('bonus', '0')
+      .field('link', 'htttp:fakeUrl.jpg')
+      .attach('image', fs.readFileSync(pathOne), '1.jpg')
+      .attach('image', fs.readFileSync(pathTwo), '1.jpg')
+      .attach('image', fs.readFileSync(pathThree), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg');
+    expect(response).to.have.status(400);
+  });
+
+  it('url does not exist on multiple images delete', async function () {
+    product = await Products.findOne({
+      where: { name: 'testing review product' },
+    });
+    const response = await chai
+      .request(app)
+      .patch(`/products/update/${product.id}`)
+      .set('authorization', `Bearer ${token}`)
+      .set('user', JSON.stringify({ id: data.userId }))
+      .field('productName', 'testname')
+      .field('productPrice', '0000')
+      .field('category', 'test')
+      .field('expDate', '2000-02-02')
+      .field('quantity', '1')
+      .field('bonus', '0')
+      .field('link', 'htttp:fakeUrl.jpg')
+      .field('link', 'htttp:fakeUrl.jpg')
+      .attach('image', fs.readFileSync(pathOne), '1.jpg')
+      .attach('image', fs.readFileSync(pathTwo), '1.jpg')
+      .attach('image', fs.readFileSync(pathThree), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg');
+    expect(response).to.have.status(400);
   });
 });

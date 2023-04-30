@@ -20,13 +20,16 @@ const ioServer = require('socket.io')(server);
 sockets(ioServer);
 
 // Start the server
-before(function (done) {
-  server.listen(PORT, done);
-});
+// before(function (done) {
+//   server.listen(PORT, done);
+// });
 
 // Run the tests
 describe('sockets', function () {
   let client;
+  before(function (done) {
+    server.listen(PORT, done);
+  });
 
   it('should emit an error if an invalid auth token is provided', function (done) {
     client = io.connect(SERVER_URL);

@@ -7,7 +7,7 @@ import { redisClient } from '../helpers';
 import app from '../index';
 import Products from '../database/models/products.model.js';
 import Collection from '../database/models/collection.model';
-import { productControllers } from '../controllers';
+import { productControllers, collectionItemControllers } from '../controllers';
 import productsService from '../services/products.service';
 
 const { expect } = chai;
@@ -23,7 +23,7 @@ const testUserLogin = {
   password: 'Qwert@12345',
 };
 
-describe('adding product', function () {
+describe(' updating item in the collection', function () {
   let token;
   let product;
   let data;
@@ -98,12 +98,12 @@ describe('adding product', function () {
     expect(response).to.have.status(404);
   });
 
-  it('it should update if the product exists with single images ', async function () {
+  it('it should update if the item exists in the collection with single images ', async function () {
     product = await Products.findOne({ where: { name: 'testname' } });
     const images = await product.getProductImages();
     const response = await chai
       .request(app)
-      .patch(`/products/update/${product.id}`)
+      .patch(`/products/update/item/${product.id}`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
       .field('productName', 'testname')
@@ -117,12 +117,12 @@ describe('adding product', function () {
     expect(response).to.have.status(200);
   });
 
-  it('it should update if the product exists with multiple images ', async function () {
+  it('it should update if the item exists in the collection with multiple images ', async function () {
     product = await Products.findOne({ where: { name: 'testname' } });
     const images = await product.getProductImages();
     const response = await chai
       .request(app)
-      .patch(`/products/update/${product.id}`)
+      .patch(`/products/update/item/${product.id}`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
       .field('productName', 'testname')
@@ -138,11 +138,11 @@ describe('adding product', function () {
     expect(response).to.have.status(200);
   });
 
-  it('it should update if the product exists with no images ', async function () {
+  it('it should update if the item exists in the collection with no images ', async function () {
     product = await Products.findOne({ where: { name: 'testname' } });
     const response = await chai
       .request(app)
-      .patch(`/products/update/${product.id}`)
+      .patch(`/products/update/item/${product.id}`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
       .field('productName', 'testname')
@@ -265,5 +265,93 @@ describe('adding product', function () {
       .field('quantity', '1')
       .attach('image', fs.readFileSync(file), 'testfile.txt');
     expect(response).to.have.status(500);
+  });
+  it('url does not exist on single image delete', async function () {
+    product = await Products.findOne({
+      where: { name: 'testing review product' },
+    });
+    const response = await chai
+      .request(app)
+      .patch(`/products/update/item/${product.id}`)
+      .set('authorization', `Bearer ${token}`)
+      .set('user', JSON.stringify({ id: data.userId }))
+      .field('productName', 'testname')
+      .field('productPrice', '0000')
+      .field('category', 'test')
+      .field('expDate', '2000-02-02')
+      .field('quantity', '1')
+      .field('bonus', '0')
+      .field('link', 'htttp:fakeUrl.jpg')
+      .attach('image', fs.readFileSync(pathOne), '1.jpg')
+      .attach('image', fs.readFileSync(pathTwo), '1.jpg')
+      .attach('image', fs.readFileSync(pathThree), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg');
+    expect(response).to.have.status(400);
+  });
+
+  it('url does not exist on multiple images delete', async function () {
+    product = await Products.findOne({
+      where: { name: 'testing review product' },
+    });
+    const response = await chai
+      .request(app)
+      .patch(`/products/update/item/${product.id}`)
+      .set('authorization', `Bearer ${token}`)
+      .set('user', JSON.stringify({ id: data.userId }))
+      .field('productName', 'testname')
+      .field('productPrice', '0000')
+      .field('category', 'test')
+      .field('expDate', '2000-02-02')
+      .field('quantity', '1')
+      .field('bonus', '0')
+      .field('link', 'htttp:fakeUrl.jpg')
+      .field('link', 'htttp:fakeUrl.jpg')
+      .attach('image', fs.readFileSync(pathOne), '1.jpg')
+      .attach('image', fs.readFileSync(pathTwo), '1.jpg')
+      .attach('image', fs.readFileSync(pathThree), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg')
+      .attach('image', fs.readFileSync(pathFour), '1.jpg');
+    expect(response).to.have.status(400);
+  });
+  it('images less than 4 on update with deletion ', async function () {
+    product = await Products.findOne({ where: { name: 'testname' } });
+    const req = {
+      user: { id: `${data.userId}` },
+      params: { id: `${product.id}` },
+      body: { productName: 'ok', link: ['1', '2'] },
+      files: [],
+    };
+    const res = {
+      status(statusCode) {
+        expect(statusCode).to.equal(401);
+        return this;
+      },
+      json(responseBody) {
+        expect(responseBody).to.have.property('error');
+      },
+    };
+    await collectionItemControllers(req, res);
+  });
+
+  it('images higher than 8 on update with no deletion ', async function () {
+    product = await Products.findOne({ where: { name: 'testname' } });
+    const req = {
+      user: { id: `${data.userId}` },
+      params: { id: `${product.id}` },
+      body: { productName: 'ok' },
+      files: [1, 2, 3, 4, 5, 6],
+    };
+    const res = {
+      status(statusCode) {
+        expect(statusCode).to.equal(401);
+        return this;
+      },
+      json(responseBody) {
+        expect(responseBody).to.have.property('error');
+      },
+    };
+    await collectionItemControllers(req, res);
   });
 });

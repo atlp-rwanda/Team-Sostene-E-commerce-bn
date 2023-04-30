@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-inner-declarations */
 import { collectionServices, productsServices } from '../services';
 
 const response = (res, cd, msg, dt) =>
@@ -120,14 +122,22 @@ const updateOnadd = async (req, res) => {
     expDate,
     bonus,
     quantity,
-    imageIndex,
+    link,
   } = req.body;
 
   const img = req.files;
+  let imageUrl = [];
   let url = [];
   let newImages;
 
   const product = await productsServices.getProductById(productId);
+  if (link) {
+    if (Array.isArray(link)) {
+      imageUrl = link;
+    } else {
+      imageUrl.push(link);
+    }
+  }
 
   const body = {
     name: productName,
@@ -139,9 +149,9 @@ const updateOnadd = async (req, res) => {
   };
 
   if (product) {
-    const images = await product.getProductImages();
-    if (imageIndex) {
-      const size = img.length + images.length - imageIndex.length;
+    let images = await product.getProductImages();
+    if (imageUrl.length > 0) {
+      const size = img.length + images.length - imageUrl.length; // imageUrl
       if (size < 4 || size > 8) {
         return res.status(401).json({
           code: '401',
@@ -149,24 +159,43 @@ const updateOnadd = async (req, res) => {
           error: 'product images must be in Range of 4 to 8',
         });
       }
-      if (imageIndex.length > 1) {
-        const deleteImages = imageIndex.map(async (index) => {
-          const { data } = await productsServices.deleteImage(
-            images[index].url
-          );
+      if (imageUrl.length > 1) {
+        // imageUrl
+        const none = await productsServices.imagesExists(imageUrl, images);
+        if (none) {
+          return res.status(400).json({
+            code: '400',
+            message: 'Failed',
+            error: 'check your image urls !!!',
+          });
+        }
+        const deleteImages = imageUrl.map(async (url) => {
+          // imageUrl
+          const { data } = await productsServices.deleteImage(url);
           return data;
         });
-
         await Promise.all(deleteImages);
-        imageIndex.forEach(async (index) => {
-          product.images.splice(index, 1);
+        function removeUrlFromImages(images, url) {
+          return images.filter((image) => image !== url);
+        }
+
+        imageUrl.forEach(async (url) => {
+          images = removeUrlFromImages(images, url);
         });
       } else {
-        await productsServices.deleteImage(images[imageIndex].url);
+        const wrongUrl = await productsServices.imageExist(imageUrl[0], images);
+        if (wrongUrl) {
+          return res.status(400).json({
+            code: '400',
+            message: 'Failed',
+            error: 'check your image urls !!!',
+          });
+        }
+        await productsServices.deleteImage(imageUrl[0]); // imageUrl
       }
     }
     if (img.length >= 1) {
-      const size = img.length + images.length - (imageIndex || []).length;
+      const size = img.length + images.length - (imageUrl || []).length; // imageUrl
       if (size < 4 || size > 8) {
         return res.status(401).json({
           code: '401',
@@ -174,38 +203,28 @@ const updateOnadd = async (req, res) => {
           error: 'product images must be in Range of 4 to 8',
         });
       }
-
       const promises = img.map(async (item) => {
         const { image } = await productsServices.uploadImage(item.path);
         if (image) {
           return image.url;
         }
       });
-
       url = await Promise.all(promises);
     }
 
-    if (img.length >= 1 || imageIndex) {
+    if (img.length >= 1 || imageUrl.length > 0) {
+      // imageUrl
       const { updated } = await productsServices.addUpdate(body, productId);
       if (updated != null) {
         if (img.length >= 1) {
           const imageAdd = url.map(async (item) => {
             const imageBody = { url: item, productId };
             const { data } = await productsServices.AddImage(imageBody);
-            if (data) {
-              return data;
-            }
+            return data;
           });
           newImages = await Promise.all(imageAdd);
         }
-        // await notificationUtils.updatedProduct(req.user, productName);
-        // notificationServices.sendNotification(
-        //   userId,
-        //   'Product is updated successfully',
-        //   'Product updated',
-        //   'low'
-        // );
-        return res.status(200).json({
+        res.status(200).json({
           code: '200',
           message: 'Successful Updated The Product with images',
           product: updated,
