@@ -14,6 +14,7 @@ import options from './docs/apidoc.js';
 import router from './routes';
 import { errorHandler } from './middleware';
 import { sockets } from './helpers/notifications';
+import cron from './jobs';
 
 dotenv.config();
 const app = express();
@@ -51,7 +52,7 @@ app.use('/', router);
 app.use(errorHandler);
 
 const server = app.listen(PORT);
-
+cron();
 io.listen(server);
 
 export default app;

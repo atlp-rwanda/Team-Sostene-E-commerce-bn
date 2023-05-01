@@ -57,6 +57,9 @@ const updateProductTemplate = (username, productName) => `
     <p style="color: #000; font-size: 14px;">Thank you for choosing Team-Sostene e-commerce.</p>
     </div>`;
 
+const ExipedProductTemplate = () => `
+    <p>Please your product is expired removed it from the available list of product.</p>`;
+
 export default {
   ForgortPasswordTemplate,
   changePasswordTemplate,
@@ -67,4 +70,5 @@ export default {
   createProductTemplate,
   updateProductTemplate,
   signupTemplate,
+  ExipedProductTemplate,
 };

@@ -17,7 +17,6 @@ async function addUpdate(body, productId) {
     return { updated, err: null };
   }
 }
-
 async function uploadImage(path) {
   const image = await Cloudinary.uploader.upload(path);
   return { image };
@@ -99,6 +98,31 @@ async function imageExist(newImage, productImage) {
   const hasNewImageUrl = !images.includes(newImage);
   return hasNewImageUrl;
 }
+async function expiredProductDate() {
+  const foundProduct = Products.findAll({
+    where: {
+      expDate: {
+        [Op.lt]: new Date(),
+      },
+    },
+  });
+  return foundProduct;
+}
+async function updateProductStatus(Products) {
+  const status = await Promise.all(
+    Products.map(async (product) => {
+      product.expiredflag = true;
+      await product.save();
+    })
+  );
+  return status;
+}
+// async function listExpiredProduct() {
+//   const delProduct = await Products.findAllProducts({
+//     where: { expiredflag: true },
+//   });
+//   return delProduct;
+// }
 
 export default {
   createProduct,
@@ -113,4 +137,6 @@ export default {
   imagesExists,
   findAllProducts,
   getTotalProductsCount,
+  expiredProductDate,
+  updateProductStatus,
 };
