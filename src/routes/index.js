@@ -7,6 +7,8 @@ import wishlistRoutes from './wishlist.route';
 import reviewRoutes from './review.route';
 import cartRoutes from './cart.route';
 import checkoutRoutes from './checkout.route';
+import orderRoutes from './order.route';
+import notificationRoutes from './notification.route';
 
 const router = express.Router();
 router.use('/', userwithGoogleRoutes);
@@ -16,6 +18,8 @@ router.use('/wishlist', wishlistRoutes);
 router.use('/reviews', reviewRoutes);
 router.use('/cart', cartRoutes);
 router.use('/', checkoutRoutes);
+router.use('/orders', orderRoutes);
+router.use('/notifications', notificationRoutes);
 
 router.use('*', (req, res) => {
   res.status(404).json({

@@ -19,6 +19,7 @@ import addproductSchema from './validationSchemas/productSchema';
 import uuidSchemas from './validationSchemas/uuidSchemas';
 import reviewSchema from './validationSchemas/reviewSchema';
 import shippingAddressSchema from './validationSchemas/shippingAddressSchema';
+import notificationUtils from './notificationUtils';
 
 export {
   errorMessage,
@@ -39,4 +40,5 @@ export {
   uuidSchemas,
   reviewSchema,
   shippingAddressSchema,
+  notificationUtils,
 };

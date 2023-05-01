@@ -13,9 +13,15 @@ import session from 'express-session';
 import options from './docs/apidoc.js';
 import router from './routes';
 import { errorHandler } from './middleware';
+import { sockets } from './helpers/notifications';
 
 dotenv.config();
 const app = express();
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+sockets(io);
 
 app.use(morgan('tiny'));
 
@@ -44,6 +50,8 @@ app.use('/', router);
 
 app.use(errorHandler);
 
-app.listen(PORT);
+const server = app.listen(PORT);
+
+io.listen(server);
 
 export default app;

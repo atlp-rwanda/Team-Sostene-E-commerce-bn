@@ -1,7 +1,7 @@
 import passport from 'passport';
 import {
   redisClient,
-  ForgortPasswordTemplate,
+  notificationTemplates,
   sendEmailReset,
   configEmail,
   asyncWrapper,
@@ -12,14 +12,15 @@ import {
   decodeResetPasswordToken,
   decodeToken,
   hashPassword,
+  notificationUtils,
 } from '../utils';
-import { userServices } from '../services';
+import { userServices, notificationServices } from '../services';
 import twoFactorAuth from '../services/twofactor.service';
 import verifyOldPassword from '../helpers/verifyPassword';
 
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {
-    req.login(user, () => {
+    req.login(user, async () => {
       const body = {
         id: req.user.id,
         username: req.user.username,
@@ -28,6 +29,15 @@ const signUp = async (req, res, next) => {
       };
       const token = generateToken(body);
       redisClient.setEx(req.user.id, 86400, token);
+
+      await notificationUtils.signup(req.user);
+      notificationServices.sendNotification(
+        req.user.id,
+        'Account is created successfully',
+        'User registration',
+        'low'
+      );
+
       res
         .status(201)
         .header('authenticate', token)
@@ -167,7 +177,8 @@ const forgotPassword = asyncWrapper(async (req, res) => {
   }
   const userEmail = { email, id: user.id };
   const token = generateForgetPasswordToken(userEmail);
-  const resetPasswordContent = ForgortPasswordTemplate(token);
+  const resetPasswordContent =
+    notificationTemplates.ForgortPasswordTemplate(token);
   sendEmailReset(
     configEmail({
       email,
@@ -207,32 +218,45 @@ const resetPassword = async (req, res) => {
     });
   }
 };
-const changePassword = async (req, res) => {
-  const user = await userServices.getUserById(req.user.id);
-  // Verify that the old password matches
-  const passwordMatches = await verifyOldPassword(
-    user.dataValues.id,
-    req.body.oldPassword
-  );
-  if (!passwordMatches) {
-    return res.status(401).json({
-      code: 401,
-      message: 'Incorrect password',
+const changePassword = async (req, res, next) => {
+  try {
+    const user = await userServices.getUserById(req.user.id);
+    // Verify that the old password matches
+    const passwordMatches = await verifyOldPassword(
+      user.dataValues.id,
+      req.body.oldPassword
+    );
+    if (!passwordMatches) {
+      return res.status(401).json({
+        code: 401,
+        message: 'Incorrect password',
+      });
+    }
+
+    // Hash the new password and update the user in the database
+    const { newPassword } = req.body;
+    const hashedPassword = await hashPassword(newPassword);
+    user.password = hashedPassword;
+
+    // Save the updated user object
+    await user.save();
+
+    await notificationUtils.changePassword(req.user);
+    notificationServices.sendNotification(
+      req.user.id,
+      'Password is changed successfully',
+      'Password update',
+      'low'
+    );
+
+    return res.status(200).json({
+      code: 200,
+      message: 'Password updated successfully',
+      user,
     });
+  } catch (error) {
+    return next(error);
   }
-
-  // Hash the new password and update the user in the database
-  const { newPassword } = req.body;
-  const hashedPassword = await hashPassword(newPassword);
-  user.password = hashedPassword;
-
-  // Save the updated user object
-  await user.save();
-  return res.status(200).json({
-    code: 200,
-    message: 'Password updated successfully',
-    user,
-  });
 };
 
 export default {

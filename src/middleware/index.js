@@ -14,6 +14,7 @@ import validateParams from './validation/paramValidation';
 import isProductSeller from './product/productExists';
 import checkProductInStock from './product/checkProductInStock.middleware';
 import checkShippingAddressExist from './product/checkShippingAddressExists.middleware';
+import checkOrderExists from './order/checkOrderExists';
 
 export {
   isAuthenticated,
@@ -28,4 +29,5 @@ export {
   isProductSeller,
   checkProductInStock,
   checkShippingAddressExist,
+  checkOrderExists,
 };
