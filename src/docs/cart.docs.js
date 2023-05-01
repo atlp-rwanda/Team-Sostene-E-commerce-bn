@@ -80,6 +80,47 @@
  *         $ref: '#/components/responses/NotFound'
  *       500:
  *         $ref: '#/components/responses/InternalError'
+ * /cart/clear:
+ *   delete:
+ *     summary: Clear the user's cart
+ *     description: user's cart empty.
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful operation. empty cart.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   example: 200
+ *                   description: HTTP status code
+ *                 message:
+ *                   type: string
+ *                   example: Cart cleared
+ *                   description: Response message
+ *                 data:
+ *                   type: object
+ *                   description: Cart data
+ *                   properties:
+ *                     products:
+ *                       type: array
+ *                       example: []
+ *                       description: Empty items remain in cart
+ *                     total:
+ *                       type: number
+ *                       example: 0
+ *                       description: Empty items remain in cart
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalError'
  * components:
  *   responses:
  *     Unauthorized:

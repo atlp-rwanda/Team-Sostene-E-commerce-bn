@@ -19,4 +19,10 @@ const viewCartItems = async (req, res) => {
   return res.status(200).json({ code: 200, message: 'Cart Fetched', data });
 };
 
-export default { viewCartItems, addToCart };
+const clearCartItems = async (req, res) => {
+  const userId = req.user.id;
+  const data = await cartServices.clearCart(userId);
+  return res.status(200).json({ code: 200, message: 'Cart cleared', data });
+};
+
+export default { viewCartItems, addToCart, clearCartItems };
