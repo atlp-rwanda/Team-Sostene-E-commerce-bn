@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import cookieParser from 'cookie-parser';
 import { isAuthenticated, validateParams } from '../middleware';
-import { cartController } from '../controllers';
 import { asyncWrapper } from '../helpers';
 import { uuidSchemas } from '../utils';
+import { cartControllers } from '../controllers';
 
 const router = Router();
 
@@ -13,7 +13,9 @@ router.post(
   '/:pid',
   isAuthenticated,
   validateParams(uuidSchemas.getProductSchema),
-  asyncWrapper(cartController.addToCart)
+  asyncWrapper(cartControllers.addToCart)
 );
+
+router.get('/', isAuthenticated, asyncWrapper(cartControllers.viewCartItems));
 
 export default router;

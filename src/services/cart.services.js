@@ -3,55 +3,52 @@ import { redisClient } from '../helpers';
 import Products from '../database/models/products.model';
 import Images from '../database/models/images.model';
 
-async function createCart(userId) {
-  const products = await redisClient.set(`cart_${userId}`, JSON.stringify([]));
-  return products;
+async function createCart(id) {
+  await redisClient.set(`cart_${id}`, JSON.stringify([]));
+  const cart = await redisClient.get(`cart_${id}`);
+  return JSON.parse(cart);
 }
 
 async function getProductsInCart(userId) {
   const redisProducts = await redisClient.get(`cart_${userId}`);
-  if (!redisProducts) {
-    await createCart(userId);
-  }
-  const products = await redisClient.get(`cart_${userId}`);
-  const result = JSON.parse(products);
+  const result = !redisProducts
+    ? await createCart(userId)
+    : JSON.parse(redisProducts);
   return result;
 }
 
-async function getProductPrice(productId) {
-  const product = await Products.findOne({ where: { id: productId } });
-  return product.price;
-}
-
 async function getProductDetails(productId) {
-  const product = await Products.findOne({
-    where: { id: productId },
-    include: {
-      model: Images,
-      as: 'productImages',
-    },
-  });
+  const product = productId
+    ? await Products.findOne({
+        where: { id: productId },
+        include: {
+          model: Images,
+          as: 'productImages',
+        },
+      })
+    : null;
+
   const details = {
-    id: product.id,
-    image: product.productImages[0] ? product.productImages[0].url : '',
-    name: product.name,
-    price: product.price,
+    id: productId,
+    image:
+      product && product.productImages.length > 0
+        ? product.productImages[0].url
+        : '',
+    name: product ? product.name : '',
+    price: product ? product.price : 0,
   };
   return details;
 }
 
 async function displayCart(cart) {
   let sum = 0;
-  const productDetails = [];
-  async function actualCart(arr) {
-    for (let i = 0; i < arr.length; i += 1) {
-      const prod = getProductDetails(arr[i].productId);
-      productDetails.push({ product: prod, quantity: arr[i].quantity });
-      sum += arr[i].quantity * prod.price;
-    }
-    return productDetails;
-  }
-  await actualCart(cart);
+  const productDetails = await Promise.all(
+    cart.map(async (product) => {
+      const prod = await getProductDetails(product.productId);
+      sum += product.quantity * prod.price;
+      return { product: prod, quantity: product.quantity };
+    })
+  );
   const cartObj = {
     products: productDetails,
     total: sum,
@@ -60,25 +57,13 @@ async function displayCart(cart) {
 }
 
 async function getCart(userId) {
-  const newCart = await getProductsInCart(userId).then((data) => data);
-  async function totalPrice(arr) {
-    const promises = [];
-    for (let i = 0; i < arr.length; i += 1) {
-      const promise = getProductPrice(arr[i].productId).then(
-        (price) => price * arr[i].quantity
-      );
-      promises.push(promise);
-    }
-    return Promise.all(promises).then((prices) =>
-      prices.reduce((sum, price) => sum + price, 0)
-    );
-  }
-  const priceTotal = await totalPrice(newCart);
+  const newCart = await getProductsInCart(userId);
   const cartObj = {
     products: newCart,
-    total: priceTotal,
+    total: 0,
   };
-  return cartObj;
+  const productsArray = newCart ? await displayCart(newCart) : cartObj;
+  return productsArray;
 }
 
 function updateProductsInCart(userId, products) {
@@ -124,4 +109,6 @@ export default {
   displayCart,
   clearCart,
   getCart,
+  getProductsInCart,
+  getProductDetails,
 };

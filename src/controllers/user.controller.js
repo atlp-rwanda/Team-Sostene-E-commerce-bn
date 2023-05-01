@@ -207,36 +207,32 @@ const resetPassword = async (req, res) => {
     });
   }
 };
-const changePassword = async (req, res, next) => {
-  try {
-    const user = await userServices.getUserById(req.user.id);
-    // Verify that the old password matches
-    const passwordMatches = await verifyOldPassword(
-      user.dataValues.id,
-      req.body.oldPassword
-    );
-    if (!passwordMatches) {
-      return res.status(401).json({
-        code: 401,
-        message: 'Incorrect password',
-      });
-    }
-
-    // Hash the new password and update the user in the database
-    const { newPassword } = req.body;
-    const hashedPassword = await hashPassword(newPassword);
-    user.password = hashedPassword;
-
-    // Save the updated user object
-    await user.save();
-    return res.status(200).json({
-      code: 200,
-      message: 'Password updated successfully',
-      user,
+const changePassword = async (req, res) => {
+  const user = await userServices.getUserById(req.user.id);
+  // Verify that the old password matches
+  const passwordMatches = await verifyOldPassword(
+    user.dataValues.id,
+    req.body.oldPassword
+  );
+  if (!passwordMatches) {
+    return res.status(401).json({
+      code: 401,
+      message: 'Incorrect password',
     });
-  } catch (error) {
-    return next(error);
   }
+
+  // Hash the new password and update the user in the database
+  const { newPassword } = req.body;
+  const hashedPassword = await hashPassword(newPassword);
+  user.password = hashedPassword;
+
+  // Save the updated user object
+  await user.save();
+  return res.status(200).json({
+    code: 200,
+    message: 'Password updated successfully',
+    user,
+  });
 };
 
 export default {

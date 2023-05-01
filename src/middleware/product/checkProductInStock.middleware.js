@@ -12,7 +12,7 @@ const checkProductInStock = async (req, res, next) => {
   const allProductsAvailable = await Promise.all(
     productsInCart.map(async (product) => {
       const availablePdt = await productsServices.getProductById(
-        product.productId
+        product.product.id
       );
       return availablePdt.quantity >= product.quantity;
     })

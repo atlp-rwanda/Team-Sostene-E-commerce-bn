@@ -9,7 +9,6 @@ import cartRoutes from './cart.route';
 import checkoutRoutes from './checkout.route';
 
 const router = express.Router();
-
 router.use('/', userwithGoogleRoutes);
 router.use('/users', userRoutes, roleRoutes, checkoutRoutes);
 router.use('/products', productRoutes);
