@@ -15,6 +15,11 @@ router.post(
   validateParams(uuidSchemas.getProductSchema),
   asyncWrapper(cartControllers.addToCart)
 );
+router.delete(
+  '/clear',
+  isAuthenticated,
+  asyncWrapper(cartControllers.clearCartItems)
+);
 
 router.get('/', isAuthenticated, asyncWrapper(cartControllers.viewCartItems));
 

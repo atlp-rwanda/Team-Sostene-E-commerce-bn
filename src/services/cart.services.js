@@ -95,7 +95,8 @@ async function addToCart(userId, pid) {
 
 async function clearCart(userId) {
   await redisClient.set(`cart_${userId}`, JSON.stringify([]));
-  const products = await redisClient.get(`cart_${userId}`);
+  let products = await redisClient.get(`cart_${userId}`);
+  products = JSON.parse(products);
   const cleanedCart = {
     products,
     total: 0,
