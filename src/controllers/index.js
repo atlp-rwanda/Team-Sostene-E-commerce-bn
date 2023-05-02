@@ -6,6 +6,7 @@ import checkoutControllers from './checkout.controller';
 import tfaEnableDisable from './enableDisable';
 import reviewControllers from './review.controller';
 import cartControllers from './cart.controller';
+import readNotificationController from './read_notification.controller';
 
 import {
   userProfileController,
@@ -23,4 +24,5 @@ export {
   cartControllers,
   userProfileController,
   fetchUserController,
+  readNotificationController,
 };

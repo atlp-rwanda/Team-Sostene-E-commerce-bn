@@ -17,9 +17,20 @@ describe('Testing add product to the wishlist', function () {
     email: 'testingwishlist@example.com',
     password: 'Qwert@12345',
   };
+  const newuser = {
+    email: 'testingbuyer1@gmail.com',
+    password: 'Qwert@12345',
+  };
   after(async function () {
     await wishListServices.deleteWishlist(
       '5c2918e4-9482-412a-9c30-1acd08cb5dbb'
+    );
+    const wishlistIds = [
+      '5c2918e4-9482-412a-9c30-1acd08cb5dbb',
+      '01d313c5-8167-4ca7-84d5-ed52b465f2dc',
+    ];
+    await Promise.all(
+      wishlistIds.map((id) => wishListServices.deleteWishlist(id))
     );
   });
 
@@ -75,6 +86,25 @@ describe('Testing add product to the wishlist', function () {
           .send(wishlist)
           .end((err, res) => {
             res.should.have.status(200);
+            done();
+          });
+      });
+  });
+
+  it(' Should add product to the wishlist for the first time', function (done) {
+    chai
+      .request(server)
+      .post('/users/login')
+      .send(newuser)
+      .end((err, res) => {
+        res.should.have.status(200);
+        const { token } = res.body;
+        chai
+          .request(server)
+          .post('/wishlist/products/add/46e6ce84-5427-46cc-ac7e-11b747daefed')
+          .set({ Authorization: `Bearer ${token}` })
+          .end((err, res) => {
+            res.should.have.status(201);
             done();
           });
       });
