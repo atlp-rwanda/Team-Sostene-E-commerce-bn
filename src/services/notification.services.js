@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
 import { redisClient } from '../helpers';

@@ -13,10 +13,7 @@ const addproductSchema = Joi.object().keys({
   bonus: Joi.number().required().messages(errorMessage('bonus')),
   image: Joi.binary().min(1).messages(errorMessage('image')),
   quantity: Joi.number().messages(errorMessage('quantity')),
-  imageIndex: Joi.array()
-    .items(Joi.number().integer().min(0).max(8))
-    .single()
-    .min(1),
+  link: Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())),
 });
 
 export default addproductSchema;

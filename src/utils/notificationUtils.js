@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { notificationTemplates, sendEmailReset, configEmail } from '../helpers';
 
 async function signup(userData) {

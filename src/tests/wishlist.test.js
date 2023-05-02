@@ -90,7 +90,7 @@ describe('Testing add product to the wishlist', function () {
           });
       });
   });
-
+  // adding to wishlist for the first time
   it(' Should add product to the wishlist for the first time', function (done) {
     chai
       .request(server)
