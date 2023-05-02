@@ -14,6 +14,7 @@ import {
   PasswordSchema,
   newPasswordSchema,
 } from './validationSchemas/authenticationSchemas';
+import userProfileSchema from './validationSchemas/userProfileSchema';
 import CollectionNameSchema from './validationSchemas/collectionSchemas';
 import addproductSchema from './validationSchemas/productSchema';
 import uuidSchemas from './validationSchemas/uuidSchemas';
@@ -41,4 +42,5 @@ export {
   reviewSchema,
   shippingAddressSchema,
   notificationUtils,
+  userProfileSchema,
 };

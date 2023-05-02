@@ -14,7 +14,12 @@ import {
   hashPassword,
   notificationUtils,
 } from '../utils';
-import { userServices, notificationServices } from '../services';
+import {
+  userServices,
+  notificationServices,
+  userProfileServices,
+} from '../services';
+
 import twoFactorAuth from '../services/twofactor.service';
 import verifyOldPassword from '../helpers/verifyPassword';
 
@@ -27,6 +32,22 @@ const signUp = async (req, res, next) => {
         email: req.user.email,
         role: user.role,
       };
+      const dataprofiles = {
+        userId: body.id,
+        names: '',
+        gender: '',
+        birthdate: '2023-02-02',
+        language: '',
+        city: '',
+        street: '',
+        currency: '',
+        postalCode: '',
+        country: '',
+        accountNumber: '',
+        accountName: '',
+        telephone: '',
+      };
+      await userProfileServices.createUserProfiles(dataprofiles);
       const token = generateToken(body);
       redisClient.setEx(req.user.id, 86400, token);
 

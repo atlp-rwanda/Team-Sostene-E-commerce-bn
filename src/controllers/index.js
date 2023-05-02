@@ -7,6 +7,11 @@ import tfaEnableDisable from './enableDisable';
 import reviewControllers from './review.controller';
 import cartControllers from './cart.controller';
 
+import {
+  userProfileController,
+  fetchUserController,
+} from './userProfile.controller';
+
 export {
   userControllers,
   productControllers,
@@ -16,4 +21,6 @@ export {
   tfaEnableDisable,
   reviewControllers,
   cartControllers,
+  userProfileController,
+  fetchUserController,
 };

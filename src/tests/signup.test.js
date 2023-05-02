@@ -116,24 +116,19 @@ describe('Testing Signup Route with wrong credentials format', function () {
 });
 
 describe('Testing Signup Route successfully', function () {
+  const userInfo = {
+    email: 'ishimwe999xxtest@mail.com',
+    username: 'ishimwe9xx99test',
+    password: 'Qwert@12345',
+  };
   after(async function () {
-    const user = await userServices.getUserByUsername('ishimwe999');
+    const user = await userServices.getUserByUsername(userInfo.username);
     await userServices.deleteUser(user.id);
   });
   it('should signup user successfully', async function () {
-    // Create a user with a unique ID
-    const user = {
-      email: 'ishimwe999@mail.com',
-      username: 'ishimwe999',
-      password: 'Qwert@12345',
-    };
     // Log in as the user and get the session ID
     const agent = chai.request.agent(server);
-    const response = await agent.post('/users/signup').send({
-      email: user.email,
-      username: user.username,
-      password: user.password,
-    });
+    const response = await agent.post('/users/signup').send(userInfo);
     // Expect the response to have a status code of 201 and token
     chai.expect(response).to.have.status(201);
     chai.expect(response.body).to.be.an('object').to.have.property('token');
