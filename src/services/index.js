@@ -10,6 +10,7 @@ import reviewsServices from './reviews.service';
 import cartServices from './cart.services';
 import orderServices from './order.service';
 import notificationServices from './notification.services';
+import userProfileServices from './userProfile.service';
 
 export {
   userServices,
@@ -23,4 +24,5 @@ export {
   reviewsServices,
   orderServices,
   notificationServices,
+  userProfileServices,
 };

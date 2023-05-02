@@ -1,12 +1,18 @@
 import { Router } from 'express';
 import '../middleware/passport';
-import { userControllers, tfaEnableDisable } from '../controllers';
+import {
+  userControllers,
+  tfaEnableDisable,
+  userProfileController,
+  fetchUserController,
+} from '../controllers';
 import checkUser from '../middleware/checkUser';
 import {
   LoginSchema,
   SignUpSchema,
   PasswordSchema,
   newPasswordSchema,
+  userProfileSchema,
 } from '../utils';
 import {
   isAuthenticated,
@@ -40,6 +46,15 @@ router.patch(
   checkPermission('SELLER'),
   asyncWrapper(tfaEnableDisable)
 );
+
+router.put(
+  '/profile',
+  isAuthenticated,
+  validate(userProfileSchema),
+  asyncWrapper(userProfileController)
+);
+
+router.get('/profile', isAuthenticated, asyncWrapper(fetchUserController));
 
 router.patch(
   '/disable/:id',
