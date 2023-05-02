@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
+// eslint-disable-next-line import/no-cycle
 import { redisClient } from '../helpers';
 
 const notificationEmitter = new EventEmitter();

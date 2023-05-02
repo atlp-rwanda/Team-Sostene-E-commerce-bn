@@ -18,17 +18,17 @@ describe('Testing add product to the wishlist', function () {
     password: 'Qwert@12345',
   };
   const newuser = {
-    email: 'testingbuyer1@gmail.com',
+    email: 'orderuser@example.com',
     password: 'Qwert@12345',
   };
   after(async function () {
-    await wishListServices.deleteWishlist(
-      '5c2918e4-9482-412a-9c30-1acd08cb5dbb'
-    );
     const wishlistIds = [
       '5c2918e4-9482-412a-9c30-1acd08cb5dbb',
       '01d313c5-8167-4ca7-84d5-ed52b465f2dc',
     ];
+    await Promise.all(
+      wishlistIds.map((id) => wishListServices.deleteWishlist(id))
+    );
     await Promise.all(
       wishlistIds.map((id) => wishListServices.deleteWishlist(id))
     );

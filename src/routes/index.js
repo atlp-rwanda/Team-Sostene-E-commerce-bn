@@ -9,6 +9,7 @@ import cartRoutes from './cart.route';
 import checkoutRoutes from './checkout.route';
 import orderRoutes from './order.route';
 import notificationRoutes from './notification.route';
+import paymentRouter from './payment.route';
 
 const router = express.Router();
 router.use('/', userwithGoogleRoutes);
@@ -20,6 +21,7 @@ router.use('/cart', cartRoutes);
 router.use('/', checkoutRoutes);
 router.use('/orders', orderRoutes);
 router.use('/notifications', notificationRoutes);
+router.use('/checkout', paymentRouter);
 
 router.use('*', (req, res) => {
   res.status(404).json({

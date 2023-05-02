@@ -91,14 +91,6 @@ const addproduct = async (req, res) => {
           return images;
         });
         await Promise.all(sendImage);
-
-        // await notificationUtils.createdProduct(req.user, productName);
-        // notificationServices.sendNotification(
-        //   userId,
-        //   'Product is created successfully',
-        //   'Product creation',
-        //   'low'
-        // );
         res.status(200).json({
           code: '200',
           message: 'Successful',

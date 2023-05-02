@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
 
+let subject;
 const sendEmail = async (reciever, req, res) => {
+  subject = reciever.subject;
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -17,11 +19,13 @@ const sendEmail = async (reciever, req, res) => {
     secure: true,
   };
   transporter.sendMail(options, async (error, info) => {
-    res.send({
-      status: req.t('success'),
-      Emailsent: info.response,
-      token: reciever.token,
-    });
+    if (subject !== 'webhook error') {
+      res.send({
+        status: req.t('success'),
+        Emailsent: info.response,
+        token: reciever.token,
+      });
+    }
   });
 };
 

@@ -15,6 +15,7 @@ import isProductSeller from './product/productExists';
 import checkProductInStock from './product/checkProductInStock.middleware';
 import checkShippingAddressExist from './product/checkShippingAddressExists.middleware';
 import checkOrderExists from './order/checkOrderExists';
+import madePayment from './order/paymentMade';
 
 export {
   isAuthenticated,
@@ -30,4 +31,5 @@ export {
   checkProductInStock,
   checkShippingAddressExist,
   checkOrderExists,
+  madePayment,
 };
