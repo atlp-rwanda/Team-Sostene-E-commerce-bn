@@ -20,6 +20,17 @@ router.use(cookieParser());
 
 router.get('/search', productControllers.searchProducts);
 
+router.get('/all', asyncWrapper(productControllers.listAllItems));
+
+router.get(
+  '/list-items/:cid',
+  validateParams(uuidSchemas.collectionIdSchema),
+  isAuthenticated,
+  checkPermission('SELLER'),
+  isValidCollection,
+  asyncWrapper(productControllers.listItems)
+);
+
 router.get(
   '/:pid',
   validateParams(uuidSchemas.getProductSchema),

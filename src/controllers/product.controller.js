@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-inner-declarations */
+/* eslint-disable radix */
 import { collectionServices, productsServices } from '../services';
 
 const response = (res, cd, msg, dt) =>
@@ -257,6 +258,52 @@ const searchProducts = async (req, res) => {
   }
 };
 
+const listItems = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const offset = (page - 1) * limit;
+  const userId = req.user.id;
+  const collection = req.params.cid;
+  const product = await collectionServices.findCollection(userId, collection, {
+    offset,
+    limit,
+  });
+  const totalCount = await collectionServices.getTotalCollectionCount(
+    userId,
+    collection
+  );
+  const totalPage = Math.ceil(totalCount / limit);
+  return res.status(200).json({
+    code: 200,
+    message: 'All items are all retrieved',
+    product,
+    totalPage,
+    page,
+  });
+};
+
+const listAllItems = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const offset = (page - 1) * limit;
+
+  const products = await productsServices.findAllProducts({ offset, limit });
+
+  const totalCount = await productsServices.getTotalProductsCount();
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  return res.status(200).json({
+    code: 200,
+    message: `Products for page ${page} are retrieved`,
+    products,
+    page,
+    totalPages,
+  });
+};
+
 export default {
   CreateCollection,
   DeleteCollection,
@@ -265,4 +312,6 @@ export default {
   addproduct,
   updateOnadd,
   searchProducts,
+  listItems,
+  listAllItems,
 };

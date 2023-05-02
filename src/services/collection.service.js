@@ -49,6 +49,33 @@ async function deleteFromCollection(collectionId, productId) {
   return deletedProduct;
 }
 
+async function findCollection(userId, collectionId, { offset, limit }) {
+  const collection = await Collection.findOne({
+    where: { userId, id: collectionId },
+  }).then(async (data) => {
+    const products = await Products.findAll({
+      includes: [{ model: Images, as: 'productImages', attributes: ['url'] }],
+      where: { collectionId: data.id },
+      offset,
+      limit,
+    });
+    return products;
+  });
+  return collection;
+}
+
+async function getTotalCollectionCount(uId, collectionId) {
+  const collection = await Collection.findOne({
+    where: { userId: uId, id: collectionId },
+  }).then(async (result) => {
+    const products = await Products.findAll({
+      where: { collectionId: result.id },
+    });
+    return products;
+  });
+  return collection.length;
+}
+
 export default {
   createCollection,
   getCollectionByName,
@@ -57,4 +84,6 @@ export default {
   deleteCollection,
   deleteFromCollection,
   getCollectionById,
+  findCollection,
+  getTotalCollectionCount,
 };
