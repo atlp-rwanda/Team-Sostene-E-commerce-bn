@@ -54,7 +54,6 @@ async function enableOtp(id) {
   findData.tfa_enabled = true;
   await findData.save();
 }
-
 export default {
   getUserByEmail,
   getUserByUsername,

@@ -8,6 +8,7 @@ import Cloudinary from './cloudinary';
 import Upload from './multer';
 import asyncWrapper from './asyncwrapper';
 import stripe from './stripe';
+import chats from './chats';
 
 export {
   redisClient,
@@ -18,4 +19,5 @@ export {
   Upload,
   asyncWrapper,
   notificationTemplates,
+  chats,
 };

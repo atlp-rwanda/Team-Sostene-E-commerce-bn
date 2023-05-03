@@ -1,29 +1,11 @@
 import notificationServices from '../services/notification.services';
-
-import { decodeToken } from '../utils';
-import redisClient from './redis';
-
-async function isValidAuthToken(token) {
-  let user = null;
-  try {
-    if (token) {
-      user = decodeToken(token);
-      const verifiedToken = await redisClient.get(user.id);
-      if (verifiedToken) {
-        return user;
-      }
-    }
-  } catch (error) {
-    return false;
-  }
-  return false;
-}
+import { chats } from './index';
 
 function sockets(io) {
   io.on('connection', async (socket) => {
     socket.on('join', async () => {
       const { authToken } = socket.handshake.query;
-      const user = await isValidAuthToken(authToken);
+      const user = await chats.isValidAuthToken(authToken);
       if (!authToken || !user) {
         socket.emit('unauthorized', 'Invalid authentication token');
         socket.disconnect(true);
@@ -34,6 +16,7 @@ function sockets(io) {
       socket.username = username;
       socket.emit('joined', { id: socket.id, username: socket.username });
     });
+
     socket.on('notification', async () => {});
     notificationServices.notificationEmitter.on(
       'notification',
@@ -44,15 +27,8 @@ function sockets(io) {
       }
     );
 
-    socket.on('disconnect', () => {
-      if (socket.username) {
-        socket.broadcast.emit(
-          'userLeft',
-          `${socket.username} has left the chat`
-        );
-      }
-    });
+    socket.on('disconnect', () => chats.disconnect(socket));
   });
 }
 
-export { isValidAuthToken, sockets };
+export default sockets;

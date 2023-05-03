@@ -1,14 +1,14 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import io from 'socket.io-client';
-import { sockets } from '../helpers/notifications';
+import sockets from '../helpers/notifications';
 import app from '../index.js';
 import notificationServices from '../services/notification.services.js';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-const PORT = 4001;
+const PORT = 4004;
 
 // Define the URL of the Socket.IO server
 const SERVER_URL = `http://localhost:${PORT}`;
@@ -18,13 +18,6 @@ const server = require('http').createServer();
 const ioServer = require('socket.io')(server);
 
 sockets(ioServer);
-
-// Start the server
-// before(function (done) {
-//   server.listen(PORT, done);
-// });
-
-// Run the tests
 describe('sockets', function () {
   let client;
   before(function (done) {

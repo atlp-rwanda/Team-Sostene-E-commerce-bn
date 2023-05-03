@@ -1,7 +1,6 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import passportStub from 'passport-stub';
 import app from '../index.js';
 import { userControllers } from '../controllers';
 import { generateToken } from '../utils/token.js';
@@ -17,11 +16,11 @@ chai.use(chaiHttp);
 
 describe('Testing login with google function ', function () {
   const userNotRegistered = {
-    displayName: 'John Down',
-    email: 'johndown@example.com',
+    displayName: 'Johnny Down',
+    email: 'johnnydown@example.com',
   };
   after(async function () {
-    await User.destroy({ where: { email: 'johndown@example.com' } });
+    await User.destroy({ where: { email: 'johnnydown@example.com' } });
   });
 
   it('should save the user and return a token if user not registered', async function () {
@@ -105,16 +104,12 @@ describe('Testing isauthenticated middleware ', function () {
 
 describe('Google Login API', function () {
   const userNotRegistered = {
-    displayName: 'John Down',
-    email: 'johndown@example.com',
+    displayName: 'Johnny Down',
+    email: 'johnydown@example.com',
   };
-  before(function () {
-    passportStub.install(app);
-  });
 
   after(async function () {
-    passportStub.uninstall(app);
-    await User.destroy({ where: { email: 'johndown@example.com' } });
+    await User.destroy({ where: { email: 'johnydown@example.com' } });
   });
 
   it('should display the login with google link', function (done) {
