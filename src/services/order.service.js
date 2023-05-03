@@ -1,5 +1,4 @@
 import Order from '../database/models/order.model';
-import User from '../database/models/user.model';
 
 async function getOrdersByUser(userId) {
   const orders = await Order.findAll({ where: { userId } });
@@ -16,24 +15,7 @@ async function updateOrderStatus(id, status) {
   order.status = status;
   order.statusUpdated = true;
   await order.save();
-  return order;
-}
-
-async function getOrdersWithBuyerInfo() {
-  const orders = await Order.findAll({
-    where: {
-      statusUpdated: true,
-    },
-    include: [
-      {
-        model: User,
-        attributes: ['id', 'username', 'role'],
-        as: 'user',
-      },
-    ],
-  });
-
-  return orders;
+  return Order.findOne({ where: { id } });
 }
 
 async function paymentOrderStatus(status, id) {
@@ -46,5 +28,4 @@ export default {
   getOrdersByUser,
   getOrderById,
   paymentOrderStatus,
-  getOrdersWithBuyerInfo,
 };

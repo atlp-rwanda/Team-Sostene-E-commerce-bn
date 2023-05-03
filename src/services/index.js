@@ -9,10 +9,10 @@ import twoFactorAuth from './twofactor.service';
 import wishListServices from './wishlist.services';
 import reviewsServices from './reviews.service';
 import cartServices from './cart.services';
-import orderServices from './order.service';
 import notificationServices from './notification.services';
 import readNotificationService from './read_notification.service';
 import userProfileServices from './userProfile.service';
+import orderServices from './order.service';
 
 export {
   userServices,
@@ -24,8 +24,8 @@ export {
   twoFactorAuth,
   wishListServices,
   reviewsServices,
-  orderServices,
   notificationServices,
   readNotificationService,
   userProfileServices,
+  orderServices,
 };

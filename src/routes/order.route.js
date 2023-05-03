@@ -6,15 +6,15 @@ import {
 } from '../middleware';
 import {
   updateOrderStatus,
-  getOrderStatusEvents,
   getOrdersByUser,
+  getOrderByUser,
 } from '../controllers/order.controller';
 import { asyncWrapper } from '../helpers';
 
 const router = express.Router();
 
-router.get('/', isAuthenticated, getOrdersByUser);
-router.get('/sse', getOrderStatusEvents);
+router.get('/', isAuthenticated, asyncWrapper(getOrdersByUser));
+router.get('/:orderId', asyncWrapper(getOrderByUser));
 router.patch(
   '/:orderId',
   isAuthenticated,
