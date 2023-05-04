@@ -14,15 +14,6 @@ describe('Get /cart items ', function () {
     email: 'testing@example.com',
     password: 'Qwert@12345',
   };
-  const pid = 'a2dafc4b-35a3-44f5-84a4-e8772b37ca39';
-  let user;
-  before(async function () {
-    user = await userServices.getUserByEmail(testUserLogin.email);
-    await cartServices.addToCart(user.id, pid);
-  });
-  after(async function () {
-    await cartServices.addToCart(user.id, pid);
-  });
 
   it('should  return 401, when not logged in', async function () {
     const response = await chai.request(app).delete(`/cart/clear`);

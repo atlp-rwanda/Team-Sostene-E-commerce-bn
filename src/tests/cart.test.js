@@ -3,6 +3,7 @@ import chaiHttp from 'chai-http';
 import app from '../index.js';
 import { cartServices } from '../services';
 import { redisClient } from '../helpers';
+import { beforeEach } from 'mocha';
 
 chai.should();
 chai.use(chaiHttp);
@@ -28,6 +29,21 @@ describe('add items to their cart ', function () {
       .post(`/cart/${id}`)
       .set({ Authorization: `Bearer ${token}` });
     expect(response).to.have.status(201);
+    const respose = await chai
+      .request(app)
+      .patch(`/cart/reduce/${id}`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(respose).to.have.status(406);
+    const respo = await chai
+      .request(app)
+      .patch(`/cart/add/${id}`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(respo).to.have.status(200);
+    const resp = await chai
+      .request(app)
+      .patch(`/cart/add/${id}?quantity=10`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(resp).to.have.status(200);
   });
   it('should Add item to their cart for secord time', async function () {
     const res = await chai
@@ -42,24 +58,98 @@ describe('add items to their cart ', function () {
       .set({ Authorization: `Bearer ${token}` });
     expect(response).to.have.status(201);
   });
-  it('should Add item to their cart for third time', async function () {
+  it('should decreased cart for the fisrt time', async function () {
     const res = await chai
       .request(app)
       .post('/users/login')
       .send(testUserLogin);
     const { token } = res.body;
-    const id = '0f1548b0-b7ce-49e3-a2ef-baffffd383ab';
+    const pid = '0f1548b0-b7ce-49e3-a2ef-baffffd383ab';
     const response = await chai
       .request(app)
-      .post(`/cart/${id}`)
+      .patch(`/cart/reduce/${pid}`)
       .set({ Authorization: `Bearer ${token}` });
-    expect(response).to.have.status(201);
+    expect(response).to.have.status(200);
+    const respo = await chai
+      .request(app)
+      .patch(`/cart/reduce/${pid}`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(respo).to.have.status(200);
+    const resp = await chai
+      .request(app)
+      .patch(`/cart/reduce/${pid}?quantity=10`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(resp).to.have.status(200);
+  });
+  it('should not decreased cart', async function () {
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const { token } = res.body;
+    const pid = '0f1548b0-b7ce-49e3-a2ef-baffffd383aa';
+    const response = await chai
+      .request(app)
+      .patch(`/cart/reduce/${pid}`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(response).to.have.status(406);
+  });
+  it('should not increased cart', async function () {
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const { token } = res.body;
+    const pid = '0f1548b0-b7ce-49e3-a2ef-baffffd383ad';
+    const response = await chai
+      .request(app)
+      .patch(`/cart/add/${pid}`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(response).to.have.status(406);
   });
   it('should Add Createcart', async function () {
     const cart = await cartServices.createCart(
       '8bf0b72d-ac1c-4abe-ae94-0ed65test'
     );
     expect(cart).to.be.a('array');
+  });
+  it('should not Add item to their cart', async function () {
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const { token } = res.body;
+    const id = '0f1548b0-b7ce-49e3-a2ef-baffffd383aa';
+    const response = await chai
+      .request(app)
+      .post(`/cart/${id}`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(response).to.have.status(404);
+  });
+  it('should Add quantity one ', async function () {
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const { token } = res.body;
+    const id = '0f1548b0-b7ce-49e3-a2ef-baffffd383ab';
+    const respo = await chai
+      .request(app)
+      .patch(`/cart/add/${id}`)
+      .set({ Authorization: `Bearer ${token}` });
+    expect(respo).to.have.status(200);
+  });
+  it('should clear the cart successfully', async function () {
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const newToken = res.body.token;
+    const response = await chai
+      .request(app)
+      .delete(`/cart/clear`)
+      .set({ Authorization: `Bearer ${newToken}` });
+    expect(response).to.have.status(200);
   });
 });
 
@@ -69,11 +159,11 @@ describe('Get /cart items ', function () {
     email: 'testing@example.com',
     password: 'Qwert@12345',
   };
-  before(async function () {
+  beforeEach(async function () {
     await redisClient.set(
       `cart_353a6ac5-656f-402e-82b9-79997fb6a04e`,
       JSON.stringify([
-        { productId: 'a2dafc4b-35a3-44f5-84a4-e8772b37ca39', quantity: 2 },
+        { productId: '0f1548b0-b7ce-49e3-a2ef-baffffd383ab', quantity: 2 },
       ])
     );
   });

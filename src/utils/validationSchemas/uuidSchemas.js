@@ -14,4 +14,13 @@ const collectionIdSchema = Joi.object().keys({
   cid: Joi.string().uuid().messages(errorMessage('uuid')),
 });
 
-export default { getProductSchema, deleteProductSchema, collectionIdSchema };
+const updatecartSchema = Joi.object().keys({
+  pid: Joi.string().uuid().messages(errorMessage('uuid')),
+});
+
+export default {
+  getProductSchema,
+  deleteProductSchema,
+  updatecartSchema,
+  collectionIdSchema,
+};
