@@ -1,4 +1,8 @@
-import { checkoutServices, cartServices } from '../services';
+import {
+  checkoutServices,
+  cartServices,
+  notificationServices,
+} from '../services';
 
 const checkout = async (req, res) => {
   const { shippingAddressId } = req.body;
@@ -12,15 +16,21 @@ const checkout = async (req, res) => {
     totalPrice: productsInCart.total,
     shippingId: shippingAddressId,
   };
-
   const order = await checkoutServices.createOrder(body);
-
   order.products.forEach((product) => {
-    checkoutServices.updateProductQuantity(product.productId, product.quantity);
+    checkoutServices.updateProductQuantity(
+      product.product.id,
+      product.quantity
+    );
   });
 
   await cartServices.clearCart(userId);
-
+  notificationServices.sendNotification(
+    order.userId,
+    `Your order has been placed`,
+    'Order status',
+    'medium'
+  );
   return res.status(201).json({
     code: 201,
     message: 'Order processed successfully',

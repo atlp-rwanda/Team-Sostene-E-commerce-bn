@@ -24,7 +24,7 @@ async function addChat(room, chat) {
     );
     return newChat;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 }
 

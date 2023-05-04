@@ -3,6 +3,7 @@ import {
   isAuthenticated,
   checkPermission,
   checkOrderExists,
+  validate,
 } from '../middleware';
 import {
   updateOrderStatus,
@@ -10,6 +11,7 @@ import {
   getOrderByUser,
 } from '../controllers/order.controller';
 import { asyncWrapper } from '../helpers';
+import { orderStatusSchema } from '../utils';
 
 const router = express.Router();
 
@@ -20,6 +22,7 @@ router.patch(
   isAuthenticated,
   checkPermission('ADMIN'),
   checkOrderExists,
+  validate(orderStatusSchema),
   asyncWrapper(updateOrderStatus)
 );
 

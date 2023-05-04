@@ -31,6 +31,7 @@ const signUp = async (req, res, next) => {
         username: req.user.username,
         email: req.user.email,
         role: user.role,
+        status: user.status,
       };
       const dataprofiles = {
         userId: body.id,
@@ -81,6 +82,7 @@ const login = async (req, res, next) => {
           username: user.username,
           email: user.email,
           role: user.role,
+          status: user.status,
         };
         if (user.role === 'SELLER' && user.tfa_enabled === true) {
           return twoFactorAuth(res, user);
@@ -141,6 +143,7 @@ const loginWithGoogle = async (req, res, next) => {
       username: user.username,
       email: user.email,
       role: user.role,
+      status: user.status,
     };
     const token = generateToken(body);
     await redisClient.setEx(user.id, 86400, token);
@@ -173,18 +176,16 @@ const disableUserAccount = async (req, res) => {
 
   if (!currentUser) {
     return res.status(404).json({
-      status: 404,
-      success: false,
+      code: 404,
       message: 'User not found',
     });
   }
-  const user = await userServices.disableAccount(userId);
-  return res.status(200).json({
-    status: 200,
-    success: true,
-    message: 'User Account Disabled',
-    data: user,
-  });
+  return userServices.disableAccount(userId).then(() =>
+    res.status(200).json({
+      code: 200,
+      message: 'User Status Changed',
+    })
+  );
 };
 
 const forgotPassword = asyncWrapper(async (req, res) => {
@@ -210,7 +211,6 @@ const forgotPassword = asyncWrapper(async (req, res) => {
   return res.status(200).json({
     code: 200,
     message: 'Message  sent successfully!',
-    token,
   });
 });
 const resetPassword = async (req, res) => {

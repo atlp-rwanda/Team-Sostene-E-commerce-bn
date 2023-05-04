@@ -1,7 +1,6 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index.js';
-import { checkoutControllers } from '../controllers';
 import { checkShippingAddressExist, checkProductInStock } from '../middleware';
 import { redisClient } from '../helpers';
 
@@ -149,30 +148,35 @@ describe('Testing checkout', function () {
 
   it('should check if the products in the cart are available in stock', async function () {
     await redisClient.set(
-      `cart_0f1548b0-b7ce-49e3-a2ef-baffffd390aa`,
+      'cart_0f1548b0-b7ce-49e3-a2ef-baffffd390aa',
       JSON.stringify([
-        { productId: '51ea5366-ea5c-4501-9ade-4cd51129c89c', quantity: 10 },
+        {
+          productId: '51ea5366-ea5c-4501-9ade-4cd51129c89c',
+          quantity: 100000,
+        },
       ])
     );
-    const req = {
-      user: {
-        id: '0f1548b0-b7ce-49e3-a2ef-baffffd390aa',
-      },
-    };
-    const res = {
-      status(statusCode) {
-        this.statusCode = statusCode;
-        expect(res).to.have.property('statusCode').to.equal(200);
-        return this;
-      },
-      json(data) {
-        this.body = data;
-        expect(res.body).to.have.property('unavailableProducts');
-      },
-    };
-    const next = () => {};
-
-    await checkProductInStock(req, res, next);
+    chai
+      .request(app)
+      .post('/users/login')
+      .send(testUser)
+      .then(async (res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        const { token } = res.body;
+        await chai
+          .request(app)
+          .post('/checkout')
+          .set({ Authorization: `Bearer ${token}` })
+          .then((res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.should.have.property('unavailableProducts');
+            res.body.should.have
+              .property('message')
+              .to.equal('These product are less stock!');
+          });
+      });
   });
 
   it('should checkout successfully', function (done) {
@@ -198,35 +202,6 @@ describe('Testing checkout', function () {
             done();
           });
       });
-  });
-
-  it('should checkout', async function () {
-    const req = {
-      productsInCart: {
-        products: [
-          { productId: '51ea5366-ea5c-4501-9ade-4cd51129c89c', quantity: 1 },
-        ],
-        total: 2000,
-      },
-      user: {
-        id: '0f1548b0-b7ce-49e3-a2ef-baffffd390aa',
-      },
-      body: {
-        shippingAddressId: '51ea5366-ea5c-4501-9ade-4cd50519c84c',
-      },
-    };
-    const res = {
-      status(statusCode) {
-        this.statusCode = statusCode;
-        expect(res).to.have.property('statusCode').to.equal(201);
-        return this;
-      },
-      json(data) {
-        this.body = data;
-      },
-    };
-
-    await checkoutControllers.checkout(req, res);
   });
 
   it('should check if the user has an existing shippingAddress', async function () {

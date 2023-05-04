@@ -1,12 +1,16 @@
+/* eslint-disable no-unused-expressions */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import app from '../index';
 import Order from '../database/models/order.model';
 import { orderServices } from '../services';
+import { checkOrderExists } from '../middleware';
 
 chai.use(chaiHttp);
 const { expect } = chai;
+
+let oId;
 
 describe('Testing Orders status retrieval and updation', function () {
   let authToken;
@@ -29,6 +33,38 @@ describe('Testing Orders status retrieval and updation', function () {
       expect(res.body.message).to.be.a('string');
       expect(res.body.data).to.be.an('object');
       expect(res.body.data.orders).to.be.an('array');
+      oId = res.body.data.orders[0].id;
+    });
+    it('Should get order by Id', async function () {
+      const res = await chai
+        .request(app)
+        .get(`/orders/${oId}`)
+        .set('Authorization', `Bearer ${authToken}`);
+      expect(res).to.have.status(200);
+      expect(res.body.code).to.equal('200');
+    });
+  });
+});
+
+describe('Testing Orders status retrieval and updation', function () {
+  let authToken;
+  before(async function () {
+    // Get an authentication token for the test user
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send({ email: 'admin101@example.com', password: 'Qwert@12345' });
+    authToken = res.body.token;
+  });
+  describe('Update orders by admin', function () {
+    it('Should update an order by admin', async function () {
+      const res = await chai
+        .request(app)
+        .patch(`/orders/${oId}`)
+        .send({ status: 'succeeded' })
+        .set('Authorization', `Bearer ${authToken}`);
+      expect(res).to.have.status(200);
+      expect(res.body.code).to.equal('200');
     });
   });
 });
@@ -85,6 +121,7 @@ describe('Order services', function () {
 
       const order = await orderServices.getOrderById(orderId);
 
+      // eslint-disable-next-line no-unused-expressions
       expect(order).to.be.null;
 
       sinon.restore();
@@ -106,10 +143,55 @@ describe('Order services', function () {
 
       let order = await orderServices.updateOrderStatus(orderId, status);
       order = expectedOrder;
-      console.log(expectedOrder);
       expect(order).to.deep.equal(expectedOrder);
 
       sinon.restore();
     });
+  });
+});
+
+describe('checkOrderExists middleware', function () {
+  it('should return an error if the order does not exist', async function () {
+    // arrange
+    const orderId = 'nonexistent-order-id';
+    sinon.stub(orderServices, 'getOrderById').resolves(null);
+    const req = { params: { orderId } };
+    const res = { status: sinon.stub().returnsThis(), json: sinon.stub() };
+    const next = sinon.stub();
+
+    // act
+    await checkOrderExists(req, res, next);
+
+    // assert
+    expect(res.status.calledWith(401)).to.be.true;
+    expect(
+      res.json.calledWith({ code: '401', message: 'This order does not exist' })
+    ).to.be.true;
+    expect(next.called).to.be.false;
+
+    // restore
+    sinon.restore();
+  });
+
+  it('should return a server error if an error occurs', async function () {
+    // arrange
+    const orderId = 'existing-order-id';
+    sinon.stub(orderServices, 'getOrderById').rejects(new Error('Some error'));
+    const req = { params: { orderId } };
+    const res = { status: sinon.stub().returnsThis(), json: sinon.stub() };
+    const next = sinon.stub();
+
+    // act
+    await checkOrderExists(req, res, next);
+
+    // assert
+    expect(res.status.calledWith(500)).to.be.true;
+    expect(
+      res.json.calledWith({ message: 'Server error', error: 'Some error' })
+    ).to.be.true;
+    expect(next.called).to.be.false;
+
+    // restore
+    sinon.restore();
   });
 });

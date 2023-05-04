@@ -20,9 +20,15 @@ async function createUser(details) {
   return user;
 }
 async function disableAccount(id) {
-  const user = await User.update(
+  const user = await User.findOne({
+    where: {
+      id,
+    },
+  });
+  const newStatus = user.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+  const updatedUser = await User.update(
     {
-      status: 'INACTIVE',
+      status: newStatus,
     },
     {
       where: {
@@ -31,7 +37,7 @@ async function disableAccount(id) {
     }
   );
 
-  return user;
+  return updatedUser;
 }
 
 async function UpdatePassword(email, pass) {

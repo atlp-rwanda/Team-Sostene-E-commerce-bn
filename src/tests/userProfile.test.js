@@ -133,7 +133,6 @@ describe('User Details Controller', function () {
           accountName: 'BK',
           telephone: '+250780088171',
         });
-      console.log(res.body, '***----');
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('message', 'Successfully updated');
     });

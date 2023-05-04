@@ -9,11 +9,16 @@ const checkExpiredPassword = async () => {
         await userServices.findUsersWithExpiredPassword();
       if (expiredPasswords) {
         await Promise.all([
-          userServices.updateUsersStatusWhoNeedsPasswordReset(expiredPasswords),
-          sendNotices.sendPasswordChangePromptEmail(expiredPasswords),
+          userServices
+            .updateUsersStatusWhoNeedsPasswordReset(expiredPasswords)
+            .then(() => {
+              sendNotices.sendPasswordChangePromptEmail(expiredPasswords);
+            }),
         ]);
       }
-    } catch (error) {}
+    } catch (error) {
+      throw new Error(error);
+    }
   });
 };
 

@@ -57,7 +57,32 @@ describe('Testing user status', function () {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
-            done();
+            chai
+              .request(app)
+              .post('/users/login')
+              .send({ email: 'testing@example.com', password: 'Qwert@12345' })
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                const Dtoken = res.body.token;
+                chai
+                  .request(app)
+                  .get('/users/protected-route')
+                  .set({ Authorization: `Bearer ${Dtoken}` })
+                  .end((err, res) => {
+                    res.should.have.status(406);
+                    res.body.should.be.a('object');
+                    chai
+                      .request(app)
+                      .patch(`/users/disable/${user.id}`)
+                      .set({ Authorization: `Bearer ${token}` })
+                      .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        done();
+                      });
+                  });
+              });
           });
       });
   });

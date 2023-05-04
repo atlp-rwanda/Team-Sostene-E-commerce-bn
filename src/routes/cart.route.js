@@ -1,8 +1,7 @@
 import { Router } from 'express';
 import cookieParser from 'cookie-parser';
-import { isAuthenticated, validateParams } from '../middleware';
+import { isAuthenticated } from '../middleware';
 import { asyncWrapper } from '../helpers';
-import { uuidSchemas } from '../utils';
 import { cartControllers } from '../controllers';
 
 const router = Router();
