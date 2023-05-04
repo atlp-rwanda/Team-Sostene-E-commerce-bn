@@ -10,6 +10,7 @@ import checkoutRoutes from './checkout.route';
 import orderRoutes from './order.route';
 import notificationRoutes from './notification.route';
 import paymentRouter from './payment.route';
+import chatsRoutes from './chats.route';
 
 const router = express.Router();
 router.use('/', userwithGoogleRoutes);
@@ -22,6 +23,7 @@ router.use('/', checkoutRoutes);
 router.use('/orders', orderRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/checkout', paymentRouter);
+router.use('/chat', chatsRoutes);
 
 router.use('*', (req, res) => {
   res.status(404).json({

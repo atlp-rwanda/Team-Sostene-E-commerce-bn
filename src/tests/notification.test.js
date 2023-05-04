@@ -5,8 +5,7 @@ import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import server from '../index.js';
 import notificationUtils from '../utils/notificationUtils.js';
-import { redisClient } from '../helpers';
-import { isValidAuthToken } from '../helpers/notifications';
+import { redisClient, chats } from '../helpers';
 
 chai.should();
 chai.use(chaiHttp);
@@ -64,28 +63,25 @@ describe('Testing Notifications', function () {
       });
   });
   it('should return an HTML page with the correct headers', async function () {
-    chai
+    const res = await chai
       .request(server)
       .post('/users/login')
-      .send(userDetails)
-      .end(async (err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        const { token } = res.body;
-        const result = await chai
-          .request(server)
-          .get(`/notifications/${token}`)
-          .set('Accept', 'text/html')
-          .set(
-            'User-Agent',
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
-          );
-        chai.expect(result).to.have.status(200);
-        chai.expect(result).to.be.html;
-        chai
-          .expect(result)
-          .to.have.header('content-type', 'text/html; charset=UTF-8');
-      });
+      .send(userDetails);
+    chai.expect(res).to.have.status(200);
+    const { token } = res.body;
+    const result = await chai
+      .request(server)
+      .get(`/notifications?token=${token}`)
+      .set('Accept', 'text/html')
+      .set(
+        'User-Agent',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+      );
+    chai.expect(result).to.have.status(200);
+    chai.expect(result).to.be.html;
+    chai
+      .expect(result)
+      .to.have.header('content-type', 'text/html; charset=UTF-8');
   });
 });
 
@@ -101,13 +97,13 @@ describe('isValidAuthToken', function () {
   });
 
   it('should return false if no token is provided', async function () {
-    const result = await isValidAuthToken();
+    const result = await chats.isValidAuthToken();
     expect(result).to.be.false;
   });
 
   it('should return false if the token is invalid', async function () {
     redisGetStub.resolves(null);
-    const result = await isValidAuthToken('invalid_token');
+    const result = await chats.isValidAuthToken('invalid_token');
     expect(result).to.be.false;
   });
 });

@@ -3,30 +3,29 @@ import '@babel/register';
 import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import session from 'express-session';
 import cors from 'cors';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import options from './docs/apidoc.js';
 import router from './routes';
 import { errorHandler } from './middleware';
-import { sockets } from './helpers/notifications';
+import sockets from './helpers/notifications';
+import { chats } from './helpers';
 
-dotenv.config();
 const app = express();
-
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+chats.chats(io);
+dotenv.config();
 sockets(io);
-
-app.use(morgan('tiny'));
-
 const { PORT } = process.env;
 
+app.use(morgan('tiny'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,4 +53,4 @@ const server = app.listen(PORT);
 
 io.listen(server);
 
-export default app;
+export default server;
