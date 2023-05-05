@@ -63,6 +63,11 @@ const sendExpiredPasswordMailTemplate = () => `
     <a href="${process.env.DEPLOYED_URL}/users/change-password" style="display: block; text-align: center; padding: 10px 20px; background-color: #004D99; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Change Password</a>
     <p style="color: #000; font-size: 14px;">Thank you, Team-Sostene e-commerce.</p>
     </div>`;
+const ExipedProductTemplate = () => `
+<p>Your product has been expired</p>`;
+
+const AdminErrorTemplate = () => `
+<p>Server have the problem pleace Rerun.</p>`;
 
 export default {
   ForgortPasswordTemplate,
@@ -75,4 +80,6 @@ export default {
   updateProductTemplate,
   signupTemplate,
   sendExpiredPasswordMailTemplate,
+  ExipedProductTemplate,
+  AdminErrorTemplate,
 };

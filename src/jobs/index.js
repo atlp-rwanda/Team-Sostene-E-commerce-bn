@@ -1,7 +1,12 @@
 import checkPassword from './checkExpiredPassword';
+import ExpiredProduct from './ExpiryProductDate';
 
 const CroneJobs = () => {
   checkPassword();
 };
 
-export default CroneJobs;
+const cron = () => {
+  ExpiredProduct();
+};
+
+export default { CroneJobs, cron };
