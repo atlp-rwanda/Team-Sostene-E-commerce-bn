@@ -1,4 +1,5 @@
 import { orderServices, userServices, notificationServices } from '../services';
+import orderService from '../services/order.service';
 
 const getOrdersByUser = async (req, res) => {
   const userId = req.user.id;
@@ -48,4 +49,13 @@ const updateOrderStatus = async (req, res) => {
   });
 };
 
-export { getOrdersByUser, updateOrderStatus, getOrderByUser };
+const getOrders = async (req, res) => {
+  const all = await orderService.getOrders();
+  return res.status(200).json({
+    code: '200',
+    message: 'Order',
+    orders: all,
+  });
+};
+
+export { getOrdersByUser, updateOrderStatus, getOrderByUser, getOrders };

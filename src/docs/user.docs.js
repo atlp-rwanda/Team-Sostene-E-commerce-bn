@@ -158,8 +158,8 @@
  *          schema:
  *            type: object
  *          example:
- *            email: 'example email'
- *            password: 'example password'
+ *            email: 'testing@example.com'
+ *            password: 'Qwert@12345'
  *    responses:
  *      '200':
  *        description: Logged In Successfully

@@ -280,6 +280,11 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+const findAll = async (req, res) => {
+  const users = await userServices.getAllUsers();
+  res.status(200).json({ code: 200, message: 'All Users', users });
+};
+
 export default {
   signUp,
   login,
@@ -290,4 +295,5 @@ export default {
   changePassword,
   disableUserAccount,
   verifyOTP,
+  findAll,
 };

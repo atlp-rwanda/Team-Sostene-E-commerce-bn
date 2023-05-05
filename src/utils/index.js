@@ -15,7 +15,8 @@ import {
 } from './validationSchemas/authenticationSchemas';
 import userProfileSchema from './validationSchemas/userProfileSchema';
 import CollectionNameSchema from './validationSchemas/collectionSchemas';
-import addproductSchema from './validationSchemas/productSchema';
+import productSchema from './validationSchemas/productSchema';
+// import addproductSchema from './validationSchemas/productSchema';
 import uuidSchemas from './validationSchemas/uuidSchemas';
 import reviewSchema from './validationSchemas/reviewSchema';
 import shippingAddressSchema from './validationSchemas/shippingAddressSchema';
@@ -53,7 +54,7 @@ export {
   CollectionNameSchema,
   PasswordSchema,
   newPasswordSchema,
-  addproductSchema,
+  productSchema,
   uuidSchemas,
   reviewSchema,
   shippingAddressSchema,

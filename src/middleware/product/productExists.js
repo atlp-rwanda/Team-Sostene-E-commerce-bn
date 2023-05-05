@@ -15,6 +15,7 @@ const isProductSeller = async (req, res, next) => {
   if (req.user.id !== collection.userId) {
     return res.status(401).json({ code: 401, message: 'Unauthorized seller' });
   }
+  req.prodImages = await product.getProductImages();
   return next();
 };
 

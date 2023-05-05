@@ -22,9 +22,10 @@ async function uploadImage(path) {
   const image = await Cloudinary.uploader.upload(path);
   return { image };
 }
-async function deleteImage(url) {
-  await Images.destroy({ where: { url } });
-  const publice = extractPublicId(url);
+async function deleteImage(id) {
+  const image = await Images.findOne({ where: { id } });
+  await Images.destroy({ where: { id } });
+  const publice = extractPublicId(image.url);
   const data = await Cloudinary.uploader.destroy(publice);
   return { data };
 }
@@ -86,21 +87,8 @@ async function searchproduct(query) {
   return product;
 }
 
-async function imagesExists(newImages, productImages) {
-  const images = [];
-  productImages.forEach((image) => {
-    images.push(image.dataValues.url);
-  });
-  const hasNewImageUrl = newImages.some((url) => !images.includes(url));
-  return hasNewImageUrl;
-}
-async function imageExist(newImage, productImage) {
-  const images = [];
-  productImage.forEach((image) => {
-    images.push(image.dataValues.url);
-  });
-  const hasNewImageUrl = !images.includes(newImage);
-  return hasNewImageUrl;
+function removeUrlFromImages(pImages, idi) {
+  return pImages.filter((image) => image !== idi);
 }
 async function expiredProductDate() {
   const foundProduct = Products.findAll({
@@ -131,10 +119,9 @@ export default {
   deleteImage,
   AddImage,
   searchproduct,
-  imageExist,
-  imagesExists,
   findAllProducts,
   getTotalProductsCount,
   expiredProductDate,
   updateProductStatus,
+  removeUrlFromImages,
 };
