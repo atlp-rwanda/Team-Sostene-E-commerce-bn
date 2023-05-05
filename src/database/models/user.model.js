@@ -34,6 +34,16 @@ const User = sequelize.define('users', {
     allowNull: false,
     defaultValue: false,
   },
+  lastPasswordUpdate: {
+    type: DataTypes.DATEONLY,
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  passwordStatus: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: 'PASSWORD_UPDATED',
+    allowNull: false,
+  },
 });
 
 export default User;

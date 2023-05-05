@@ -15,6 +15,7 @@ import router from './routes';
 import { errorHandler } from './middleware';
 import sockets from './helpers/notifications';
 import { chats } from './helpers';
+import Cronejob from './jobs';
 
 const app = express();
 const http = require('http').Server(app);
@@ -50,6 +51,7 @@ app.use('/', router);
 app.use(errorHandler);
 
 const server = app.listen(PORT);
+Cronejob();
 
 io.listen(server);
 

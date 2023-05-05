@@ -34,6 +34,7 @@
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.5",
+    "@babel/preset-env": "^7.21.5",
     "bcryptjs": "^2.4.3",
     "c8": "^7.13.0",
     "coveralls": "^3.1.1",
@@ -51,15 +52,15 @@
     "nyc": "^15.1.0",
     "passport-stub": "^1.1.1",
     "prettier": "^2.8.4",
-    "sequelize-cli": "^6.6.0"
+    "sequelize-cli": "^6.6.0",
+    "sinon": "^15.0.4",
+    "sinon-chai": "^3.7.0"
   },
   "dependencies": {
     "@babel/node": "^7.20.7",
     "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.20.2",
     "@babel/register": "^7.21.0",
     "@sendgrid/mail": "^7.7.0",
-    "babel-cli": "^6.26.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "chai": "^4.3.7",
@@ -86,6 +87,7 @@
     "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.2",
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.21",
     "passport": "^0.6.0",
@@ -102,7 +104,6 @@
     "sequelize": "^6.29.1",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
-    "sinon": "^15.0.4",
     "stripe": "^12.0.0",
     "supertest": "^6.3.3",
     "swagger-jsdoc": "^5.0.1",

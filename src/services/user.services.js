@@ -1,4 +1,5 @@
 /* eslint-disable import/no-cycle */
+import { Op } from 'sequelize';
 import User from '../database/models/user.model';
 import { hashPassword } from '../utils';
 
@@ -54,6 +55,27 @@ async function enableOtp(id) {
   findData.tfa_enabled = true;
   await findData.save();
 }
+async function findUsersWithExpiredPassword() {
+  const oneDayAgo = new Date(Date.now() - process.env.PASSWORD_EXPIRY);
+  const foundUsers = User.findAll({
+    where: {
+      lastPasswordUpdate: {
+        [Op.lte]: oneDayAgo,
+      },
+    },
+  });
+  return foundUsers;
+}
+async function updateUsersStatusWhoNeedsPasswordReset(users) {
+  const updateUsersRequest = await Promise.all(
+    users.map(async (user) => {
+      user.passwordStatus = 'NEEDS_PASSWORD_UPDATE';
+      await user.save();
+    })
+  );
+  return updateUsersRequest;
+}
+
 export default {
   getUserByEmail,
   getUserByUsername,
@@ -64,4 +86,6 @@ export default {
   UpdatePassword,
   disableOtp,
   enableOtp,
+  findUsersWithExpiredPassword,
+  updateUsersStatusWhoNeedsPasswordReset,
 };

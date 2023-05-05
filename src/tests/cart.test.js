@@ -1,9 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import { beforeEach } from 'mocha';
 import app from '../index.js';
 import { cartServices } from '../services';
 import { redisClient } from '../helpers';
-import { beforeEach } from 'mocha';
 
 chai.should();
 chai.use(chaiHttp);
