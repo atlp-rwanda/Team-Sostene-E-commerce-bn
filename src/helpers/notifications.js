@@ -16,8 +16,6 @@ function sockets(io) {
       socket.username = username;
       socket.emit('joined', { id: socket.id, username: socket.username });
     });
-
-    socket.on('notification', async () => {});
     notificationServices.notificationEmitter.on(
       'notification',
       (notification) => {
@@ -26,8 +24,11 @@ function sockets(io) {
         }
       }
     );
-
-    socket.on('disconnect', () => chats.disconnect(socket));
+    socket.on('all-notifications', async (user) => {
+      notificationServices.getNotifications(user.id).then((data) => {
+        socket.emit('my-notifications', data);
+      });
+    });
   });
 }
 

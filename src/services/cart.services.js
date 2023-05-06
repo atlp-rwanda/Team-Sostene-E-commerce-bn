@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { redisClient } from '../helpers';
 import Products from '../database/models/products.model';
 import Images from '../database/models/images.model';
@@ -109,7 +110,7 @@ async function reduceProductQuantity(userId, pid, quantity) {
   for (let i = 0; i < newCarts.length; i += 1) {
     if (newCarts[i].productId === pid) {
       newCarts[i].quantity -= quantity || 1;
-      if (newCarts[i].quantity === 0) {
+      if (newCarts[i].quantity <= 0) {
         throw new Error('Cannot reduce');
       }
       isInCart = true;

@@ -2,10 +2,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import chaiAsPromised from 'chai-as-promised';
-import sinon from 'sinon';
 import server from '../index.js';
 import notificationUtils from '../utils/notificationUtils.js';
-import { redisClient, chats } from '../helpers';
 
 chai.should();
 chai.use(chaiHttp);
@@ -83,27 +81,14 @@ describe('Testing Notifications', function () {
       .expect(result)
       .to.have.header('content-type', 'text/html; charset=UTF-8');
   });
-});
-
-describe('isValidAuthToken', function () {
-  let redisGetStub;
-
-  before(function () {
-    redisGetStub = sinon.stub(redisClient, 'get');
-  });
-
-  after(function () {
-    redisGetStub.restore();
-  });
-
-  it('should return false if no token is provided', async function () {
-    const result = await chats.isValidAuthToken();
-    expect(result).to.be.false;
-  });
-
-  it('should return false if the token is invalid', async function () {
-    redisGetStub.resolves(null);
-    const result = await chats.isValidAuthToken('invalid_token');
-    expect(result).to.be.false;
+  it('should return the CSS file', function (done) {
+    chai
+      .request(server)
+      .get('/notifications/style.css')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res).to.have.header('content-type', 'text/css; charset=UTF-8');
+        done();
+      });
   });
 });

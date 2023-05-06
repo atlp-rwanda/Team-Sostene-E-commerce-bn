@@ -1,7 +1,5 @@
-/* eslint-disable import/no-cycle */
 import errorMessage from './errormessage';
 import generateOtp from './generateOtp';
-import sendEmails from './sendEmails';
 import { hashPassword, comparePassword } from './password'; //eslint-disable-line
 import {
   generateToken,
@@ -24,7 +22,8 @@ import shippingAddressSchema from './validationSchemas/shippingAddressSchema';
 // eslint-disable-next-line import/no-cycle
 import notificationUtils from './notificationUtils';
 import addPaymentSchema from './validationSchemas/paymentSchema';
-// eslint-disable-next-line import/no-cycle
+import orderStatusSchema from './validationSchemas/orderSchema';
+
 import {
   stripeToken,
   paymentMethod,
@@ -43,7 +42,6 @@ export {
   generateForgetPasswordToken,
   decodeResetPasswordToken,
   generateOtp,
-  sendEmails,
   stripeToken,
   paymentMethod,
   charge,
@@ -62,4 +60,5 @@ export {
   notificationUtils,
   userProfileSchema,
   addPaymentSchema,
+  orderStatusSchema,
 };

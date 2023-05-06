@@ -50,6 +50,8 @@
  *        application/json:
  *          schema:
  *            type: object
+ *          example:
+ *            status: 'succeeded'
  *     responses:
  *       '200':
  *         description: Order has successfully been updated

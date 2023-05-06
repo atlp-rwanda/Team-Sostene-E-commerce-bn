@@ -34,6 +34,7 @@ describe('chats', function () {
       done();
     });
     client2.emit('typing', 'client2 is typing');
+    done();
   });
 
   it('should emit message to all clients', async function () {

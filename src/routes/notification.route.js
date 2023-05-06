@@ -11,6 +11,10 @@ router.get('/', (req, res) => {
   res.sendFile(path.resolve('src/public/index.html'));
 });
 
+router.get('/style.css', (req, res) => {
+  res.sendFile(path.resolve('src/public/css/n-styles.css'));
+});
+
 router.get(
   '/all',
   isAuthenticated,

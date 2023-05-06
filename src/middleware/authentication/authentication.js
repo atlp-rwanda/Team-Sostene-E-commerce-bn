@@ -1,6 +1,13 @@
 import { redisClient } from '../../helpers';
 import { decodeToken } from '../../utils';
 
+const isActive = (res, next, status) => {
+  if (status === 'INACTIVE') {
+    return res.status(406).json({ code: 406, message: 'Account Disabled' });
+  }
+  return next();
+};
+
 const isAuthenticated = async (req, res, next) => {
   function sendResponse() {
     return res.status(401).json({ code: 401, message: 'Please Login' });
@@ -20,7 +27,7 @@ const isAuthenticated = async (req, res, next) => {
         return sendResponse();
       }
       req.user = isVerified;
-      return next();
+      return isActive(res, next, req.user.status);
     }
     return sendResponse();
   } catch (error) {

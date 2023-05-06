@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-cycle
-import { redisClient } from '../helpers';
-import { generateOtp, generateToken, sendEmails } from '../utils';
+import { redisClient, sendEmailReset } from '../helpers';
+import { generateOtp, generateToken } from '../utils';
 
 async function twoFactorAuth(res, user) {
   const body = {
@@ -13,11 +13,11 @@ async function twoFactorAuth(res, user) {
   const otp = generateOtp();
   redisClient.setEx(user.email, 300, `${otp}=${token}`).then(async () => {
     const mailOptions = {
-      email: user.email,
+      to: user.email,
       subject: 'verification code',
       html: `Your verification code is: ${otp}`,
     };
-    await sendEmails(mailOptions);
+    await sendEmailReset(mailOptions);
   });
 
   return res.status(200).json({

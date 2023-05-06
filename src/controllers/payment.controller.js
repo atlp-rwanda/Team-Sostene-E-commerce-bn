@@ -3,11 +3,10 @@ import {
   paymentMethod,
   charge,
   stripeListener,
-  sendEmails,
   getStatus,
 } from '../utils';
 import { orderServices } from '../services';
-import { stripe } from '../helpers';
+import { sendEmailReset, stripe } from '../helpers';
 
 const { ADMIN_EMAIL } = process.env;
 const makePayment = async (req, res) => {
@@ -80,7 +79,7 @@ const webhook = async (req) => {
       subject: 'webhook error',
       html: `the error is: ${error.message}`,
     };
-    await sendEmails(mailBody);
+    sendEmailReset(mailBody);
     return true;
   }
 };

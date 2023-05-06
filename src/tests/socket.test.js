@@ -47,10 +47,17 @@ describe('sockets', function () {
           query: { authToken: `${token}` },
         });
         client.emit('join');
+        notificationServices.sendNotification(
+          '353a6ac5-656f-402e-82b9-79997fb6a04e',
+          'Testing',
+          'Testing',
+          'high'
+        );
         client.on('joined', (data) => {
           notificationServices.sendNotification(data.id, 'Hello');
           expect(data.id);
           expect(data.username);
+          client.emit('all-notifications', data);
           done();
         });
       });

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import Order from '../database/models/order.model';
@@ -76,7 +77,6 @@ describe('Order services', function () {
 
       let order = await orderServices.updateOrderStatus(orderId, status);
       order = expectedOrder;
-      console.log(expectedOrder);
       expect(order).to.deep.equal(expectedOrder);
 
       sinon.restore();

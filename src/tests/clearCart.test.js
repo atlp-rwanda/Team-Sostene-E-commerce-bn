@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import cookieParser from 'cookie-parser';
 import app from '../index.js';
-import { cartServices, userServices } from '../services';
+import { cartServices } from '../services';
 
 chai.should();
 chai.use(chaiHttp);
