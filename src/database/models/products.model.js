@@ -43,6 +43,10 @@ const Products = sequelize.define('products', {
     },
     onDelete: 'CASCADE',
   },
+  expiredflag: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 Products.belongsTo(Collection, { onDelete: 'cascade' });

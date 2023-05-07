@@ -46,6 +46,9 @@ async function getProductById(id) {
 
 async function findAllProducts({ offset, limit }) {
   const products = await Products.findAll({
+    where: {
+      expiredflag: false,
+    },
     include: [{ model: Images, as: 'productImages', attributes: ['url'] }],
     offset,
     limit,
@@ -99,6 +102,25 @@ async function imageExist(newImage, productImage) {
   const hasNewImageUrl = !images.includes(newImage);
   return hasNewImageUrl;
 }
+async function expiredProductDate() {
+  const foundProduct = Products.findAll({
+    where: {
+      expDate: {
+        [Op.lt]: new Date(),
+      },
+    },
+  });
+  return foundProduct;
+}
+async function updateProductStatus(Product) {
+  const status = await Promise.all(
+    Product.map(async (product) => {
+      product.expiredflag = true;
+      await product.save();
+    })
+  );
+  return status;
+}
 
 export default {
   createProduct,
@@ -113,4 +135,6 @@ export default {
   imagesExists,
   findAllProducts,
   getTotalProductsCount,
+  expiredProductDate,
+  updateProductStatus,
 };
