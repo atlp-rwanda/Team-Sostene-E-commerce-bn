@@ -8,12 +8,12 @@ import reviewControllers from './review.controller';
 import cartControllers from './cart.controller';
 import readNotificationController from './read_notification.controller';
 import orderControllers from './order.controller';
+import productImageController from './productImage.controller';
 
 import {
   userProfileController,
   fetchUserController,
 } from './userProfile.controller';
-import collectionItemControllers from './updateCollectionItem.controller';
 
 export {
   userControllers,
@@ -27,6 +27,6 @@ export {
   userProfileController,
   fetchUserController,
   readNotificationController,
-  collectionItemControllers,
   orderControllers,
+  productImageController,
 };

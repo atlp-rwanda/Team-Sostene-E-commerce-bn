@@ -81,6 +81,10 @@ async function updateUsersStatusWhoNeedsPasswordReset(users) {
   );
   return updateUsersRequest;
 }
+async function getAllUsers() {
+  const users = await User.findAll();
+  return users;
+}
 
 export default {
   getUserByEmail,
@@ -94,4 +98,5 @@ export default {
   enableOtp,
   findUsersWithExpiredPassword,
   updateUsersStatusWhoNeedsPasswordReset,
+  getAllUsers,
 };

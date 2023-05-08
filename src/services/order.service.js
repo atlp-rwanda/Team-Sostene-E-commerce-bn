@@ -22,10 +22,14 @@ async function paymentOrderStatus(status, id) {
   const data = await Order.update({ status }, { where: { id } });
   return data;
 }
-
+async function getOrders() {
+  const data = await Order.findAll();
+  return data;
+}
 export default {
   updateOrderStatus,
   getOrdersByUser,
   getOrderById,
   paymentOrderStatus,
+  getOrders,
 };

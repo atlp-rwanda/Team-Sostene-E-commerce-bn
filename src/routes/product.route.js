@@ -9,9 +9,10 @@ import {
   isValidCollection,
   validate,
   validateParams,
+  checkImg,
 } from '../middleware';
-import { productControllers, collectionItemControllers } from '../controllers';
-import { CollectionNameSchema, addproductSchema, uuidSchemas } from '../utils';
+import { productControllers, productImageController } from '../controllers';
+import { CollectionNameSchema, productSchema, uuidSchemas } from '../utils';
 import Upload from '../helpers/multer';
 
 const router = Router();
@@ -63,20 +64,10 @@ router.delete(
   asyncWrapper(productControllers.DeleteCollection)
 );
 
-router.patch(
-  '/update/item/:id',
-  Upload,
-  validate(addproductSchema),
-  isAuthenticated,
-  checkPermission('SELLER'),
-  isProductSeller,
-  asyncWrapper(collectionItemControllers)
-);
-
 router.post(
   '/collection/:cid',
   Upload,
-  validate(addproductSchema),
+  validate(productSchema.addproductSchema),
   isAuthenticated,
   checkPermission('SELLER'),
   isValidCollection,
@@ -86,11 +77,21 @@ router.post(
 router.patch(
   '/update/:id',
   Upload,
-  validate(addproductSchema),
+  validate(productSchema.updateproductSchema),
   isAuthenticated,
   checkPermission('SELLER'),
   isProductSeller,
   asyncWrapper(productControllers.updateOnadd)
 );
 
+router.patch(
+  '/update/image/:id',
+  Upload,
+  validate(productSchema.addImage),
+  isAuthenticated,
+  checkPermission('SELLER'),
+  isProductSeller,
+  checkImg,
+  productImageController.updtImages
+);
 export default router;

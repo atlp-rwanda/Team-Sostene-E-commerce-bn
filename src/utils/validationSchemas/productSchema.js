@@ -16,4 +16,23 @@ const addproductSchema = Joi.object().keys({
   link: Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())),
 });
 
-export default addproductSchema;
+const updateproductSchema = Joi.object().keys({
+  productName: Joi.string()
+    .min(3)
+    .max(15)
+    .messages(errorMessage('productname')),
+  productPrice: Joi.number().messages(errorMessage('price')),
+  category: Joi.string().messages(errorMessage('productCategory')),
+  expDate: Joi.date().messages(errorMessage('expDate')),
+  bonus: Joi.number().messages(errorMessage('bonus')),
+  quantity: Joi.number().messages(errorMessage('quantity')),
+});
+
+const addImage = Joi.object().keys({
+  image: Joi.binary().min(1).messages(errorMessage('images')),
+  imageId: Joi.alternatives().try(
+    Joi.string(),
+    Joi.array().items(Joi.string())
+  ),
+});
+export default { addproductSchema, updateproductSchema, addImage };

@@ -63,16 +63,10 @@ describe('catching error when adding and updating a product', function () {
     });
     const response = await chai
       .request(app)
-      .patch(`/products/update/${product.id}`)
+      .patch(`/products/update/image/${product.id}`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
-      .field('productName', 'testname')
-      .field('productPrice', '0000')
-      .field('category', 'test')
-      .field('expDate', '2000-02-02')
-      .field('quantity', '1')
-      .field('bonus', '0')
-      .field('link', 'htttp:fakeUrl.jpg')
+      .field('imageId', '2a01c0fa-be02-45d9-8c39-3f78e993cd6b')
       .attach('image', fs.readFileSync(pathOne), '1.jpg')
       .attach('image', fs.readFileSync(pathTwo), '1.jpg')
       .attach('image', fs.readFileSync(pathThree), '1.jpg')
@@ -87,23 +81,28 @@ describe('catching error when adding and updating a product', function () {
     });
     const response = await chai
       .request(app)
-      .patch(`/products/update/${product.id}`)
+      .patch(`/products/update/image/${product.id}`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
-      .field('productName', 'testname')
-      .field('productPrice', '0000')
-      .field('category', 'test')
-      .field('expDate', '2000-02-02')
-      .field('quantity', '1')
-      .field('bonus', '0')
-      .field('link', 'htttp:fakeUrl.jpg')
-      .field('link', 'htttp:fakeUrl.jpg')
+      .field('imageId', '2a01c0fa-be02-45d9-8c39-3f78e993cd6b')
+      .field('imageId', '2a01c0fa-be02-45d9-8c39-3f78e993cd6b')
       .attach('image', fs.readFileSync(pathOne), '1.jpg')
       .attach('image', fs.readFileSync(pathTwo), '1.jpg')
       .attach('image', fs.readFileSync(pathThree), '1.jpg')
       .attach('image', fs.readFileSync(pathFour), '1.jpg')
       .attach('image', fs.readFileSync(pathFour), '1.jpg')
       .attach('image', fs.readFileSync(pathFour), '1.jpg');
+    expect(response).to.have.status(400);
+  });
+
+  it('if no image to delete provided', async function () {
+    product = await Products.findOne({
+      where: { name: 'testing review product' },
+    });
+    const response = await chai
+      .request(app)
+      .patch(`/products/update/image/${product.id}`)
+      .set('authorization', `Bearer ${token}`);
     expect(response).to.have.status(400);
   });
 });

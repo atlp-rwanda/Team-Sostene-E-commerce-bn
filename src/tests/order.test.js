@@ -6,6 +6,10 @@ import app from '../index';
 import Order from '../database/models/order.model';
 import { orderServices } from '../services';
 import { checkOrderExists } from '../middleware';
+import {
+  getOrderByUser,
+  updateOrderStatus,
+} from '../controllers/order.controller';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -65,6 +69,24 @@ describe('Testing Orders status retrieval and updation', function () {
         .set('Authorization', `Bearer ${authToken}`);
       expect(res).to.have.status(200);
       expect(res.body.code).to.equal('200');
+    });
+
+    it('Should get all orders by admin', async function () {
+      const res = await chai
+        .request(app)
+        .get(`/orders/all`)
+        .set('Authorization', `Bearer ${authToken}`);
+      expect(res).to.have.status(200);
+      expect(res.body.code).to.equal('200');
+    });
+
+    it('Should get all users by admin', async function () {
+      const res = await chai
+        .request(app)
+        .get(`/users/all`)
+        .set('Authorization', `Bearer ${authToken}`);
+      expect(res).to.have.status(200);
+      expect(res.body.code).to.equal(200);
     });
   });
 });
@@ -146,6 +168,39 @@ describe('Order services', function () {
       expect(order).to.deep.equal(expectedOrder);
 
       sinon.restore();
+    });
+
+    it('get order by user', async function () {
+      const req = {
+        params: { orderId: '41d303c5-8167-4ca7-84d5-ed52b465f2dc' },
+      };
+      const res = {
+        status(statusCode) {
+          expect(statusCode).to.equal(200);
+          return this;
+        },
+        json(responseBody) {
+          expect(responseBody).to.have.property('order');
+        },
+      };
+      await getOrderByUser(req, res);
+    });
+
+    it('update order status', async function () {
+      const req = {
+        body: { status: 'failed' },
+        params: { orderId: '41d303c5-8167-4ca7-84d5-ed52b465f2dc' },
+      };
+      const res = {
+        status(statusCode) {
+          expect(statusCode).to.equal(200);
+          return this;
+        },
+        json(responseBody) {
+          expect(responseBody).to.have.property('data');
+        },
+      };
+      await updateOrderStatus(req, res);
     });
   });
 });

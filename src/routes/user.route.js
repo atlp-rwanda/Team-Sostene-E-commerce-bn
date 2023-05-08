@@ -73,6 +73,14 @@ router.put(
   validate(PasswordSchema),
   asyncWrapper(userControllers.resetPassword)
 );
+
+router.get(
+  '/all',
+  isAuthenticated,
+  checkPermission('ADMIN'),
+  asyncWrapper(userControllers.findAll)
+);
+
 router.get('/', (req, res) => {
   res.status(200).json('Hello users!');
 });

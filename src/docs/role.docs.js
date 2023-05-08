@@ -18,7 +18,7 @@
  * @swagger
  * /users/{id}/role:
  *      patch:
- *          tags: [User roles and permissions]
+ *          tags: [Admin]
  *          summary: Admin assigns roles to users.
  *          security:
  *            - bearerAuth: []
@@ -44,5 +44,33 @@
  *                     description: Not Found
  *                  500:
  *                     description: Internal server error
+ *
+ */
+
+/**
+ * @swagger
+ * /users/all:
+ *      get:
+ *          tags: [Admin]
+ *          summary: Admin gets all users.
+ *          security:
+ *            - bearerAuth: []
+ *          responses:
+ *                  200:
+ *                     description: Got all users
+ *
+ */
+
+/**
+ * @swagger
+ * /orders/all:
+ *      get:
+ *          tags: [Admin]
+ *          summary: Admin gets all orders.
+ *          security:
+ *            - bearerAuth: []
+ *          responses:
+ *                  200:
+ *                     description: Got all orders
  *
  */

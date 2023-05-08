@@ -193,14 +193,6 @@
  *               quantity:
  *                 type: double
  *                 description: quantity
- *               link:
- *                 description: image url to delete
- *               image:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
- *                 description: product images
  *     responses:
  *       '200':
  *         description: succssefully updated  the product

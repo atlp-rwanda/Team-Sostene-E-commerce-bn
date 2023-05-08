@@ -16,6 +16,7 @@ import checkProductInStock from './product/checkProductInStock.middleware';
 import checkShippingAddressExist from './product/checkShippingAddressExists.middleware';
 import checkOrderExists from './order/checkOrderExists';
 import madePayment from './order/paymentMade';
+import checkImg from './product/imageExists';
 
 export {
   isAuthenticated,
@@ -32,4 +33,5 @@ export {
   checkShippingAddressExist,
   checkOrderExists,
   madePayment,
+  checkImg,
 };

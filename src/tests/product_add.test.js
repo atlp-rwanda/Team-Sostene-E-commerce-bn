@@ -7,7 +7,7 @@ import { redisClient } from '../helpers';
 import app from '../index';
 import Products from '../database/models/products.model.js';
 import Collection from '../database/models/collection.model';
-import { productControllers } from '../controllers';
+import { productControllers, productImageController } from '../controllers';
 import productsService from '../services/products.service';
 
 const { expect } = chai;
@@ -45,7 +45,7 @@ describe('adding product', function () {
     const find = await Products.findOne({ where: { name: 'testname' } });
     const images = await find.getProductImages();
     const promises = images.map(async (item) => {
-      await productsService.deleteImage(item.url);
+      await productsService.deleteImage(item.id);
     });
     await Promise.all(promises);
     await Products.destroy({ where: { name: 'testname' } });
@@ -103,36 +103,24 @@ describe('adding product', function () {
     const images = await product.getProductImages();
     const response = await chai
       .request(app)
-      .patch(`/products/update/${product.id}`)
+      .patch(`/products/update/image/${product.id}`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
-      .field('productName', 'testname')
-      .field('productPrice', '0000')
-      .field('category', 'test')
-      .field('expDate', '2000-02-02')
-      .field('quantity', '1')
-      .field('bonus', '0')
-      .field('link', images[0].url)
+      .field('imageId', images[0].id)
+      .attach('image', fs.readFileSync(pathOne), '1.jpg')
       .attach('image', fs.readFileSync(pathOne), '1.jpg');
     expect(response).to.have.status(200);
   });
-
   it('it should update if the product exists with multiple images ', async function () {
     product = await Products.findOne({ where: { name: 'testname' } });
     const images = await product.getProductImages();
     const response = await chai
       .request(app)
-      .patch(`/products/update/${product.id}`)
+      .patch(`/products/update/image/${product.id}`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
-      .field('productName', 'testname')
-      .field('productPrice', '0000')
-      .field('category', 'test')
-      .field('expDate', '2000-02-02')
-      .field('quantity', '1')
-      .field('bonus', '0')
-      .field('link', images[0].url)
-      .field('link', images[1].url)
+      .field('imageId', images[0].id)
+      .field('imageId', images[1].id)
       .attach('image', fs.readFileSync(pathOne), '1.jpg')
       .attach('image', fs.readFileSync(pathOne), '1.jpg');
     expect(response).to.have.status(200);
@@ -177,7 +165,8 @@ describe('adding product', function () {
     const req = {
       user: { id: `${data.userId}` },
       params: { id: `${product.id}` },
-      body: { productName: 'ok', link: ['1', '2'] },
+      imagesToDelete: ['1', '2'],
+      productImages: ['1', '2', '3', '4'],
       files: [],
     };
     const res = {
@@ -189,15 +178,33 @@ describe('adding product', function () {
         expect(responseBody).to.have.property('error');
       },
     };
-    await productControllers.updateOnadd(req, res);
+    await productImageController.updtImages(req, res);
   });
 
+  it('no update made', async function () {
+    product = await Products.findOne({ where: { name: 'testname' } });
+    const req = {
+      user: { id: `${data.userId}` },
+      params: { id: `${product.id}` },
+    };
+    const res = {
+      status(statusCode) {
+        expect(statusCode).to.equal(400);
+        return this;
+      },
+      json(responseBody) {
+        expect(responseBody).to.have.property('message');
+      },
+    };
+    await productImageController.updtImages(req, res);
+  });
   it('images higher than 8 on update with no deletion ', async function () {
     product = await Products.findOne({ where: { name: 'testname' } });
     const req = {
       user: { id: `${data.userId}` },
       params: { id: `${product.id}` },
-      body: { productName: 'ok' },
+      imagesToDelete: [],
+      productImages: ['1', '2', '3', '4'],
       files: [1, 2, 3, 4, 5, 6],
     };
     const res = {
@@ -209,7 +216,7 @@ describe('adding product', function () {
         expect(responseBody).to.have.property('error');
       },
     };
-    await productControllers.updateOnadd(req, res);
+    await productImageController.updtImages(req, res);
   });
 
   it('should fail if the product is not for the seller', async function () {
