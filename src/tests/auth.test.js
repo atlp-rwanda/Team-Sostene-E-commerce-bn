@@ -39,4 +39,12 @@ describe('Testing two factor authentication for sellers', function () {
       .send({ verificationCode: '123456' });
     res.should.have.status(200);
   });
+  it("should return 406 status code and token if OTP is dont't match", async function () {
+    await redisClient.setEx('newSeller@gmail.com', 300, `123446=${token}`);
+    const res = await chai
+      .request(server)
+      .post('/users/verify/newSeller@gmail.com')
+      .send({ verificationCode: '123456' });
+    res.should.have.status(406);
+  });
 });

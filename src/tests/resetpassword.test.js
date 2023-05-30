@@ -30,9 +30,10 @@ describe('create user then send a reset link', function () {
     const user = await userServices.getUserByEmail(email);
     const userEmail = { email, id: user.id };
     const token = generateForgetPasswordToken(userEmail);
+    const encodedToken = Buffer.from(token).toString('base64');
     const res = await chai
       .request(app)
-      .put(`/users/reset-password/${token}`)
+      .put(`/users/reset-password/${encodedToken}`)
       .send({ password: 'Qwert@12345' });
     expect(res).to.have.status(200);
     expect(res.body).to.have.property('message');
@@ -44,9 +45,10 @@ describe('create user then send a reset link', function () {
 describe('incorrent token', function () {
   it('should not send link due to invalid token', async function () {
     const incorrectToken = 'akwjanrkjdkafn';
+    const encodedToken = Buffer.from(incorrectToken).toString('base64');
     const res = await chai
       .request(app)
-      .put(`/users/reset-password/${incorrectToken}`)
+      .put(`/users/reset-password/${encodedToken}`)
       .send({ password: 'Incorect@1token' });
     expect(res).to.have.status(401);
     expect(res.body).to.have.property('message');
@@ -55,9 +57,11 @@ describe('incorrent token', function () {
 describe('incorrent Url', function () {
   it('should not send link due url not found', async function () {
     const incorrectToken = 'akwjanrkjdkafn';
+    const encodedToken = Buffer.from(incorrectToken).toString('base64');
+
     const res = await chai
       .request(app)
-      .put(`/users/res-password/${incorrectToken}`)
+      .put(`/users/res-password/${encodedToken}`)
       .send({ password: 'Incorect@1token' });
     expect(res).to.have.status(404);
   });
@@ -76,9 +80,11 @@ describe('Server problem', function () {
     const email = 'mirisaidiest@mail.com';
     const userEmail = { email };
     const token = generateForgetPasswordToken(userEmail);
+    const encodedToken = Buffer.from(token).toString('base64');
+
     const res = await chai
       .request(app)
-      .put(`/users/reset-password/${token}`)
+      .put(`/users/reset-password/${encodedToken}`)
       .send();
     expect(res).to.have.status(500);
     expect(res.body.message).to.equal('Server error');

@@ -1,22 +1,16 @@
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function sendEmail({ email, subject, content }) {
-  const mail = nodemailer.createTransport({
-    host: process.env.HOST_MAILER,
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.NODE_MAILER_USER,
-      pass: process.env.NODE_MAILER_PASS,
-    },
-  });
-  const data = {
-    from: process.env.NODE_MAILER_USER,
-    to: email,
+  const msg = {
+    to: email, // Change to your recipient
+    from: process.env.SENDER, // Change to your verified sender
     subject,
+    text: 'and easy to do anywhere, even with Node.js',
     html: content,
   };
-  mail.sendMail(data);
+  sgMail.send(msg);
 }
 
 export default sendEmail;

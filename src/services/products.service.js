@@ -83,6 +83,7 @@ async function searchproduct(query) {
       ],
       price: { [Op.between]: [query.minPrice, query.maxPrice] },
     },
+    include: [{ model: Images, as: 'productImages', attributes: ['url'] }],
   });
   return product;
 }

@@ -104,6 +104,7 @@ const login = async (req, res, next) => {
     }
   )(req, res, next);
 };
+
 const verifyOTP = asyncWrapper(async (req, res) => {
   const { verificationCode } = req.body;
   const { email } = req.params;
@@ -114,7 +115,7 @@ const verifyOTP = asyncWrapper(async (req, res) => {
     const user = decodeToken(redisToken);
     await redisClient.setEx(user.id, 86400, redisToken);
     req.user = user;
-    res
+    return res
       .status(200)
       .header('authenticate', redisToken)
       .json({
@@ -123,6 +124,11 @@ const verifyOTP = asyncWrapper(async (req, res) => {
         token: redisToken,
       });
   }
+
+  return res.status(406).header('authenticate', redisToken).json({
+    code: 406,
+    message: `Invalid Otp.`,
+  });
 });
 
 const loginWithGoogle = async (req, res, next) => {
@@ -199,8 +205,9 @@ const forgotPassword = asyncWrapper(async (req, res) => {
   }
   const userEmail = { email, id: user.id };
   const token = generateForgetPasswordToken(userEmail);
+  const encodedToken = Buffer.from(token).toString('base64');
   const resetPasswordContent =
-    notificationTemplates.ForgortPasswordTemplate(token);
+    notificationTemplates.ForgortPasswordTemplate(encodedToken);
   sendEmailReset(
     configEmail({
       email,
@@ -216,7 +223,8 @@ const forgotPassword = asyncWrapper(async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
-    const payload = decodeResetPasswordToken(token);
+    const decodedToken = Buffer.from(token, 'base64').toString('utf-8');
+    const payload = decodeResetPasswordToken(decodedToken);
     req.user = payload;
     const { email } = req.user;
     try {

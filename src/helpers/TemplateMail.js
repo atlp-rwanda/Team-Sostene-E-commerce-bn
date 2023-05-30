@@ -1,7 +1,7 @@
 const ForgortPasswordTemplate = (token) => `
     <p>Reset your password.</p>
     <p>Please click the link below to reset your password.</p>
-    http://${process.env.PRODUCTION_URL}/users/reset-password/${token}`;
+    ${process.env.FRONTEND_URL}/accounts/reset-password/new/${token}`;
 
 const signupTemplate = (username) => `
         <div style="background-color: #f2f2f2; padding: 20px;">

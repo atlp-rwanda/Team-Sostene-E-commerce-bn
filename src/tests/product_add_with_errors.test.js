@@ -58,12 +58,9 @@ describe('catching error when adding and updating a product', function () {
   });
 
   it('url does not exist on single image delete', async function () {
-    product = await Products.findOne({
-      where: { name: 'testing review product' },
-    });
     const response = await chai
       .request(app)
-      .patch(`/products/update/image/${product.id}`)
+      .patch(`/products/update/image/c2d6f06c-ee3f-4918-986b-d3656d15216d`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
       .field('imageId', '2a01c0fa-be02-45d9-8c39-3f78e993cd6b')
@@ -76,12 +73,9 @@ describe('catching error when adding and updating a product', function () {
   });
 
   it('url does not exist on multiple images delete', async function () {
-    product = await Products.findOne({
-      where: { name: 'testing review product' },
-    });
     const response = await chai
       .request(app)
-      .patch(`/products/update/image/${product.id}`)
+      .patch(`/products/update/image/c2d6f06c-ee3f-4918-986b-d3656d15216d`)
       .set('authorization', `Bearer ${token}`)
       .set('user', JSON.stringify({ id: data.userId }))
       .field('imageId', '2a01c0fa-be02-45d9-8c39-3f78e993cd6b')
@@ -96,12 +90,9 @@ describe('catching error when adding and updating a product', function () {
   });
 
   it('if no image to delete provided', async function () {
-    product = await Products.findOne({
-      where: { name: 'testing review product' },
-    });
     const response = await chai
       .request(app)
-      .patch(`/products/update/image/${product.id}`)
+      .patch(`/products/update/image/c2d6f06c-ee3f-4918-986b-d3656d15216d`)
       .set('authorization', `Bearer ${token}`);
     expect(response).to.have.status(400);
   });

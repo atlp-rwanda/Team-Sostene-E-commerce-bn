@@ -18,7 +18,6 @@ const updtImages = async (req, res) => {
     if (imgId.length > 0) {
       const sizes = images.length + img.length - imgId.length;
       if (sizes < 4 || sizes > 8) {
-        console.log('here');
         return res.status(401).json({
           code: '401',
           message: 'failed',
