@@ -10,7 +10,7 @@ describe('Notification templates', function () {
     const expectedOutput = `
     <p>Reset your password.</p>
     <p>Please click the link below to reset your password.</p>
-    http://${process.env.PRODUCTION_URL}/users/reset-password/${token}`;
+    ${process.env.FRONTEND_URL}/accounts/reset-password/new/${token}`;
     const result = notificationTemplates.ForgortPasswordTemplate(token);
     expect(result).to.equal(expectedOutput);
   });
