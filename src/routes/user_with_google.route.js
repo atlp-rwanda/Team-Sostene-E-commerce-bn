@@ -28,6 +28,6 @@ userRouter.get(
   })
 );
 
-userRouter.get('/auth/google/success', userControllers.loginWithGoogle);
+userRouter.post('/auth/google/success', userControllers.loginWithGoogle);
 
 export default userRouter;

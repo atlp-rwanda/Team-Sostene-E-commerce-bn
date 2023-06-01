@@ -91,7 +91,7 @@ const redirect = async (req, res) => {
     res.status(200).json({
       code: '200',
       message: 'Returned payment Status',
-      status: paymentIntent.status,
+      status: paymentIntent,
     });
   }
 };

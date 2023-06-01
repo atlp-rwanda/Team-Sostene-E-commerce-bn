@@ -132,6 +132,9 @@ const verifyOTP = asyncWrapper(async (req, res) => {
 });
 
 const loginWithGoogle = async (req, res, next) => {
+  if (req.body) {
+    req.user = req.body.user;
+  }
   let user;
   try {
     user = await userServices.getUserByEmail(req.user.email);
