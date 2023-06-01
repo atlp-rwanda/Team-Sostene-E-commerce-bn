@@ -25,7 +25,7 @@ describe('Testing login with google function ', function () {
 
   it('should save the user and return a token if user not registered', async function () {
     const req = {
-      user: userNotRegistered,
+      body: { user: userNotRegistered },
     };
 
     const res = {
