@@ -5,6 +5,7 @@ import {
   tfaEnableDisable,
   userProfileController,
   fetchUserController,
+  productControllers,
 } from '../controllers';
 import checkUser from '../middleware/checkUser';
 import {
@@ -89,6 +90,13 @@ router.patch(
   isAuthenticated,
   validate(newPasswordSchema),
   asyncWrapper(userControllers.changePassword)
+);
+
+router.get(
+  '/collections',
+  isAuthenticated,
+  checkPermission('SELLER'),
+  asyncWrapper(productControllers.getSellerCollections)
 );
 
 export default router;

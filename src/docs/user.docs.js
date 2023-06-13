@@ -363,3 +363,32 @@
  *         schema:
  *           type: object
  */
+
+/**
+ * @swagger
+ * /users/collections:
+ *  get:
+ *    tags:
+ *      - Product
+ *    summary: Gets seller's collection
+ *    security:
+ *      - bearerAuth: []
+ *    description: Gets seller's collection
+ *    responses:
+ *      '200':
+ *        description: Fetched seller's collections successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'Collections Fetched.'
+ *      '401':
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *            example:
+ *              Message: 'Please Login'
+ */

@@ -5,7 +5,7 @@ import {
   stripeListener,
   getStatus,
 } from '../utils';
-import { orderServices } from '../services';
+import { orderServices, notificationServices } from '../services';
 import { sendEmailReset, stripe } from '../helpers';
 
 const { ADMIN_EMAIL } = process.env;
@@ -32,6 +32,12 @@ const makePayment = async (req, res) => {
       Action: redirectUrl,
     });
   }
+  notificationServices.sendNotification(
+    req.user.id,
+    `Payment for order ${orderId} was successful `,
+    'Payment',
+    'mid'
+  );
   return res
     .status(200)
     .json({ code: '200', Message: 'Payment succedded', payment });

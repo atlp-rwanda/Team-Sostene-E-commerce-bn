@@ -49,6 +49,7 @@ export async function up(queryInterface) {
         name: 'testing checkout',
         price: 2000,
         category: 'test',
+        description: 'This is a description',
         quantity: 2,
         expDate: '2000-02-02',
         bonus: 0,

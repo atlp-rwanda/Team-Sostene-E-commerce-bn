@@ -1,7 +1,11 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-inner-declarations */
 /* eslint-disable radix */
-import { collectionServices, productsServices } from '../services';
+import {
+  collectionServices,
+  productsServices,
+  notificationServices,
+} from '../services';
 
 const response = (res, cd, msg, dt) =>
   res.status(cd).json({
@@ -18,7 +22,12 @@ const CreateCollection = async (req, res) => {
     name: collectionName,
   };
   const collection = await collectionServices.createCollection(collectionObj);
-
+  notificationServices.sendNotification(
+    req.user.id,
+    `Collection created: ${collection.name}`,
+    'Collection creation',
+    'mid'
+  );
   return res.status(201).json({
     code: 201,
     message: 'Collection Created.',
@@ -27,8 +36,18 @@ const CreateCollection = async (req, res) => {
 };
 
 const DeleteCollection = async (req, res) => {
-  await collectionServices.deleteCollection(req.params.cid);
-  return res.status(200).json({ code: 200, message: 'Collection Deleted' });
+  const deleteCollection = await collectionServices.deleteCollection(
+    req.params.cid
+  );
+  notificationServices.sendNotification(
+    req.user.id,
+    `Collection deleted: ${deleteCollection.name}`,
+    'Colllection deletion',
+    'mid'
+  );
+  return res
+    .status(200)
+    .json({ code: 200, message: 'Collection Deleted', data: deleteCollection });
 };
 
 const getSingleProduct = async (req, res) => {
@@ -44,6 +63,12 @@ const deleteProduct = async (req, res) => {
     pid
   );
   if (deletedProduct) {
+    notificationServices.sendNotification(
+      req.user.id,
+      `Product deleted: ${deletedProduct.name}`,
+      'Product deletion',
+      'mid'
+    );
     return res.status(200).json({ code: 200, message: 'Product Deleted.' });
   }
   return res.status(404).json({ code: 404, message: 'Product Not Found.' });
@@ -51,8 +76,15 @@ const deleteProduct = async (req, res) => {
 
 const addproduct = async (req, res) => {
   const { cid } = req.params;
-  const { productName, productPrice, category, expDate, bonus, quantity } =
-    req.body;
+  const {
+    productName,
+    productPrice,
+    description,
+    category,
+    expDate,
+    bonus,
+    quantity,
+  } = req.body;
   const img = req.files;
   let url = [];
   if (img.length < 4 || img.length > 8) {
@@ -78,6 +110,7 @@ const addproduct = async (req, res) => {
         name: productName,
         price: productPrice,
         category,
+        description,
         expDate,
         bonus,
         quantity,
@@ -91,6 +124,13 @@ const addproduct = async (req, res) => {
           return images;
         });
         await Promise.all(sendImage);
+
+        notificationServices.sendNotification(
+          req.user.id,
+          `Product created: ${data.name}`,
+          'Product creation',
+          'mid'
+        );
         res.status(200).json({
           code: '200',
           message: 'Successful',
@@ -108,8 +148,15 @@ const addproduct = async (req, res) => {
 
 const updateOnadd = async (req, res) => {
   const productId = req.params.id;
-  const { productName, productPrice, expDate, category, bonus, quantity } =
-    req.body;
+  const {
+    productName,
+    productPrice,
+    expDate,
+    category,
+    description,
+    bonus,
+    quantity,
+  } = req.body;
 
   const product = await productsServices.getProductById(productId);
   if (product) {
@@ -117,6 +164,7 @@ const updateOnadd = async (req, res) => {
       name: productName,
       price: productPrice,
       category,
+      description,
       expDate,
       bonus,
       quantity,
@@ -124,6 +172,12 @@ const updateOnadd = async (req, res) => {
 
     const { updated } = await productsServices.addUpdate(body, productId);
     if (updated != null) {
+      notificationServices.sendNotification(
+        req.user.id,
+        `Product updated: ${updated.name}`,
+        'Product Updating',
+        'mid'
+      );
       res.status(200).json({
         code: '200',
         message: 'Successful Updated The Product with no images',
@@ -192,6 +246,13 @@ const listAllItems = async (req, res) => {
   });
 };
 
+const getSellerCollections = async (req, res) => {
+  const collections = await collectionServices.getSellerCollectionsBySellerId(
+    req.user.id
+  );
+  return response(res, 200, 'Collections Fetched.', collections);
+};
+
 export default {
   CreateCollection,
   DeleteCollection,
@@ -202,4 +263,5 @@ export default {
   searchProducts,
   listItems,
   listAllItems,
+  getSellerCollections,
 };

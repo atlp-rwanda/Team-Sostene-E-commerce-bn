@@ -123,6 +123,26 @@ describe('Testing Collection', function () {
           });
       });
   });
+
+  it(' Should get all collections of the seller', function (done) {
+    chai
+      .request(server)
+      .post('/users/login')
+      .send({ email: 'testingseller@example.com', password: 'Qwert@12345' })
+      .end(async (err, res) => {
+        res.should.have.status(200);
+        const { token } = res.body;
+        await chai
+          .request(server)
+          .get(`/users/collections`)
+          .set({ Authorization: `Bearer ${token}` })
+          .then(async (res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+          });
+      });
+  });
 });
 
 describe('Testing Unknown collection id inputs ', function () {

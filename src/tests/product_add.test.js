@@ -59,6 +59,10 @@ describe('adding product', function () {
       .field('productName', 'testname')
       .field('productPrice', '0000')
       .field('category', 'test')
+      .field(
+        'description',
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+      )
       .field('quantity', '1')
       .field('expDate', '2000-02-02')
       .field('bonus', '0')
@@ -74,6 +78,10 @@ describe('adding product', function () {
       .field('productName', 'testname')
       .field('productPrice', '0000')
       .field('category', 'test')
+      .field(
+        'description',
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+      )
       .field('quantity', '1')
       .field('expDate', '2000-02-02')
       .field('bonus', '0')
@@ -93,6 +101,10 @@ describe('adding product', function () {
       .field('productName', 'testname')
       .field('productPrice', '0000')
       .field('category', 'test')
+      .field(
+        'description',
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+      )
       .field('expDate', '2000-02-02')
       .field('bonus', '0');
     expect(response).to.have.status(404);
@@ -136,6 +148,10 @@ describe('adding product', function () {
       .field('productName', 'testname')
       .field('productPrice', '0000')
       .field('category', 'test')
+      .field(
+        'description',
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+      )
       .field('expDate', '2000-02-02')
       .field('quantity', '1')
       .field('bonus', '0');
@@ -233,6 +249,10 @@ describe('adding product', function () {
       .field('productName', 'testname')
       .field('productPrice', '0000')
       .field('category', 'test')
+      .field(
+        'description',
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+      )
       .field('expDate', '2000-02-02')
       .field('quantity', '1')
       .field('bonus', '0');
@@ -253,6 +273,10 @@ describe('adding product', function () {
       .field('productName', 'testname')
       .field('productPrice', '0000')
       .field('category', 'test')
+      .field(
+        'description',
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+      )
       .field('expDate', '2000-02-02')
       .field('quantity', '1')
       .field('bonus', '0');
@@ -267,6 +291,10 @@ describe('adding product', function () {
       .field('productName', 'testname')
       .field('productPrice', '0000')
       .field('category', 'test')
+      .field(
+        'description',
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+      )
       .field('expDate', '2000-02-02')
       .field('bonus', '0')
       .field('quantity', '1')

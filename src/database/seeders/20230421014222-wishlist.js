@@ -56,6 +56,7 @@ export async function up(queryInterface) {
         name: 'cheese',
         price: 100,
         category: 'snacks',
+        description: 'This product has many nutrients',
         expDate: '2023',
         bonus: 100,
         quantity: 10,

@@ -38,8 +38,9 @@ async function createCollection(collectionObj) {
 
 async function deleteCollection(collectionId) {
   await Products.destroy({ where: { collectionId } });
-  const collection = await Collection.destroy({ where: { id: collectionId } });
-  return collection;
+  const deletedCollection = await getCollectionById(collectionId);
+  await Collection.destroy({ where: { id: collectionId } });
+  return deletedCollection;
 }
 
 async function deleteFromCollection(collectionId, productId) {
@@ -76,6 +77,11 @@ async function getTotalCollectionCount(uId, collectionId) {
   return collection.length;
 }
 
+async function getSellerCollectionsBySellerId(userId) {
+  const collections = await Collection.findAll({ where: { userId } });
+  return collections;
+}
+
 export default {
   createCollection,
   getCollectionByName,
@@ -86,4 +92,5 @@ export default {
   getCollectionById,
   findCollection,
   getTotalCollectionCount,
+  getSellerCollectionsBySellerId,
 };

@@ -16,6 +16,7 @@ export async function up(queryInterface) {
         name: 'testing product',
         price: 500000,
         category: 'Food',
+        description: 'This product has many nutrients',
         expDate: '04/11/2023',
         bonus: 20000,
         quantity: 50,
