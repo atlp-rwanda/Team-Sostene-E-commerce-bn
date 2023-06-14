@@ -4,11 +4,15 @@ import errorMessage from '../errormessage';
 const addproductSchema = Joi.object().keys({
   productName: Joi.string()
     .min(3)
-    .max(15)
+    .max(80)
     .required()
     .messages(errorMessage('productname')),
   productPrice: Joi.number().required().messages(errorMessage('price')),
   category: Joi.string().required().messages(errorMessage('productCategory')),
+  description: Joi.string()
+    .min(50)
+    .required()
+    .messages(errorMessage('description')),
   expDate: Joi.date().required().messages(errorMessage('expDate')),
   bonus: Joi.number().required().messages(errorMessage('bonus')),
   image: Joi.binary().min(1).messages(errorMessage('image')),
@@ -19,10 +23,14 @@ const addproductSchema = Joi.object().keys({
 const updateproductSchema = Joi.object().keys({
   productName: Joi.string()
     .min(3)
-    .max(15)
+    .max(80)
     .messages(errorMessage('productname')),
   productPrice: Joi.number().messages(errorMessage('price')),
   category: Joi.string().messages(errorMessage('productCategory')),
+  description: Joi.string()
+    .min(50)
+    .required()
+    .messages(errorMessage('description')),
   expDate: Joi.date().messages(errorMessage('expDate')),
   bonus: Joi.number().messages(errorMessage('bonus')),
   quantity: Joi.number().messages(errorMessage('quantity')),

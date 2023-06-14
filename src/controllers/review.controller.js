@@ -1,4 +1,8 @@
-import { reviewsServices } from '../services';
+import {
+  reviewsServices,
+  notificationServices,
+  productsServices,
+} from '../services';
 
 const getReviews = (req, res) => {
   const productId = req.params.pid;
@@ -19,6 +23,23 @@ const addReview = (req, res) => {
     rating: req.body.rating,
   };
   reviewsServices.addReview(reviewObj).then((data) => {
+    productsServices
+      .getProductSellerByProductId(reviewObj.productId)
+      .then((response) => {
+        notificationServices.sendNotification(
+          reviewObj.userId,
+          `Review Added: ${reviewObj.feedback}`,
+          `Review Added for ${response.product.name}`,
+          'low'
+        );
+        notificationServices.sendNotification(
+          response.seller.id,
+          `Review Added: ${reviewObj.feedback}`,
+          `Review Added for ${response.product.name} `,
+          'low'
+        );
+      });
+
     res.status(201).json({
       code: 201,
       message: 'Review Added.',

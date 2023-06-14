@@ -1,6 +1,8 @@
 import { Op } from 'sequelize';
 import { extractPublicId } from 'cloudinary-build-url';
 import Products from '../database/models/products.model';
+import Collection from '../database/models/collection.model';
+import User from '../database/models/user.model';
 import Images from '../database/models/images.model';
 import Cloudinary from '../helpers/cloudinary';
 // import Collection from '../database/models/collection.model';
@@ -111,6 +113,15 @@ async function updateProductStatus(Product) {
   return status;
 }
 
+async function getProductSellerByProductId(id) {
+  const product = await Products.findOne({ where: { id } });
+  const collection = await Collection.findOne({
+    where: { id: product.collectionId },
+  });
+  const seller = await User.findOne({ where: { id: collection.userId } });
+  return { product, seller };
+}
+
 export default {
   createProduct,
   addUpdate,
@@ -125,4 +136,5 @@ export default {
   expiredProductDate,
   updateProductStatus,
   removeUrlFromImages,
+  getProductSellerByProductId,
 };

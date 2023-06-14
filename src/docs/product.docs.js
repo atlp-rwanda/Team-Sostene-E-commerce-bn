@@ -8,6 +8,7 @@
  *          - productName
  *          - productPrice
  *          - category
+ *          - description
  *          - expDate
  *          - bonus
  *          - quantity
@@ -25,6 +26,9 @@
  *          category:
  *              type: string
  *              description: category
+ *          description:
+ *              type: string
+ *              description: description
  *          expDate:
  *              type: string
  *              format: date
@@ -129,6 +133,9 @@
  *               category:
  *                 type: string
  *                 description: category
+ *               description:
+ *                 type: string
+ *                 description: description
  *               expDate:
  *                 type: string
  *                 format: date
@@ -183,6 +190,9 @@
  *               category:
  *                 type: string
  *                 description: category
+ *               description:
+ *                 type: string
+ *                 description: description
  *               expDate:
  *                 type: string
  *                 format: date

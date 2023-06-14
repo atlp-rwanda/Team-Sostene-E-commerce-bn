@@ -17,6 +17,7 @@ export async function up(queryInterface) {
         name: 'testing review product',
         price: 5000,
         category: 'Clothing',
+        description: 'Its material is stretchy',
         expDate: '04/11/2040',
         bonus: 20,
         quantity: 50,
