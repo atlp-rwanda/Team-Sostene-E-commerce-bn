@@ -158,6 +158,31 @@ async function clearCart(userId) {
   };
   return cleanedCart;
 }
+async function clearSingleProduct(userId, pid) {
+  const products = await getProductsInCart(userId);
+  const cartWithNoDeletedProd = products.filter(
+    (item) => item.productId !== pid
+  );
+  await redisClient.set(
+    `cart_${userId}`,
+    JSON.stringify(cartWithNoDeletedProd)
+  );
+  const calculatedCart = await displayCart(cartWithNoDeletedProd);
+  return calculatedCart;
+}
+
+async function changeCartQuantiy(userId, pid, qty) {
+  const newCarts = await getProductsInCart(userId);
+  const updatedCart = newCarts.filter((item) => {
+    if (item.productId === pid && item.quantity > 0) {
+      item.quantity = qty;
+    }
+    return item;
+  });
+  await redisClient.set(`cart_${userId}`, JSON.stringify(updatedCart));
+  const calculatedCart = await displayCart(updatedCart);
+  return calculatedCart;
+}
 
 export default {
   addToCart,
@@ -169,4 +194,6 @@ export default {
   getCart,
   getProductsInCart,
   getProductDetails,
+  clearSingleProduct,
+  changeCartQuantiy,
 };

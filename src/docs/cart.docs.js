@@ -121,6 +121,150 @@
  *         $ref: '#/components/responses/NotFound'
  *       500:
  *         $ref: '#/components/responses/InternalError'
+ * /cart/update/{pid}:
+ *   put:
+ *     summary: update single product in cart
+ *     description:  chnage product's quantity.
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: pid
+ *         required: true
+ *         description: id of the product to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               quantity:
+ *                 type: number
+ *                 description: number of items you want
+ *             example:
+ *               quantity: 3
+ *     responses:
+ *       200:
+ *         description: Successful operation.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   example: 200
+ *                   description: HTTP status code
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                   description: Response message
+ *                 data:
+ *                   type: object
+ *                   description: Cart data
+ *                   properties:
+ *                     products:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         description: Product in cart
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                             description: ID of the product
+ *                           name:
+ *                             type: string
+ *                             example: Product A
+ *                             description: Name of the product
+ *                           price:
+ *                             type: number
+ *                             example: 10.99
+ *                             description: Price of the product
+ *                           quantity:
+ *                             type: integer
+ *                             example: 2
+ *                             description: Quantity of the product in cart
+ *                     total:
+ *                       type: number
+ *                       example: 21.98
+ *                       description: Total price of all items in cart
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalError'
+ * /cart/{pid}:
+ *   delete:
+ *     summary: Delete single product in cart
+ *     description:  Change product's quantity.
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: pid
+ *         required: true
+ *         description: id of the product to to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successful operation.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: integer
+ *                   example: 200
+ *                   description: HTTP status code
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                   description: Response message
+ *                 data:
+ *                   type: object
+ *                   description: Cart data
+ *                   properties:
+ *                     products:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         description: Product in cart
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                             description: ID of the product
+ *                           name:
+ *                             type: string
+ *                             example: Product A
+ *                             description: Name of the product
+ *                           price:
+ *                             type: number
+ *                             example: 10.99
+ *                             description: Price of the product
+ *                           quantity:
+ *                             type: integer
+ *                             example: 2
+ *                             description: Quantity of the product in cart
+ *                     total:
+ *                       type: number
+ *                       example: 21.98
+ *                       description: Total price of all items in cart
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalError'
  * components:
  *   responses:
  *     Unauthorized:

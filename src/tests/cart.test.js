@@ -204,3 +204,48 @@ describe('Get /cart items ', function () {
     cartServices.getCart = getCart;
   });
 });
+
+describe('Get /cart items ', function () {
+  const testUserLogin = {
+    email: 'testing@example.com',
+    password: 'Qwert@12345',
+  };
+  beforeEach(async function () {
+    await redisClient.set(
+      `cart_353a6ac5-656f-402e-82b9-79997fb6a04e`,
+      JSON.stringify([
+        { productId: '0f1548b0-b7ce-49e3-a2ef-baffffd383ab', quantity: 2 },
+      ])
+    );
+  });
+  it('should update single item in cart successfully', async function () {
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const { token } = res.body;
+    const response = await chai
+      .request(app)
+      .put(`/cart/update/0f1548b0-b7ce-49e3-a2ef-baffffd383ab`)
+      .set({ Authorization: `Bearer ${token}` })
+      .send({
+        quantity: 3,
+      });
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.a('object');
+    expect(response.body.data.products[0].quantity).to.equal(3);
+  });
+  it('should delete single item from cart successfully', async function () {
+    const res = await chai
+      .request(app)
+      .post('/users/login')
+      .send(testUserLogin);
+    const { token } = res.body;
+    const response = await chai
+      .request(app)
+      .delete(`/cart/0f1548b0-b7ce-49e3-a2ef-baffffd383ab`)
+      .set({ Authorization: `Bearer ${token}` });
+
+    expect(response).to.have.status(200);
+  });
+});
