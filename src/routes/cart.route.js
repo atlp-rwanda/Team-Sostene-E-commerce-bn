@@ -14,7 +14,16 @@ router.delete(
   isAuthenticated,
   asyncWrapper(cartControllers.clearCartItems)
 );
-
+router.delete(
+  '/:pid',
+  isAuthenticated,
+  asyncWrapper(cartControllers.clearSingleItem)
+);
+router.put(
+  '/update/:pid',
+  isAuthenticated,
+  asyncWrapper(cartControllers.updateCartQuantiy)
+);
 router.get('/', isAuthenticated, asyncWrapper(cartControllers.viewCartItems));
 router.patch(
   '/add/:pid',

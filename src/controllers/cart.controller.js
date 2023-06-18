@@ -32,6 +32,21 @@ const clearCartItems = async (req, res) => {
   return res.status(200).json({ code: 200, message: 'Cart cleared', data });
 };
 
+const clearSingleItem = async (req, res) => {
+  const userId = req.user.id;
+  const { pid } = req.params;
+  const data = await cartServices.clearSingleProduct(userId, pid);
+  return res.status(200).json({ code: 200, message: 'product removed', data });
+};
+
+const updateCartQuantiy = async (req, res) => {
+  const userId = req.user.id;
+  const { pid } = req.params;
+  const { quantity } = req.body;
+  const data = await cartServices.changeCartQuantiy(userId, pid, quantity);
+  return res.status(200).json({ code: 200, message: 'success', data });
+};
+
 const addQuantity = (req, res) => {
   const { pid } = req.params;
   const { quantity } = req.query;
@@ -68,4 +83,6 @@ export default {
   removeQuantity,
   viewCartItems,
   clearCartItems,
+  clearSingleItem,
+  updateCartQuantiy,
 };
