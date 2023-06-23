@@ -1,8 +1,30 @@
 import Reviews from '../database/models/reviews.model';
+import User from '../database/models/user.model';
+import UserProfile from '../database/models/userProfile.model';
 
 async function getReviews(productId) {
-  const reviews = await Reviews.findAll({ where: { productId } });
-  return reviews;
+  try {
+    const reviews = await Reviews.findAll({
+      where: { productId },
+      include: [
+        {
+          model: User,
+          include: [
+            {
+              model: UserProfile,
+              attributes: ['names'],
+            },
+          ],
+          attributes: ['id'],
+        },
+      ],
+    });
+
+    return reviews;
+  } catch (error) {
+    console.error('Error retrieving reviews:', error);
+    throw error;
+  }
 }
 
 async function addReview(data) {

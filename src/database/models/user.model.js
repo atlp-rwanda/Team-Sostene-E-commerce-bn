@@ -1,5 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../config/db';
+// eslint-disable-next-line import/no-cycle
+import UserProfile from './userProfile.model';
 
 const User = sequelize.define('users', {
   id: {
@@ -43,6 +45,14 @@ const User = sequelize.define('users', {
     type: DataTypes.BOOLEAN,
     defaultValue: 'PASSWORD_UPDATED',
     allowNull: false,
+  },
+});
+
+User.hasOne(UserProfile, {
+  foreignKey: {
+    name: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   },
 });
 

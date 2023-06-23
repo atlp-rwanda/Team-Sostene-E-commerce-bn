@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../config/db';
-import User from './user.model';
+// import User from './user.model';
 
 const UserProfile = sequelize.define('user_profile_data', {
   id: {
@@ -14,10 +14,10 @@ const UserProfile = sequelize.define('user_profile_data', {
     type: DataTypes.UUID,
     allowNull: false,
     unique: true,
-    references: {
-      model: User,
-      key: 'id',
-    },
+    // references: {
+    //   model: User,
+    //   key: 'id',
+    // },
   },
   names: {
     type: Sequelize.STRING,
@@ -66,14 +66,6 @@ const UserProfile = sequelize.define('user_profile_data', {
   telephone: {
     type: Sequelize.STRING(20),
     allowNull: true,
-  },
-});
-
-UserProfile.belongsTo(User, {
-  foreignKey: {
-    name: 'userId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   },
 });
 

@@ -12,6 +12,7 @@ const getReviews = (req, res) => {
 };
 
 const addReview = (req, res) => {
+  // const userId = req
   const reviewObj = {
     productId: req.params.pid,
     userId: req.user.id,
