@@ -55,7 +55,7 @@ async function findCollection(userId, collectionId, { offset, limit }) {
     where: { userId, id: collectionId },
   }).then(async (data) => {
     const products = await Products.findAll({
-      includes: [{ model: Images, as: 'productImages', attributes: ['url'] }],
+      include: [{ model: Images, as: 'productImages', attributes: ['url'] }],
       where: { collectionId: data.id },
       offset,
       limit,
