@@ -2,17 +2,13 @@
 import { chatServices } from '../services';
 
 import { decodeToken } from '../utils';
-import redisClient from './redis';
 
 async function isValidAuthToken(token) {
   try {
     let user = null;
     if (token) {
       user = decodeToken(token);
-      const verifiedToken = await redisClient.get(user.id);
-      if (verifiedToken) {
-        return user;
-      }
+      return user;
     }
     return false;
   } catch (error) {

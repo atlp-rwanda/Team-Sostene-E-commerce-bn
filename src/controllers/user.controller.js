@@ -50,7 +50,6 @@ const signUp = async (req, res, next) => {
       };
       await userProfileServices.createUserProfiles(dataprofiles);
       const token = generateToken(body);
-      redisClient.setEx(req.user.id, 86400, token);
 
       await notificationUtils.signup(req.user);
       notificationServices.sendNotification(
@@ -84,11 +83,15 @@ const login = async (req, res, next) => {
           role: user.role,
           status: user.status,
         };
+        if (user.status === 'INACTIVE') {
+          return res
+            .status(401)
+            .json({ code: 401, message: 'Your account has been diactivated.' });
+        }
         if (user.role === 'SELLER' && user.tfa_enabled === true) {
           return twoFactorAuth(res, user);
         }
         const token = generateToken(data);
-        await redisClient.setEx(user.id, 86400, token);
         req.user = user;
         return res
           .status(200)
@@ -113,7 +116,6 @@ const verifyOTP = asyncWrapper(async (req, res) => {
   const redisToken = result.split('=')[1];
   if (redisOTP === verificationCode) {
     const user = decodeToken(redisToken);
-    await redisClient.setEx(user.id, 86400, redisToken);
     req.user = user;
     return res
       .status(200)
@@ -155,7 +157,6 @@ const loginWithGoogle = async (req, res, next) => {
       status: user.status,
     };
     const token = generateToken(body);
-    await redisClient.setEx(user.id, 86400, token);
     req.user = user;
     res
       .status(200)
@@ -292,8 +293,21 @@ const changePassword = async (req, res, next) => {
 };
 
 const findAll = async (req, res) => {
-  const users = await userServices.getAllUsers();
-  res.status(200).json({ code: 200, message: 'All Users', users });
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const offset = (page - 1) * limit;
+  const users = await userServices.getAllUsers({ offset, limit });
+  const totalCount = await userServices.getTotalUsersCount();
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  res.status(200).json({
+    code: 200,
+    message: `Users for page ${page} are retrieved`,
+    users,
+    page,
+    totalPages,
+  });
 };
 
 export default {

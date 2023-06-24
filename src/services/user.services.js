@@ -11,6 +11,7 @@ async function getUserById(id) {
   const user = await User.findByPk(id);
   return user;
 }
+
 async function getUserByUsername(username) {
   const user = await User.findOne({ where: { username } });
   return user;
@@ -81,9 +82,14 @@ async function updateUsersStatusWhoNeedsPasswordReset(users) {
   );
   return updateUsersRequest;
 }
-async function getAllUsers() {
-  const users = await User.findAll();
+async function getAllUsers({ offset, limit }) {
+  const users = await User.findAll({ offset, limit });
   return users;
+}
+
+async function getTotalUsersCount() {
+  const produc = await User.findAll();
+  return produc.length;
 }
 
 export default {
@@ -99,4 +105,5 @@ export default {
   findUsersWithExpiredPassword,
   updateUsersStatusWhoNeedsPasswordReset,
   getAllUsers,
+  getTotalUsersCount,
 };

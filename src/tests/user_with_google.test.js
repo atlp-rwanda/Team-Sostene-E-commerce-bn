@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import app from '../index.js';
 import { userControllers } from '../controllers';
 import { generateToken } from '../utils/token.js';
-import redisClient from '../helpers/redis.js';
 import { isAuthenticated } from '../middleware/index.js';
 import User from '../database/models/user.model.js';
 
@@ -65,7 +64,6 @@ describe('Testing isauthenticated middleware ', function () {
   };
   it('should pass the authentication check', async function () {
     const token = generateToken(testuser1);
-    redisClient.setEx(testuser1.id, 86400, token);
     const req = {
       headers: {
         authorization: `Bearer ${token}`,
@@ -81,7 +79,6 @@ describe('Testing isauthenticated middleware ', function () {
   });
   it('should not pass the authentication test because the tokens do not match', async function () {
     const token = generateToken(testuser1);
-    redisClient.setEx(testuser1.id, 86400, 'token');
     const req = {
       headers: {
         authorization: `Bearer ${token}`,

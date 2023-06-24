@@ -53,6 +53,21 @@
  *      get:
  *          tags: [Admin]
  *          summary: Admin gets all users.
+ *          parameters:
+ *            - name: page
+ *              in: query
+ *              required: false
+ *              description: The page number to retrieve
+ *              schema:
+ *                type: integer
+ *                default: 1
+ *            - name: limit
+ *              in: query
+ *              required: false
+ *              description: The number of items to retrieve per page
+ *              schema:
+ *                type: integer
+ *                default: 10
  *          security:
  *            - bearerAuth: []
  *          responses:

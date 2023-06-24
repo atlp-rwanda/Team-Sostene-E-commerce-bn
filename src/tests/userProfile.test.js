@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import app from '../index.js';
 import { generateToken, hashPassword } from '../utils/index';
 import { userServices, userProfileServices } from '../services';
-import { redisClient } from '../helpers';
 import { isAuthenticated } from '../middleware/index.js';
 import sequelize from '../database/config/db.js';
 
@@ -276,7 +275,6 @@ describe('User Details Controller', function () {
     });
     it('should not pass the authentication test because the tokens do not match', async function () {
       const testToken = generateToken(testuser1);
-      redisClient.setEx(testuser1.id, 86400, 'token');
       const req = {
         headers: {
           authorization: `Bearer ${testToken}`,
