@@ -51,12 +51,21 @@ const disconnect = (socket) => {
 };
 
 const chats = (io) => {
-  io.on('connection', (socket) => {
+  io.on('connection', async (socket) => {
+    const authToken2 = socket.handshake.query.authToken;
+    const user = await isValidAuthToken(authToken2);
+    if (!authToken2 || !user) {
+      socket.emit('unauthorized', 'Invalid authentication token');
+      socket.disconnect(true);
+      return;
+    }
+    socket.id = user.id;
+    socket.username = user.username;
     socket.on('join', () => join(socket));
     socket.on('message', async (message) => {
       const messageObj = {
-        userId: socket.id,
-        username: socket.username,
+        userId: user.id,
+        username: user.username,
         message,
         date: new Date(),
       };
