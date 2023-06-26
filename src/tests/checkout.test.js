@@ -7,11 +7,6 @@ import { redisClient } from '../helpers';
 chai.should();
 chai.use(chaiHttp);
 
-const testSellerUser = {
-  email: 'testingseller09@example.com',
-  password: 'Qwert@12345',
-};
-
 const testUser = {
   email: 'testingbuyer1@gmail.com',
   password: 'Qwert@12345',
@@ -35,26 +30,6 @@ describe('Testing checkout', function () {
         { productId: 'a2dafc4b-35a3-44f5-84a4-e8772b37ca39', quantity: 2 },
       ])
     );
-  });
-  it('should not get the shipping address since the user is not a buyer', function (done) {
-    chai
-      .request(app)
-      .post('/users/login')
-      .send(testSellerUser)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        const { token } = res.body;
-        chai
-          .request(app)
-          .get(`/users/shipping-address`)
-          .set({ Authorization: `Bearer ${token}` })
-          .end((err, res) => {
-            res.should.have.status(401);
-            res.body.should.be.a('object');
-            done();
-          });
-      });
   });
 
   it('should get the shipping address of the buyer', function (done) {
@@ -196,6 +171,7 @@ describe('Testing checkout', function () {
           .request(app)
           .post(`/checkout`)
           .set({ Authorization: `Bearer ${token}` })
+          .send({ shippingAddressId: '64ab3bd8-31f3-4081-b128-7a7f5a05c1f4' })
           .end((err, res) => {
             res.should.have.status(201);
             res.body.should.be.a('object');

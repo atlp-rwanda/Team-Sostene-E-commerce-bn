@@ -1,11 +1,5 @@
 import express from 'express';
-import {
-  checkPermission,
-  isAuthenticated,
-  checkProductInStock,
-  checkShippingAddressExist,
-  validate,
-} from '../middleware';
+import { isAuthenticated, checkProductInStock, validate } from '../middleware';
 import { shippingAddressSchema } from '../utils';
 import { checkoutControllers } from '../controllers';
 import { asyncWrapper } from '../helpers';
@@ -15,23 +9,19 @@ const router = express.Router();
 router.post(
   '/checkout',
   isAuthenticated,
-  checkPermission('BUYER'),
   checkProductInStock,
-  checkShippingAddressExist,
   asyncWrapper(checkoutControllers.checkout)
 );
 
 router.get(
   '/users/shipping-address',
   isAuthenticated,
-  checkPermission('BUYER'),
   asyncWrapper(checkoutControllers.getShippingAddress)
 );
 
 router.post(
   '/users/shipping-address',
   isAuthenticated,
-  checkPermission('BUYER'),
   validate(shippingAddressSchema),
   asyncWrapper(checkoutControllers.createShippingAddress)
 );
@@ -39,7 +29,6 @@ router.post(
 router.patch(
   '/users/shipping-address',
   isAuthenticated,
-  checkPermission('BUYER'),
   validate(shippingAddressSchema),
   asyncWrapper(checkoutControllers.updateShippingAddress)
 );

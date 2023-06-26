@@ -19,7 +19,7 @@ export async function up(queryInterface) {
         description: 'This product has many nutrients',
         expDate: '04/11/2023',
         bonus: 20000,
-        quantity: 50,
+        quantity: 500,
         collectionId,
         createdAt: new Date(),
         updatedAt: new Date(),

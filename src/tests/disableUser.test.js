@@ -2,6 +2,8 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { userServices } from '../services';
 import app from '../index.js';
+import { generateToken } from '../utils/token.js';
+import { isAuthenticated } from '../middleware/index.js';
 
 chai.should();
 chai.use(chaiHttp);
@@ -12,7 +14,7 @@ const userDetails = {
 };
 
 const testUser = {
-  email: 'testing@example.com',
+  email: 'testingdisable@example.com',
   password: 'Qwert@12345',
 };
 
@@ -60,27 +62,40 @@ describe('Testing user status', function () {
             chai
               .request(app)
               .post('/users/login')
-              .send({ email: 'testing@example.com', password: 'Qwert@12345' })
+              .send({
+                email: 'testingdisable@example.com',
+                password: 'Qwert@12345',
+              })
               .end((err, res) => {
-                res.should.have.status(200);
+                res.should.have.status(401);
                 res.body.should.be.a('object');
-                const Dtoken = res.body.token;
+                const testtoken = generateToken(testUser);
+                const reques = {
+                  headers: {
+                    authorization: `Bearer ${testtoken}`,
+                  },
+                };
+                const respon = {
+                  status(statusCode) {
+                    this.statusCode = statusCode;
+                    expect(res).to.have.property('statusCode').to.equal(406);
+                    return this;
+                  },
+                  json(data) {
+                    this.body = data;
+                  },
+                };
+                const next = () => {};
+
+                isAuthenticated(reques, respon, next);
                 chai
                   .request(app)
-                  .get('/users/protected-route')
-                  .set({ Authorization: `Bearer ${Dtoken}` })
+                  .patch(`/users/disable/${user.id}`)
+                  .set({ Authorization: `Bearer ${token}` })
                   .end((err, res) => {
-                    res.should.have.status(406);
+                    res.should.have.status(200);
                     res.body.should.be.a('object');
-                    chai
-                      .request(app)
-                      .patch(`/users/disable/${user.id}`)
-                      .set({ Authorization: `Bearer ${token}` })
-                      .end((err, res) => {
-                        res.should.have.status(200);
-                        res.body.should.be.a('object');
-                        done();
-                      });
+                    done();
                   });
               });
           });

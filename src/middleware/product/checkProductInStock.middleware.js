@@ -20,12 +20,12 @@ const checkProductInStock = async (req, res, next) => {
 
   if (!allProductsAvailable.every(Boolean)) {
     const unavailableProducts = productsInCart.filter(
-      (index) => !allProductsAvailable[index]
+      (_, index) => !allProductsAvailable[index]
     );
 
-    return res.status(200).json({
-      code: 200,
-      message: `These product are less stock!`,
+    return res.status(409).json({
+      code: 409,
+      message: `These products are low in stock!`,
       unavailableProducts,
     });
   }

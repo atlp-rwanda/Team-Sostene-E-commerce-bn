@@ -11,7 +11,7 @@ describe('Testing Collection', function () {
   const collectionId = '51ea5366-ea5c-4501-9ade-4cd50009c84c';
   const productId = '0f1548b0-b7ce-49e3-a2ef-baffffd383ab';
   const collectionDetails = {
-    name: 'My collection',
+    name: 'My newest collection',
   };
 
   const testUserLogin = {

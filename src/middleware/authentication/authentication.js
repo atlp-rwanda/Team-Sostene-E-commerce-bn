@@ -1,4 +1,3 @@
-import { redisClient } from '../../helpers';
 import { decodeToken } from '../../utils';
 
 const isActive = (res, next, status) => {
@@ -19,17 +18,11 @@ const isAuthenticated = async (req, res, next) => {
     }
     const token = header.split(' ')[1];
     const userInfo = decodeToken(token);
-    const { id } = userInfo;
-    const redisToken = await redisClient.get(id);
-    if (redisToken === token) {
-      const isVerified = decodeToken(redisToken);
-      if (!isVerified) {
-        return sendResponse();
-      }
-      req.user = isVerified;
-      return isActive(res, next, req.user.status);
+    if (!userInfo) {
+      return sendResponse();
     }
-    return sendResponse();
+    req.user = userInfo;
+    return isActive(res, next, req.user.status);
   } catch (error) {
     res
       .status(400)
