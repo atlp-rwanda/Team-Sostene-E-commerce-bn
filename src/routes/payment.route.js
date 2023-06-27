@@ -5,7 +5,6 @@ import {
   validate,
   isAuthenticated,
   checkOrderExists,
-  checkPermission,
   madePayment,
 } from '../middleware';
 import { asyncWrapper } from '../helpers';
@@ -15,7 +14,6 @@ const router = Router();
 router.post(
   '/payment/:orderId',
   isAuthenticated,
-  checkPermission('BUYER'),
   checkOrderExists,
   madePayment,
   validate(addPaymentSchema),
