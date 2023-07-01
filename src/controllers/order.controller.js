@@ -17,12 +17,6 @@ const getOrderByUser = async (req, res) => {
   const { orderId } = req.params;
   const order = await orderServices.getOrderById(orderId);
 
-  notificationServices.sendNotification(
-    order.userId,
-    `The requested order is ${order.status}`,
-    'Order status',
-    'low'
-  );
   return res.status(200).json({
     code: '200',
     order,
@@ -38,7 +32,7 @@ const updateOrderStatus = async (req, res) => {
   notificationServices.sendNotification(
     updatedOrder.userId,
     'Order status is changed successfully',
-    'Order status update',
+    `Order status update to ${req.body.status}`,
     'mid'
   );
 
